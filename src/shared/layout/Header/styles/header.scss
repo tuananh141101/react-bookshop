@@ -1,0 +1,430 @@
+@import "../../../../../public/assets/styles/common"; 
+
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block;
+}
+
+.py-custom {
+    padding-top: 1.62rem;
+    padding-bottom: 1.62rem;
+}
+
+.focused-icon {
+    stroke: $Color-1 !important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #eae8e4;
+}
+
+.scrolled {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 100;
+    width: 100%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.header {
+    .header-top {
+        width: 100%;
+
+        &__container {
+            .top-left {
+                ul {
+                    padding-left: 0;
+
+                    li {
+                        padding: 0 16px;
+
+                        span {
+                            font-size: $fontSize-Light;
+                        }
+
+                        &:first-child {
+                            padding-left: 0;
+                        }
+
+                        .icon {
+                            padding-right: 4px;
+                            width: 16px;
+                        }
+
+                        .icon-email {
+                            font-size: 18px;
+                        }
+                    }
+                }
+            }
+
+            .top-right {
+                ul {
+                    padding-left: 0;
+
+                    li {
+                        padding: 0 8px;
+
+                        &:last-child {
+                            padding-right: 0;
+                        }
+
+                        a {
+                            .icon {
+                                width: 18px;
+                                color: $Color-1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: "992px") {
+            display: none;
+        }
+    }
+
+    .header-bottom {
+        &__container {
+            .bottom-left {
+                ul {
+                    padding-left: 0;
+
+                    .logo {
+                        a {
+                            font-family: "Victormono";
+                            font-size: $fontSize-X_Large;
+
+                            @media screen and (max-width: "576px") {
+                                font-size: 24px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .bottom-right {
+                ul {
+                    padding-left: 0;
+
+                    li {
+                        padding: 0 18px;
+
+                        &.login {
+                            padding-right: 0;
+
+                            .icon {
+                                width: 18px;
+                                height: 18px;
+                            }
+
+                            .custom-dropdown-menu {
+                                border-radius: 2px;
+                                border: 1px solid $Color-2;
+
+                                a {
+                                    font-size: $fontSize-Light;
+                                }
+                            }
+                        }
+
+                        &.mobile-icon {
+                            .icon {
+                                width: 20px;
+                                height: 20px;
+                            }
+                        }
+
+                        &.cart-icon {
+                            .icon {
+                                width: 18px;
+                                height: 18px;
+                            }
+                        }
+
+                        a {
+                            font-size: $fontSize-Medium;
+                            color: $Color-1;
+                        }
+
+                        .input-search {
+                            border: none;
+                            outline: none;
+                            padding: 9px 0 9px 0;
+                            background-color: $backGround-input;
+                            border-radius: 3px;
+
+                            &::placeholder {
+                                font-size: $fontSize-Light;
+                            }
+                        }
+
+                        .icon-search {
+                            height: 42px;
+                            line-height: 42px;
+                            padding: 0 12px;
+                            border: none;
+                            outline: none;
+                            background-color: $backGround-input;
+
+                            svg {
+                                stroke: #808080;
+                            }
+                        }
+
+                        .dropdown-toggle {
+                            text-decoration: none;
+
+                            &::after {
+                                display: none;
+                            }
+                        }
+
+                        &:nth-child(2) {
+                            position: relative;
+
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                top: 25px;
+                                left: 25px;
+                                width: 100px;
+                                height: 15px;
+                                cursor: pointer;
+                            }
+
+                            .dropdown-menuLi {
+                                position: absolute;
+                                top: 35px;
+                                left: 18px;
+                                background-color: $backGround-input;
+                                border-radius: 2px;
+                                padding: 8px 18px;
+                                width: 200px;
+                                border: 1px solid $Color-2;
+                                display: block;
+                                opacity: 0;
+                                visibility: hidden;
+                                transition: opacity 0.2s ease,
+                                    visibility 0.3s ease;
+                                z-index: 12;
+
+                                ul {
+                                    li {
+                                        padding: 8px 0;
+
+                                        a {
+                                            font-size: $fontSize-Light;
+                                        }
+
+                                        span {
+                                            position: relative;
+
+                                            &::after {
+                                                position: absolute;
+                                                content: "";
+                                                bottom: -5%;
+                                                left: 0;
+                                                width: 0%;
+                                                height: 1px;
+                                                background-color: $Color-2;
+                                                opacity: 0;
+                                                visibility: hidden;
+                                                transition: width 0.2s
+                                                        ease-in-out,
+                                                    opacity 0.2s ease-in-out,
+                                                    visibility 0.2s ease-in-out;
+                                            }
+                                        }
+
+                                        &:hover span::after {
+                                            width: 100%;
+                                            opacity: 1;
+                                            visibility: visible;
+                                            transition: all 0.2s ease-in-out;
+                                        }
+                                    }
+                                }
+                            }
+
+                            &:hover .dropdown-menuLi {
+                                opacity: 1;
+                                visibility: visible;
+                                transition: opacity 0.3s ease,
+                                    visibility 0.3s ease;
+                            }
+                        }
+
+                        &:nth-child(4) {
+                            position: relative;
+
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                top: 25px;
+                                left: 25px;
+                                width: 100px;
+                                height: 15px;
+                                cursor: pointer;
+                            }
+
+                            .dropdown-menuLi {
+                                position: absolute;
+                                top: 35px;
+                                left: 18px;
+                                background-color: $backGround-input;
+                                border-radius: 2px;
+                                padding: 8px 18px;
+                                width: 200px;
+                                border: 1px solid $Color-2;
+                                display: block;
+                                opacity: 0;
+                                visibility: hidden;
+                                transition: opacity 0.2s ease,
+                                    visibility 0.3s ease;
+                                z-index: 12;
+
+                                ul {
+                                    li {
+                                        padding: 8px 0;
+
+                                        a {
+                                            font-size: $fontSize-Light;
+                                        }
+
+                                        span {
+                                            position: relative;
+
+                                            &::after {
+                                                position: absolute;
+                                                content: "";
+                                                bottom: -5%;
+                                                left: 0;
+                                                width: 0%;
+                                                height: 1px;
+                                                background-color: $Color-2;
+                                                opacity: 0;
+                                                visibility: hidden;
+                                                transition: width 0.2s
+                                                        ease-in-out,
+                                                    opacity 0.2s ease-in-out,
+                                                    visibility 0.2s ease-in-out;
+                                            }
+                                        }
+
+                                        &:hover span::after {
+                                            width: 100%;
+                                            opacity: 1;
+                                            visibility: visible;
+                                            transition: all 0.2s ease-in-out;
+                                        }
+                                    }
+                                }
+                            }
+
+                            &:hover .dropdown-menuLi {
+                                opacity: 1;
+                                visibility: visible;
+                                transition: opacity 0.3s ease,
+                                    visibility 0.3s ease;
+                            }
+                        }
+
+                        &:nth-child(6) {
+                            padding-right: 0;
+                        }
+                    }
+
+                    li.mobile-icon {
+                        display: none;
+                    }
+
+                    @media screen and (max-width: "1200px") {
+                        li.mobile-icon {
+                            display: block;
+                            padding-right: 0;
+
+                            .icon {
+                                width: 22px;
+                                height: 22px;
+                            }
+                        }
+
+                        li.login {
+                            padding-right: 12px;
+
+                            .icon {
+                                width: 18px;
+                                height: 18px;
+                            }
+                        }
+
+                        li.cart-icon {
+                            .icon {
+                                width: 18px;
+                                height: 18px;
+                            }
+                        }
+                    }
+
+                    @media screen and (max-width: "576px") {
+                        li.login,
+                        li.cart-icon,
+                        li.mobile-icon {
+                            padding: 0 6px;
+                        }
+
+                        li.mobile-icon {
+                            padding-right: 0;
+                        }
+
+                        li.cart-icon {
+                            padding-right: 10px;
+                        }
+                    }
+                }
+            }
+
+            .search-mobile {
+                .input-search {
+                    width: 100%;
+                    padding: 8px 12px;
+                    border: none;
+                    outline: none;
+                    background-color: $backGround-input;
+
+                    &::placeholder {
+                        font-size: $fontSize-Light;
+                    }
+                }
+            }
+
+            @media screen and (max-width: "576px") {
+                .bottom-left {
+                    width: 50%;
+                }
+
+                .bottom-right {
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
+.custom-offcanvas {
+    .custom-offcanvasBody-menu {
+        ul {
+            padding-left: 0;
+
+            li {
+                padding: 8px 0;
+            }
+        }
+    }
+}

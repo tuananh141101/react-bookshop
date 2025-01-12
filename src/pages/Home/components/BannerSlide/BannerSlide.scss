@@ -1,0 +1,300 @@
+@import "../../../../../public/assets/styles/common";
+
+.wrap-slider {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    background-color: $backGround-input;
+
+    .wrap-slider__container {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        div {
+            width: 100%;
+            height: 100%;
+
+            .slide {
+                width: 100%;
+                height: 100%;
+            }
+
+            .slide1 {
+                background-image: url(../../assets/images/taylor-D9_QOTmbFAg-unsplash.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                width: 100%;
+                height: 100%;
+                position: relative;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $Color-1;
+                    opacity: 0.4;
+                    z-index: 10;
+                }
+
+                .slide1-container {
+                    width: 60%;
+                    height: 60%;
+                    z-index: 30;
+
+                    .animated-single-text {
+                        width: 100%;
+                        height: 10%;
+                        text-align: center;
+                        overflow: hidden;
+
+                        span {
+                            color: white;
+                            letter-spacing: 1px;
+                            font-size: $fontSize-Medium;
+                            font-family: "Victormono";
+                        }
+                    }
+
+                    .animated-text {
+                        width: 100%;
+                        height: 20%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        span {
+                            // font-size: $fontSize-XXX_Large;
+                            font-size: $fontSize-XX_Large;
+                            color: white;
+                            font-family: "Victormono";
+                            font-weight: bold;
+                            display: block;
+                        }
+                    }
+
+                    .btn-slide {
+                        width: 100%;
+                        height: 20%;
+                        overflow: hidden;
+
+                        button {
+                            padding: 14px 58px;
+                            outline: none;
+                            border: 1px solid white;
+                            color: white;
+                            background-color: rgba(255, 255, 255, 0);
+                            letter-spacing: 1px;
+                            border-radius: 2px;
+                            transition: 0.2s ease-in-out;
+
+                            &:hover {
+                                background-color: white;
+                                color: $Color-1;
+                                transition: 0.2s ease-in-out;
+                            }
+                        }
+                    }
+
+                    @media screen and (max-width: 1370px) {
+                        .animated-text {
+                            height: 25%;
+                            span {
+                                text-align: center;
+                            }
+                        }
+                    }
+
+                    @media screen and (max-width: $breakpointSmall) {
+                        .animated-text {
+                            height: 30%;
+                        }
+                    }
+                }
+            }
+
+            .slide2 {
+                background-image: url(../../assets/images/ugur-akdemir-XT-o5O458as-unsplash.jpg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+                height: 100%;
+                position: relative;
+                z-index: 30;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: $Color-1;
+                    opacity: 0.4;
+                    z-index: 10;
+                }
+
+                .slide2-container {
+                    width: 60%;
+                    height: 60%;
+
+                    .animated-text {
+                        width: 100%;
+                        height: 50%;
+                        text-align: center;
+                        z-index: 30;
+
+                        span {
+                            font-size: $fontSize-XX_Large;
+                            color: white;
+                            font-family: "Victormono";
+                            font-weight: bold;
+                            display: block;
+                        }
+                    }
+
+                    .btn-slide {
+                        width: 100%;
+                        height: 20%;
+                        z-index: 30;
+
+                        button {
+                            padding: 14px 58px;
+                            outline: none;
+                            border: 1px solid white;
+                            color: white;
+                            background-color: rgba(255, 255, 255, 0);
+                            letter-spacing: 1px;
+                            border-radius: 2px;
+                            transition: 0.2s ease-in-out;
+
+                            &:hover {
+                                background-color: white;
+                                color: $Color-1;
+                                transition: 0.2s ease-in-out;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .slick-dots {
+                bottom: 16px;
+
+                li > button::before {
+                    font-size: $fontSize-Extra_Light;
+                    color: white;
+                }
+
+                li.slick-active > button::before {
+                    color: white;
+                }
+            }
+
+            @media screen and (max-width: $breakpointExtraLarge) {
+                .slide1 > .slide1-container > .animated-text > span {
+                    font-size: $fontSize-XX_Large;
+                }
+
+                .slide1 > .slide1-container > .animated-text {
+                    height: 40%;
+                }
+
+                .slide2 > .slide2-container > .animated-text > span {
+                    font-size: $fontSize-X_Large;
+                }
+
+                .slide2 > .slide2-container > .animated-text {
+                    height: 55%;
+                }
+            }
+
+            @media screen and (max-width: $breakpointMedium) {
+                .slide1 > .slide1-container {
+                    width: 90%;
+                }
+
+                .slide2 > .slide2-container {
+                    width: 90%;
+                }
+            }
+
+            @media screen and (max-width: $breakpointSmall) {
+                .slide1 > .slide1-container {
+                    width: 100%;
+
+                    .animated-single-text > span {
+                        font-size: $fontSize-Light;
+                    }
+
+                    .animated-text > span {
+                        font-size: $fontSize-X_Large;
+                    }
+
+                    .btn-slide > button {
+                        padding: 8px 26px;
+                        font-size: $fontSize-Light;
+                    }
+                }
+
+                .slide2 > .slide2-container {
+                    width: 100%;
+
+                    .animated-text > span {
+                        font-size: 22px;
+                    }
+
+                    .btn-slide > button {
+                        padding: 8px 12px;
+                        font-size: $fontSize-Light;
+                    }
+                }
+            }
+            @media screen and (max-width: $breakpointSSmal) {
+                .slide1 > .slide1-container {
+                    width: 100%;
+
+                    .animated-single-text > span {
+                        font-size: $fontSize-Extra_Light;
+                    }
+
+                    .animated-text {
+                        height: 30%;
+                    }
+
+                    .animated-text > span {
+                        font-size: $fontSize-Large;
+                    }
+
+                    .btn-slide > button {
+                        padding: 8px 26px;
+                        font-size: $fontSize-Extra_Light;
+                    }
+                }
+
+                .slide2 > .slide2-container {
+                    width: 100%;
+
+                    .animated-text {
+                        height: 66%;
+                    }
+
+                    .animated-text > span {
+                        font-size: $fontSize-Large;
+                    }
+
+                    .btn-slide > button {
+                        padding: 8px 12px;
+                        font-size: $fontSize-Extra_Light;
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: $breakpointSmall) {
+        height: 432px;
+    }
+}

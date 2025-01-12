@@ -1,0 +1,43 @@
+/*---------------VARIABLES---------------*/
+// FONT_FAMILY
+@font-face {
+  font-family: "Victormono";
+  src: url(../fonts/Victor_Mono/static/VictorMono-Regular.ttf);
+  font-weight: normal;
+}
+
+// FONT_SIZES
+$fontSize-XXX_Large: 52px;
+$fontSize-XX_Large: 38px;
+$fontSize-X_Large: 28px;
+$fontSize-Large: 22px;
+$fontSize-Medium: 16px;
+$fontSize-Light: 14px;
+$fontSize-Extra_Light: 12px;
+// COLORS
+$Color-1: #19110b;
+$Color-2: #161619;
+$Color-3: #beb4b4;
+$Color-4: #7c6e65;
+$Color-5: #f75454;
+$border: #dee2e6;
+$backGround-input: #f6f5f3;
+// BREAKPOINTS
+$breakpointSSmal: 375px;
+$breakpointSmall: 576px;
+$breakpointMedium: 768px;
+$breakpointLarge: 992px;
+$breakpointExtraLarge: 1200px;
+$breakpointEELarge: 1400px;
+
+/*---------------MIXINS---------------*/
+@mixin Dflex($display, $alignitem, $justifycontent) {
+  display: $display;
+  align-items: $alignitem;
+  justify-content: $justifycontent;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,36 @@
+@import "../public/assets/styles/common";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: $fontSize-Medium;
+    color: $Color-1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+ul,
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: $Color-1;
+}
+
+.scroll-to-top {
+    width: 42px;
+    height: 42px;
+    background-color: #f6f5f3;
+    position: fixed;
+    bottom: 5%;
+    right: 2%;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

@@ -1,0 +1,161 @@
+@import "../../../../../public/assets/styles/common";
+
+.footer {
+    .footer-top {
+        padding: 48px 0;
+        background-color: rgb(25, 17, 11, 0.9);
+
+        div {
+            p {
+                font-size: 24px;
+                color: white;
+                font-family: "Victormono";
+                font-weight: bold;
+                margin-bottom: 6px !important;
+            }
+
+            span {
+                color: white;
+            }
+        }
+
+        .subcribe-form {
+            width: 100%;
+
+            form {
+                width: 100%;
+
+                input {
+                    width: 50%;
+                    margin-right: 14px;
+                    border: 0;
+                    outline: 0;
+                    background: $backGround-input;
+                    padding: 16px 24px;
+                    border-radius: 2px;
+                    border: 1px solid $Color-1;
+
+                    &:focus {
+                        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                    }
+                }
+
+                button {
+                    border: 0;
+                    outline: 0;
+                    padding: 16px 44px;
+                    border-radius: 2px;
+                    transition: all 0.1s ease-in-out;
+                    border: 1px solid $Color-1;
+
+                    background-color: transparent;
+                    border: 1px solid white;
+                    color: white;
+                    transition: 0.2s ease-in-out;
+
+                    &:hover {
+                        background-color: white;
+                        color: $Color-1;
+                        transition: 0.2s ease-in-out;
+                    }
+                }
+
+                @media screen and (max-width: "992px") {
+                    flex-direction: column;
+
+                    input {
+                        width: 100%;
+                        margin-right: 0;
+                        margin-bottom: 12px;
+                    }
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-center {
+        .row:first-child {
+            margin-bottom: 68px;
+            margin-top: 68px;
+        }
+
+        .col-custom {
+            &:nth-child(1) {
+                a {
+                    font-size: $fontSize-X_Large;
+                    font-family: "Victormono";
+                    color: $Color-2;
+                    text-decoration: none;
+                }
+
+                address,
+                ul,
+                li {
+                    font-size: $fontSize-Light;
+                    color: $Color-2;
+                }
+
+                ul {
+                    padding-left: 0;
+                }
+
+                .social {
+                    li {
+                        padding: 0 8px;
+
+                        &:first-child {
+                            padding-left: 0;
+                        }
+
+                        a > svg {
+                            stroke: $Color-2;
+                        }
+                    }
+                }
+            }
+
+            &:not(:first-child) {
+                p {
+                    font-size: 18px;
+                    color: $Color-2;
+                }
+
+                ul {
+                    padding-left: 0;
+                    margin-bottom: 0;
+
+                    li {
+                        padding-bottom: 8px;
+                        transition: all 0.2s ease-in-out;
+
+                        a {
+                            font-size: $fontSize-Light;
+                            color: $Color-4;
+                        }
+
+                        &:hover {
+                            padding-left: 8px;
+
+                            a {
+                                color: $Color-5;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #dddbd5;
+
+        p {
+            font-size: $fontSize-Light;
+            color: $Color-2;
+        }
+    }
+}

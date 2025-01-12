@@ -1,0 +1,240 @@
+@import "../../../../../../public/assets/styles/common";
+
+.product-item-carousel {
+    .container {
+        .row:first-child {
+            padding-top: 68px;
+            padding-bottom: 16px;
+
+            .col1 {
+                p {
+                    font-size: 24px;
+                    font-family: "Victormono";
+                    font-weight: bold;
+                }
+
+                span {
+                    opacity: 0.9;
+                    color: $Color-2;
+                    letter-spacing: 1px;
+                }
+            }
+
+            .col2 {
+                nav > a {
+                    position: relative;
+                    cursor: pointer;
+                    margin-left: 2px;
+
+                    &::after {
+                        content: "";
+                        display: block;
+                        height: 100%;
+                        background: $Color-1;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 6px 6px;
+                        color: white;
+                    }
+
+                    span {
+                        position: absolute;
+                        background: rgba(255, 255, 255, 0.5);
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                    }
+
+                    &:first-child {
+                        margin-left: 0;
+
+                        &::after {
+                            content: "BEST SELLING";
+                            font-size: $fontSize-Extra_Light;
+                            border-radius: 3px 0 0 3px;
+                            overflow: hidden;
+                        }
+                    }
+
+                    &:nth-child(2) {
+                        &::after {
+                            content: "LATEST";
+                            font-size: $fontSize-Extra_Light;
+                        }
+                    }
+
+                    &:last-child {
+                        &::after {
+                            content: "SALE";
+                            font-size: $fontSize-Extra_Light;
+                            border-radius: 0 3px 3px 0;
+                        }
+                    }
+                }
+
+                @media screen and (max-width: $breakpointSmall) {
+                    nav {
+                        width: 100%;
+
+                        a {
+                            width: calc((100% - 4px) / 3);
+                        }
+                    }
+                }
+            }
+
+            @media screen and (max-width: $breakpointSmall) {
+                padding-top: 38px;
+            }
+        }
+
+        .carousel {
+            .carousel-card {
+                display: none;
+
+                .row {
+                    padding-top: 16px;
+                    padding-bottom: 0;
+
+                    .custom-col {
+                        .card {
+                            width: 100% !important;
+                            border-radius: 3px;
+                            border: none;
+                            transition: box-shadow 0.2s ease-in-out;
+
+                            .card-text {
+                                margin-bottom: 8px;
+                                color: $Color-5;
+                                font-size: $fontSize-Light;
+                                text-transform: uppercase;
+                            }
+
+                            .card-title {
+                                font-size: 18px;
+                            }
+
+                            p > a {
+                                font-size: $fontSize-Light;
+                                color: $Color-4;
+                            }
+
+                            .card-img-top {
+                                border-top-left-radius: 3px;
+                                border-top-right-radius: 3px;
+                                height: 405.33px;
+                                @media screen and (max-width: $breakpointSSmal) {
+                                    height: 465px !important;
+                                }
+                            }
+
+                            .card-price {
+                                padding: 1rem;
+
+                                ul {
+                                    padding-left: 0;
+                                    margin-bottom: 0;
+
+                                    li {
+                                        &:first-child {
+                                            font-size: 18px;
+                                            color: $Color-2;
+                                            font-weight: bold;
+                                        }
+
+                                        &:last-child {
+                                            div {
+                                                background-color: $backGround-input;
+                                                border: none;
+                                                padding: 8px 12px;
+                                                border-radius: 3px;
+                                                cursor: pointer;
+
+                                                svg {
+                                                    width: 18px;
+                                                    height: 18px;
+                                                }
+                                            }
+
+                                            &:hover {
+                                                svg {
+                                                    fill: white;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .img {
+                                position: relative;
+
+                                .btn-icon {
+                                    position: absolute;
+                                    background-color: $backGround-input;
+                                    border: none;
+                                    padding: 8px 12px;
+                                    border-radius: 3px;
+                                    opacity: 0;
+                                    pointer-events: none;
+                                    transition: opacity 0.2s ease-in-out;
+
+                                    svg {
+                                        width: 20px;
+                                        height: 18px;
+                                    }
+
+                                    &:hover {
+                                        svg {
+                                            fill: white;
+                                        }
+                                    }
+                                }
+
+                                .quick-view {
+                                    top: 50%;
+                                    left: 35%;
+                                    transform: translate(-35, -50);
+                                    cursor: pointer;
+                                }
+
+                                .add-fav-book {
+                                    top: 50%;
+                                    left: 55%;
+                                    transform: translate(-55, -50);
+                                    cursor: pointer;
+                                }
+
+                                &:hover {
+                                    .btn-icon {
+                                        opacity: 1;
+                                        pointer-events: initial;
+                                        transition: opacity 0.2s ease-in-out;
+                                    }
+                                }
+                            }
+
+                            &:hover {
+                                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px
+                                    24px;
+                                transition: box-shadow 0.2s ease-in-out;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .carousel-card.active {
+                display: block;
+            }
+        }
+
+        .carousel-bestselling {
+            .row {
+                padding-top: 18px;
+            }
+        }
+    }
+}

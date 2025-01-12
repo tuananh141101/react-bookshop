@@ -1,0 +1,58 @@
+@import "../../../../../../public/assets/styles/common";
+
+.author-month {
+    background-color: #f6f5f3;
+    .container > .row {
+        .custom-col {
+            border-radius: 4px;
+            padding-top: 48px;
+            padding-bottom: 48px;
+
+            .title {
+                span {
+                    color: $Color-1;
+                    font-size: $fontSize-Light;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    padding-bottom: 8px;
+                }
+
+                p {
+                    font-size: 24px;
+                    font-family: "Victormono";
+                    font-weight: bold;
+                }
+            }
+
+            .about {
+                padding: 28px 0;
+                width: 800px;
+
+                @media screen and (max-width: $breakpointMedium) {
+                    width: 100%;
+                }
+            }
+
+            .product {
+                -webkit-overflow-scrolling: touch; // Tăng mượt mà trên thiết bị di động
+                overflow-x: auto;
+                gap: 32px;
+                @media screen and (max-width: $breakpointSmall) {
+                    justify-content: center;
+                    flex-direction: column;
+                    width: 100%;
+                    gap: 8px;
+
+                    .card:nth-child(2) {
+                        margin-left: 0px !important;
+                        margin-top: 16px;
+                    }
+                }
+
+                // .card:nth-child(2) {
+                //     margin-left: 32px;
+                // }
+            }
+        }
+    }
+}
