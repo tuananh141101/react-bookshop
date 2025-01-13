@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store"; // Import AppDispatch
 import { useEffect } from "react";
 import { fetchProducts } from "../../features/products/productApi";
+import Bookselected from "./components/BookSelected/Bookselected";
+import Blogsection from "./components/BlogSection/Blogsection";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -26,6 +28,8 @@ const Home = () => {
             <Categories />
             <Authormonth />
             <ProductItems />
+            <Bookselected />
+            <Blogsection />
         </>
     );
 };

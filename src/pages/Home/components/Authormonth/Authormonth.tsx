@@ -31,12 +31,12 @@ const Authormonth = () => {
                                         (item: any) =>
                                             item.author === "Danielle Steel"
                                     )
-                                    .map((item: any, index: number) => {
+                                    .map((item: any) => {
                                         return (
                                             <>
                                                 <CartItem
                                                     items={item}
-                                                    index={index}
+                                                    index={item.id}
                                                 />
                                             </>
                                         );

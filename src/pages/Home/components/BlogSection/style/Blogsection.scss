@@ -1,0 +1,127 @@
+@import "../../../../../../public/assets/styles/common";
+
+.product-blog {
+    .container {
+        .row:first-child {
+            padding-top: 68px;
+            padding-bottom: 16px;
+
+            .custom-col:first-child {
+                p {
+                    font-size: 24px;
+                    font-family: "Victormono";
+                    font-weight: bold;
+                }
+
+                span {
+                    opacity: 0.9;
+                    letter-spacing: 1px;
+                    color: $Color-2;
+                }
+            }
+
+            .custom-col:last-child {
+                span > a {
+                    text-decoration: underline;
+                }
+
+                @media screen and (max-width: $breakpointSmall) {
+                    justify-content: start !important;
+                }
+            }
+        }
+
+        .row:last-child {
+            padding-bottom: 68px;
+            padding-top: 16px;
+
+            .custom-col {
+                cursor: pointer;
+                padding-bottom: 24px;
+
+                img {
+                    width: 166.5px;
+                    height: 124.5px;
+                    object-fit: cover;
+                    border-radius: 2px;
+                    position: relative;
+                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                }
+
+                ul {
+                    margin-bottom: 0;
+                    padding-left: 14px;
+
+                    li {
+                        &:first-child {
+                            padding-bottom: 8px;
+
+                            span {
+                                color: $Color-2;
+                                font-size: $fontSize-Light;
+                                opacity: 0.9;
+                            }
+                        }
+
+                        &:last-child {
+                            span {
+                                font-family: "Victormono";
+                                font-size: 14px;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+
+                .Image {
+                    position: relative;
+
+                    .overlay {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background-color: rgba(246, 245, 243, 0.7);
+                        opacity: 0;
+                        visibility: hidden;
+                        transition: 0.4s ease-in-out;
+
+                        svg {
+                            fill: $Color-1;
+                            stroke: $Color-1;
+                            width: 24px;
+                            height: 24px;
+                            transform: translateY(-12px);
+                            transition: 0.3s ease-in-out;
+                        }
+                    }
+
+                    &:hover {
+                        .overlay {
+                            opacity: 1;
+                            visibility: visible;
+                            transition: 0.3s ease-in-out;
+
+                            svg {
+                                transform: translateY(0);
+                                transition: 0.3s ease-in-out;
+                            }
+                        }
+                    }
+                }
+
+                &:nth-child(3),
+                &:nth-child(4) {
+                    padding-bottom: 0;
+                }
+
+                &:nth-child(3) {
+                    @media screen and (max-width: $breakpointLarge) {
+                        padding-bottom: 24px;
+                    }
+                }
+            }
+        }
+    }
+}

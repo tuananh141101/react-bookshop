@@ -1,1 +1,217 @@
 @import "../../../../../../public/assets/styles/common";
+
+.selected-book {
+    padding-top: 48px;
+    padding-bottom: 48px;
+    background-image: url("../../assets/images/beatriz-perez-moya-XN4T2PVUUgk-unsplash\ 1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: left center;
+    position: relative;
+
+    .container {
+        .row:first-child {
+            padding-bottom: 16px;
+
+            .col {
+                ul {
+                    padding-left: 0;
+                    margin-bottom: 0;
+
+                    li {
+                        p {
+                            font-size: 24px;
+                            font-family: "Victormono";
+                            font-weight: bold;
+                        }
+
+                        span {
+                            font-size: $fontSize-Medium;
+                            color: $Color-2;
+                            opacity: 0.9;
+                            letter-spacing: 1px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .row:last-child {
+            padding-top: 16px;
+
+            ul {
+                padding-left: 0;
+                margin-bottom: 12px;
+
+                li.author {
+                    span {
+                        padding: 4px 0;
+
+                        &:first-child {
+                            color: $Color-2;
+                            opacity: 0.8;
+                        }
+
+                        &:last-child {
+                            color: $Color-2;
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                li.categories {
+                    span {
+                        padding: 4px 0;
+
+                        &:first-child {
+                            color: $Color-2;
+                            opacity: 0.8;
+                        }
+
+                        &:last-child {
+                            color: $Color-2;
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+
+            p {
+                font-size: $fontSize-XX_Large;
+                font-weight: bold;
+            }
+
+            span {
+                color: $Color-2;
+                line-height: 1.7;
+                margin: 12px 0;
+                letter-spacing: 1px;
+                font-size: $fontSize-Light;
+                width: 450px;
+            }
+
+            .quantity {
+                input {
+                    width: 65px;
+                    height: 35px;
+                    text-align: center;
+                }
+            }
+
+            button {
+                outline: none;
+                border-radius: 2px;
+                border: 1px solid $Color-1;
+                background-color: white;
+                width: 156px;
+                height: 35px;
+                margin-left: 12px;
+                transition: 0.2s ease-in-out;
+
+                &:hover {
+                    background-color: $Color-1;
+                    color: white;
+                    transition: 0.2s ease-in-out;
+                }
+            }
+
+            img {
+                width: 346px;
+                height: 461.33px;
+                border-radius: 3px;
+            }
+
+            .info {
+                padding-left: 28px;
+            }
+
+            @media screen and (max-width: $breakpointMedium) {
+                p {
+                    font-size: $fontSize-X_Large;
+                }
+
+                .info {
+                    justify-items: center;
+                    padding-left: 12px;
+                }
+
+                span {
+                    letter-spacing: 0;
+                    width: 100%;
+                }
+            }
+
+            @media screen and (max-width: $breakpointSmall) {
+                p {
+                    margin-top: 14px;
+                }
+            }
+        }
+    }
+}
+
+.special {
+    background-color: $backGround-input;
+
+    .container {
+        .row {
+            padding: 48px 0;
+
+            .custom-col {
+                &:first-child {
+                    p {
+                        font-size: 24px;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                    }
+
+                    span {
+                        color: $Color-2;
+                        opacity: 0.9;
+                        letter-spacing: 1px;
+                    }
+                }
+
+                &:last-child {
+                    p {
+                        cursor: pointer;
+                    }
+                    button {
+                        outline: none;
+                        border: none;
+                        background-color: $Color-1;
+                        color: white;
+                        padding: 12px 16px;
+                        border-radius: 2px;
+                        transition: 0.2s ease-in-out;
+                        border: 1px solid $Color-1;
+
+                        svg {
+                            fill: white;
+                        }
+
+                        &:hover {
+                            background-color: white;
+                            border: 1px solid $Color-1;
+                            color: $Color-1;
+                            transition: 0.2s ease-in-out;
+
+                            svg {
+                                fill: $Color-1;
+                            }
+                        }
+                    }
+                }
+
+                @media screen and (max-width: $breakpointSmall) {
+                    &:last-child {
+                        button {
+                            width: 100%;
+                            margin-top: 14px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
