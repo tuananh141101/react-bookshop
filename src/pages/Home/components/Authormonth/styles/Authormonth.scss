@@ -48,10 +48,21 @@
                         margin-top: 16px;
                     }
                 }
-
-                // .card:nth-child(2) {
-                //     margin-left: 32px;
-                // }
+                .card {
+                    .img {
+                        img {
+                            @media screen and (max-width: $breakpointSmall) {
+                                height: 725.33px !important;
+                            }
+                            @media screen and (max-width: 475px) {
+                                height: 598.67px !important;
+                            }
+                            @media screen and (max-width: $breakpointSSmal) {
+                                height: 465.33px !important;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

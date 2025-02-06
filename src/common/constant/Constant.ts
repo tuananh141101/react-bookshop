@@ -3,7 +3,7 @@ export default class Constants {
     public static TOKEN_NAME: string = "x-iss-token";
     public static REFRESH_TOKEN: string = "x-iss-refreshToken";
     public static MAX_SIZE: any = 2000;
-    public static API_URL: String = (window as any).API_DOMAIN;
+    // public static API_URL: String = (window as any).API_DOMAIN;
     public static COLOR_DEFAULT: "#0089D6";
 }
 
@@ -103,4 +103,9 @@ export type typeCommnets = {
     text: string;
     rate: number;
     date: string;
+};
+export type typeCategories = {
+    id: number;
+    name: string;
+    image: string;
 };

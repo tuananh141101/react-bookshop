@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product } from "./productTypes";
 import { fetchProducts } from "./productApi";
+import { typeProduct } from "../../common/constant/Constant";
 
 interface ProductState {
-    listProducts: Product[];
-    listProductsBestSelling: Product[];
-    listProductsLatest: Product[];
-    listProductsSale: Product[];
+    listProducts: typeProduct[];
+    listProductsBestSelling: typeProduct[];
+    listProductsLatest: typeProduct[];
+    listProductsSale: typeProduct[];
     loadingData: boolean;
     error: string | null;
     quantityProduct: number;
@@ -26,7 +26,7 @@ const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
-        setProducts: (state, action: PayloadAction<Product[]>) => {
+        setProducts: (state, action: PayloadAction<typeProduct[]>) => {
             state.listProducts = action.payload;
         },
         setLoading: (state, action: PayloadAction<boolean>) => {

@@ -12,11 +12,13 @@
                     font-family: "Victormono";
                     font-weight: bold;
                 }
-
                 span {
                     opacity: 0.9;
                     color: $Color-2;
                     letter-spacing: 1px;
+                }
+                @media screen and (max-width: $breakpointSmall) {
+                    margin-bottom: 12px;
                 }
             }
 
@@ -87,6 +89,32 @@
 
             @media screen and (max-width: $breakpointSmall) {
                 padding-top: 38px;
+            }
+        }
+
+        .row:last-child {
+            .custom-col {
+                .card {
+                    .img {
+                        img {
+                            @media screen and (max-width: $breakpointExtraLarge) {
+                                height: 285.33px !important;
+                            }
+                            @media screen and (max-width: $breakpointMedium) {
+                                height: 325.33px !important;
+                            }
+                            @media screen and (max-width: $breakpointSmall) {
+                                height: 349.33px !important;
+                            }
+                            @media screen and (max-width: 475px) {
+                                height: 282.67px !important;
+                            }
+                            @media screen and (max-width: $breakpointSSmal) {
+                                height: 216px !important;
+                            }
+                        }
+                    }
+                }
             }
         }
 

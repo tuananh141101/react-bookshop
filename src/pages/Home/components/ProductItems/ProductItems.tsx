@@ -1,6 +1,6 @@
 import "./styles/ProductItems.scss";
-import { AnimatePresence, motion, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import CartItem from "../../../../shared/components/CartItem/CartItem";
 import { useProductStore } from "../../../../common/hooks/useCustomHooks";
@@ -30,11 +30,6 @@ const ProductItems = () => {
                             </span>
                         </Col>
                         <Col
-                            // className={`col2 d-flex align-items-center ${
-                            //     windowWidth <= 576
-                            //         ? "justify-content-center"
-                            //         : "justify-content-end"
-                            // }`}
                             className={`col2 d-flex align-items-center justify-content-end`}
                             sm={6}
                         >
@@ -87,6 +82,7 @@ const ProductItems = () => {
                                                 lg={3}
                                                 md={4}
                                                 sm={6}
+                                                xs={6}
                                             >
                                                 <CartItem
                                                     style={{ width: "100%" }}

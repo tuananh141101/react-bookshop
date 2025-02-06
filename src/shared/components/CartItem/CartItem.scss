@@ -7,14 +7,12 @@
 
     img {
         height: 448px;
-
-        @media screen and (max-width: $breakpointSmall) {
-            height: 725.33px;
-        }
-
-        @media screen and (max-width: $breakpointSSmal) {
-            height: 465px;
-        }
+        // @media screen and (max-width: $breakpointSmall) {
+        //     height: 725.33px;
+        // }
+        // @media screen and (max-width: $breakpointSSmal) {
+        //     height: 465px;
+        // }
     }
 
     .card-img-top {
@@ -43,16 +41,28 @@
         }
 
         p {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             a {
                 font-size: 14px;
                 color: #7c6e65;
             }
         }
+
+        @media screen and (max-width: $breakpointSSmal) {
+            .card-title {
+                font-size: $fontSize-Medium;
+            }
+        }
+        @media screen and (max-width: $breakpointSSmal) {
+            height: 120px;
+        }
     }
 
     .card-price {
         padding: 1rem;
-
         ul {
             padding-left: 0;
 
@@ -84,6 +94,9 @@
                     }
                 }
             }
+        }
+        @media screen and (max-width: $breakpointSSmal) {
+            
         }
     }
 

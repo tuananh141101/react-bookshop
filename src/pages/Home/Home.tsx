@@ -9,18 +9,25 @@ import { useEffect } from "react";
 import { fetchProducts } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
 import Blogsection from "./components/BlogSection/Blogsection";
+import {
+    useCategoriesStore,
+    useProductStore,
+} from "../../common/hooks/useCustomHooks";
+import { fetchCategories } from "../../features/categories/categoriesApi";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const getProducts = useSelector(
-        (state: RootState) => state.productStore.listProducts
-    );
+    const { listProducts } = useProductStore();
+    const { listCategories } = useCategoriesStore();
 
     useEffect(() => {
-        if (getProducts.length === 0) {
+        if (!listProducts.length) {
             dispatch(fetchProducts());
         }
-    }, [dispatch, getProducts]);
+        if (!listCategories.length) {
+            dispatch(fetchCategories());
+        }
+    }, [dispatch, listProducts, listCategories]);
 
     return (
         <>

@@ -1,15 +1,16 @@
-import "./Categories.scss";
 import { useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useInView, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import "./Categories.scss";
+import "./style/Categories.scss";
+import { useCategoriesStore } from "../../../../common/hooks/useCustomHooks";
 
 const Categories = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
-    // const settings = {
+    const { listCategories } = useCategoriesStore();
+
     return (
         <>
             <section className="product-categories">
@@ -43,7 +44,35 @@ const Categories = () => {
                                     transition: "1.5s opacity",
                                 }}
                             >
-                                <li>
+                                {listCategories.map(
+                                    (item: any, index: number) => {
+                                        return (
+                                            <>
+                                                <li key={item.id}>
+                                                    <Link to="">
+                                                        <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
+                                                            <div className="product-cate__icon">
+                                                                <img
+                                                                    src={`https://websitebook-api.vercel.app/${item.image}`}
+                                                                    loading="lazy"
+                                                                />
+                                                            </div>
+                                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
+                                                                <p className="mt-2 mb-0">
+                                                                    {item.name}
+                                                                </p>
+                                                                <span>
+                                                                    Shop Now
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </li>
+                                            </>
+                                        );
+                                    }
+                                )}
+                                {/* <li>
                                     <Link to="">
                                         <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
                                             <div className="product-cate__icon"></div>
@@ -56,7 +85,6 @@ const Categories = () => {
                                         </div>
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link to="">
                                         <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
@@ -70,7 +98,6 @@ const Categories = () => {
                                         </div>
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link to="">
                                         <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
@@ -84,7 +111,6 @@ const Categories = () => {
                                         </div>
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link to="">
                                         <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
@@ -98,7 +124,6 @@ const Categories = () => {
                                         </div>
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link to="">
                                         <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
@@ -112,7 +137,6 @@ const Categories = () => {
                                         </div>
                                     </Link>
                                 </li>
-
                                 <li>
                                     <Link to="">
                                         <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
@@ -125,7 +149,7 @@ const Categories = () => {
                                             </div>
                                         </div>
                                     </Link>
-                                </li>
+                                </li> */}
                             </motion.ul>
                         </Col>
                     </Row>

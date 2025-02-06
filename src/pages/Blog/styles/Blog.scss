@@ -1,0 +1,262 @@
+@import "../../../../public/assets/styles/common";
+
+.blog {
+    .container {
+        .row:first-child {
+            padding-top: 48px;
+            padding-bottom: 24px;
+
+            .col > p {
+                font-size: $fontSize-XX_Large;
+                font-family: "Victormono";
+                font-weight: bold;
+                padding-bottom: 8px;
+            }
+
+            .col > span {
+                color: $Color-2;
+                opacity: 0.8;
+            }
+        }
+
+        .row:last-child {
+            padding-bottom: 48px;
+
+            .sidebar {
+                .accordion {
+                    width: 100%;
+
+                    .accordion-item {
+                        width: 100%;
+
+                        &:first-of-type {
+                            border-top-left-radius: 3px !important;
+                            border-top-right-radius: 3px !important;
+
+                            .accordion-button {
+                                border-top-left-radius: 3px !important;
+                                border-top-right-radius: 3px !important;
+                                color: rgb(25, 17, 11, 0.7) !important;
+
+                                &:not(.collapsed) {
+                                    color: $Color-1 !important;
+                                    background-color: white;
+                                }
+                            }
+                        }
+
+                        &:last-of-type {
+                            border-bottom-left-radius: 3px !important;
+                            border-bottom-right-radius: 3px !important;
+                        }
+
+                        .accordion-button {
+                            color: rgb(25, 17, 11, 0.7) !important;
+                            font-family: "Victormono";
+                            font-weight: bold;
+                            font-size: $fontSize-Light;
+                            outline: none;
+                            box-shadow: none;
+
+                            &:not(.collapsed) {
+                                color: $Color-1 !important;
+                                background-color: white;
+                            }
+                        }
+                    }
+
+                    .accordion-body {
+                        border: none;
+
+                        form {
+                            width: 100%;
+                        }
+
+                        .icon-search {
+                            width: 15%;
+                            height: 45px;
+                            border: none;
+                            outline: none;
+                            background-color: #f6f5f3;
+
+                            .icon {
+                                stroke: $Color-3;
+                                width: 18px !important;
+                                height: 18px !important;
+                            }
+
+                            .icon.active-icon {
+                                stroke: $Color-1;
+                            }
+                        }
+
+                        input {
+                            width: 85%;
+                            border: none;
+                            outline: none;
+                            background-color: #f6f5f3;
+                            border-radius: 3px;
+                        }
+
+                        .recent-post-blog {
+                            padding-left: 0;
+
+                            li {
+                                padding: 14px 0;
+                                cursor: pointer;
+                                border-bottom: 1px solid $border;
+
+                                &:last-child {
+                                    border: none;
+                                }
+                            }
+                        }
+
+                        .categories-blog {
+                            padding-left: 0;
+
+                            li {
+                                padding: 14px 0;
+                                cursor: pointer;
+                                border-bottom: 1px solid $border;
+
+                                &:last-child {
+                                    border: none;
+                                }
+                            }
+                        }
+
+                        .tags {
+                            width: 100%;
+                            overflow: hidden;
+
+                            a {
+                                padding: 3px 8px;
+                                font-size: $fontSize-Light;
+                                border-radius: 3px;
+                                background-color: $border;
+                                margin: 5px 5px 3px 0;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .post {
+                .post-thumbnail {
+                    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                    transition: 0.3s ease-in-out;
+                    cursor: pointer;
+                    position: relative;
+
+                    &:hover {
+                        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+                            rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+                        transition: 0.3s ease-in-out;
+                    }
+
+                    img {
+                        width: 339px;
+                        height: 254.25px;
+                        border-radius: 3px;
+                        object-fit: cover;
+                    }
+
+                    iframe {
+                        border-radius: 3px;
+                    }
+
+                    .type {
+                        position: absolute;
+                        top: 5%;
+                        left: 4%;
+                        width: 42px;
+                        height: 42px;
+                        background-color: white;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 3px;
+                        opacity: 1;
+                        visibility: visible;
+                        transition: 0.3s ease-in-out;
+                    }
+
+                    &:hover {
+                        .type {
+                            opacity: 0;
+                            visibility: hidden;
+                            transition: 0.3s ease-in-out;
+                        }
+                    }
+                }
+
+                .post-detail {
+                    padding-left: 18px;
+
+                    ul {
+                        padding-left: 0;
+                    }
+
+                    ul > li {
+                        &:first-child > a {
+                            font-family: "Victormono";
+                            font-weight: bold;
+                            font-size: $fontSize-Large;
+                        }
+
+                        &:nth-child(2) {
+                            padding: 16px 0;
+
+                            a {
+                                font-size: $fontSize-Light;
+                            }
+                        }
+
+                        &:nth-child(3),
+                        &:nth-child(4) {
+                            a {
+                                font-size: $fontSize-Light;
+                                text-transform: uppercase;
+                                color: $Color-2;
+                            }
+                        }
+                    }
+                }
+
+                .custom-col {
+                    padding-bottom: 24px;
+                }
+
+                @media screen and (max-width: $breakpointMedium) {
+                    .product-post > .custom-col {
+                        flex-direction: column;
+                        margin: 18px 0;
+
+                        &:first-child {
+                            margin-top: 48px;
+                        }
+
+                        .post-thumbnail > img {
+                            width: 100%;
+                        }
+
+                        .post-thumbnail > iframe {
+                            width: 100%;
+                        }
+
+                        .post-detail {
+                            padding-left: 0;
+
+                            ul > li {
+                                &:first-child {
+                                    padding-top: 16px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -16,7 +16,6 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
 import "./styles/header.scss";
 import InputForm from "../../components/InputForm/InputForm";
 
@@ -78,7 +77,7 @@ const Header = () => {
     }, [isMobile]);
 
     // Focus change color icon search
-    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const handleFocus = () => {
         setIsFocused(true);
         const searchIcon = document.querySelector<HTMLDivElement>(
             "#searchInputLi .icon-search .icon"
@@ -91,7 +90,7 @@ const Header = () => {
     return (
         <>
             <div className={`header`}>
-                <div className={`header-top border-bottom`}>
+                <div className={`header-top border-bottom border-bottom`}>
                     <Container className="header-top__container py-2">
                         <Row>
                             <Col className="top-left">
@@ -242,7 +241,7 @@ const Header = () => {
                                             }
                                         }}
                                     >
-                                        <Link to="">
+                                        <Link>
                                             <div className="d-flex">
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />

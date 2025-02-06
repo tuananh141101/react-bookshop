@@ -11,10 +11,9 @@ import { btnAnimationBG } from "../../../common/constant/Constant";
 import React, { useState } from "react";
 import { typeProduct } from "../../../common/constant/Constant";
 import "./CartItem.scss";
-import CardDetail from "./CardDetail";
 import Skeleton from "react-loading-skeleton";
-import { AppDispatch, RootState } from "../../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../../app/store";
+import { useDispatch } from "react-redux";
 import {
     decrementQuantityProduct,
     incrementQuantityProduct,
@@ -35,7 +34,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
         const { loadingData, quantityProduct } = useProductStore();
         const handleClose = () => setShow(false);
         const dispatch = useDispatch<AppDispatch>();
-        
+
         return (
             <>
                 <Card style={style} key={index}>
@@ -45,6 +44,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
                         <Card.Img
                             variant="top"
                             src={`https://websitebook-api.vercel.app${items?.image}`}
+                            loading="lazy"
+                            alt="images"
                         />
                         <div className="wrapBtnIcon">
                             <motion.div
@@ -111,6 +112,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                     ) : (
                                         <img
                                             src={`https://websitebook-api.vercel.app${items?.image}`}
+                                            loading="lazy"
+                                            alt="images"
                                         />
                                     )}
                                 </Col>

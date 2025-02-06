@@ -1,6 +1,6 @@
 import Slider from "react-slick";
 import Button from "../../../../shared/components/Button/Button";
-import "./BannerSlide.scss";
+import "./style/BannerSlide.scss";
 
 const BannerSlide = () => {
     const settings = {
