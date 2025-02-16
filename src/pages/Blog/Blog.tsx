@@ -9,19 +9,24 @@ import { fetchBlogs } from "../../features/blog/blogApi";
 import BreadCrumb from "../../shared/components/Breadcrumb/BreadCrumb";
 import { Accordion } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoNewspaperOutline } from "react-icons/io5";
+import * as React from "react";
 
 const Blog = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
     const { listBlogs } = useBlogStore();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         if (!listBlogs.length) {
             dispatch(fetchBlogs());
         }
-    }, [dispatch, listBlogs]);
-    console.log("🚀 ~ Blog ~ listBlogs:", listBlogs)
+    }, [dispatch, listBlogs.length]);
 
     const breadcrumbItems = [
         { label: "Home", href: "/", active: false },
@@ -185,6 +190,11 @@ const Blog = () => {
                                                 sm={12}
                                                 className="custom-col d-flex"
                                                 key={item.id}
+                                                onClick={() => {
+                                                    navigate(
+                                                        `${item?.title}/${item?.id}`
+                                                    );
+                                                }}
                                             >
                                                 <div className="post-thumbnail">
                                                     <img

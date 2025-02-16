@@ -1,5 +1,12 @@
 @import "../../../../public/assets/styles/common";
 
+.wrapperBlogDetail {
+    gap: calc(0.625rem * 2);
+    width: 100%;
+    max-width: calc(750px);
+    margin: 0 auto;
+}
+
 .blog {
     .container {
         .row:first-child {
@@ -259,4 +266,61 @@
             }
         }
     }
+}
+
+.blogDetail {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    .container {
+        .row {
+            .blogDetail__img {
+                .imgWrapper {
+                    background-color: red;
+                    width: 100%;
+                    height: 729px;
+                    overflow: hidden;
+                    border-radius: 4px;
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
+                margin-bottom: 40px;
+            }
+
+            .blogDetail__content {
+                &-title {
+                    margin-bottom: calc(0.625rem * 2);
+
+                    .header {
+                        font-family: "Victormono";
+                        font-size: $fontSize-XX_Large;
+                    }
+
+                    .date {
+                        font-size: 18px;
+                        gap: 4px;
+                        text-transform: uppercase;
+                    }
+                }
+
+                &-list {
+                    gap: calc(0.625rem * 2);
+                    .list-item {
+                        gap: $fontSize-Light !important;
+                        .itemLibrary {
+                            gap: 12px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.blogDetailComment {
+    width: 100%;
+    padding: 40px 0;
+    background-color: #f3f0ef;
 }

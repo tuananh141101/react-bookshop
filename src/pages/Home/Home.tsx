@@ -10,14 +10,17 @@ import { fetchProducts } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
 import Blogsection from "./components/BlogSection/Blogsection";
 import {
+    useBlogStore,
     useCategoriesStore,
     useProductStore,
 } from "../../common/hooks/useCustomHooks";
 import { fetchCategories } from "../../features/categories/categoriesApi";
+import { fetchBlogs } from "../../features/blog/blogApi";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { listProducts } = useProductStore();
+    const { listBlogs } = useBlogStore();
     const { listCategories } = useCategoriesStore();
 
     useEffect(() => {
@@ -27,7 +30,15 @@ const Home = () => {
         if (!listCategories.length) {
             dispatch(fetchCategories());
         }
-    }, [dispatch, listProducts, listCategories]);
+        if (!listBlogs.length) {
+            dispatch(fetchBlogs());
+        }
+    }, [
+        dispatch,
+        listProducts.length,
+        listCategories.length,
+        listBlogs.length,
+    ]);
 
     return (
         <>
@@ -36,7 +47,7 @@ const Home = () => {
             <Authormonth />
             <ProductItems />
             <Bookselected />
-            <Blogsection />
+            {listBlogs.length > 0 ? <Blogsection /> : <p>Loading Blogs...</p>}
         </>
     );
 };

@@ -45,7 +45,7 @@ const Categories = () => {
                                 }}
                             >
                                 {listCategories.map(
-                                    (item: any, index: number) => {
+                                    (item: any) => {
                                         return (
                                             <>
                                                 <li key={item.id}>
@@ -72,84 +72,6 @@ const Categories = () => {
                                         );
                                     }
                                 )}
-                                {/* <li>
-                                    <Link to="">
-                                        <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
-                                            <div className="product-cate__icon"></div>
-                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                <p className="mt-2 mb-0">
-                                                    Fiction
-                                                </p>
-                                                <span>Shop Now</span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="">
-                                        <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
-                                            <div className="product-cate__icon"></div>
-                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                <p className="mt-2 mb-0">
-                                                    History
-                                                </p>
-                                                <span>Shop Now</span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="">
-                                        <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
-                                            <div className="product-cate__icon"></div>
-                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                <p className="mt-2 mb-0">
-                                                    Mystery
-                                                </p>
-                                                <span>Shop Now</span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="">
-                                        <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
-                                            <div className="product-cate__icon"></div>
-                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                <p className="mt-2 mb-0">
-                                                    Family
-                                                </p>
-                                                <span>Shop Now</span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="">
-                                        <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
-                                            <div className="product-cate__icon"></div>
-                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                <p className="mt-2 mb-0">
-                                                    Cooking
-                                                </p>
-                                                <span>Shop Now</span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link to="">
-                                        <div className="product-cate__inner d-flex justify-content-center flex-column align-items-center">
-                                            <div className="product-cate__icon"></div>
-                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                <p className="mt-2 mb-0">
-                                                    Drama
-                                                </p>
-                                                <span>Shop Now</span>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </li> */}
                             </motion.ul>
                         </Col>
                     </Row>

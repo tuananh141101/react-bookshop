@@ -136,7 +136,7 @@ const Header = () => {
                         </Row>
                     </Container>
                 </div>
-                <div className={`header-bottom`}>
+                <div className={`header-bottom border-bottom`}>
                     <Container
                         className={`header-bottom__container ${containerPadding}`}
                     >
