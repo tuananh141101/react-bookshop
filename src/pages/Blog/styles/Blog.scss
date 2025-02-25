@@ -494,7 +494,10 @@
                     .textarea-reply {
                         height: 100px;
                         padding: 8px 10px;
-                        @extend .inputClassFocusHv
+                        @extend .inputClassFocusHv;
+                        @media screen and (max-width: $breakpointMedium) {
+                            font-size: $fontSize-Light;
+                        }
                     }
                 }
                 .reply-form-name {
@@ -502,7 +505,10 @@
                     .inputname-reply {
                         padding: 8px 10px;
                         height: 40px;
-                        @extend .inputClassFocusHv
+                        @extend .inputClassFocusHv;
+                        @media screen and (max-width: $breakpointMedium) {
+                            font-size: $fontSize-Light;
+                        }
                     }
                 }
                 .reply-form-email {
@@ -510,7 +516,10 @@
                     .inputemail-reply {
                         padding: 8px 10px;
                         height: 40px;
-                        @extend .inputClassFocusHv
+                        @extend .inputClassFocusHv;
+                        @media screen and (max-width: $breakpointMedium) {
+                            font-size: $fontSize-Light;
+                        }
                     }
 
                 }

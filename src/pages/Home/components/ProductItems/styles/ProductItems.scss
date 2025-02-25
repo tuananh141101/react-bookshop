@@ -20,6 +20,11 @@
                 @media screen and (max-width: $breakpointSmall) {
                     margin-bottom: 12px;
                 }
+                @media screen and (max-width: $breakpointMedium) {
+                    span {
+                        font-size: $fontSize-Light;
+                    }
+                }
             }
 
             .col2 {
@@ -127,129 +132,129 @@
                     padding-bottom: 0;
 
                     .custom-col {
-                        .card {
-                            width: 100% !important;
-                            border-radius: 3px;
-                            border: none;
-                            transition: box-shadow 0.2s ease-in-out;
+                        // .card {
+                        //     width: 100% !important;
+                        //     border-radius: 3px;
+                        //     border: none;
+                        //     transition: box-shadow 0.2s ease-in-out;
 
-                            .card-text {
-                                margin-bottom: 8px;
-                                color: $Color-5;
-                                font-size: $fontSize-Light;
-                                text-transform: uppercase;
-                            }
+                        //     .card-text {
+                        //         margin-bottom: 8px;
+                        //         color: $Color-5;
+                        //         font-size: $fontSize-Light;
+                        //         text-transform: uppercase;
+                        //     }
 
-                            .card-title {
-                                font-size: 18px;
-                            }
+                        //     .card-title {
+                        //         font-size: 18px;
+                        //     }
 
-                            p > a {
-                                font-size: $fontSize-Light;
-                                color: $Color-4;
-                            }
+                        //     p > a {
+                        //         font-size: $fontSize-Light;
+                        //         color: $Color-4;
+                        //     }
 
-                            .card-img-top {
-                                border-top-left-radius: 3px;
-                                border-top-right-radius: 3px;
-                                height: 405.33px;
-                                @media screen and (max-width: $breakpointSSmal) {
-                                    height: 465px !important;
-                                }
-                            }
+                        //     .card-img-top {
+                        //         border-top-left-radius: 3px;
+                        //         border-top-right-radius: 3px;
+                        //         height: 405.33px;
+                        //         @media screen and (max-width: $breakpointSSmal) {
+                        //             height: 465px !important;
+                        //         }
+                        //     }
 
-                            .card-price {
-                                padding: 1rem;
+                        //     .card-price {
+                        //         padding: 1rem;
 
-                                ul {
-                                    padding-left: 0;
-                                    margin-bottom: 0;
+                        //         ul {
+                        //             padding-left: 0;
+                        //             margin-bottom: 0;
 
-                                    li {
-                                        &:first-child {
-                                            font-size: 18px;
-                                            color: $Color-2;
-                                            font-weight: bold;
-                                        }
+                        //             li {
+                        //                 &:first-child {
+                        //                     font-size: 18px;
+                        //                     color: $Color-2;
+                        //                     font-weight: bold;
+                        //                 }
 
-                                        &:last-child {
-                                            div {
-                                                background-color: $backGround-input;
-                                                border: none;
-                                                padding: 8px 12px;
-                                                border-radius: 3px;
-                                                cursor: pointer;
+                        //                 &:last-child {
+                        //                     div {
+                        //                         background-color: $backGround-input;
+                        //                         border: none;
+                        //                         padding: 8px 12px;
+                        //                         border-radius: 3px;
+                        //                         cursor: pointer;
 
-                                                svg {
-                                                    width: 18px;
-                                                    height: 18px;
-                                                }
-                                            }
+                        //                         svg {
+                        //                             width: 18px;
+                        //                             height: 18px;
+                        //                         }
+                        //                     }
 
-                                            &:hover {
-                                                svg {
-                                                    fill: white;
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                        //                     &:hover {
+                        //                         svg {
+                        //                             fill: white;
+                        //                         }
+                        //                     }
+                        //                 }
+                        //             }
+                        //         }
+                        //     }
 
-                            .img {
-                                position: relative;
+                        //     .img {
+                        //         position: relative;
 
-                                .btn-icon {
-                                    position: absolute;
-                                    background-color: $backGround-input;
-                                    border: none;
-                                    padding: 8px 12px;
-                                    border-radius: 3px;
-                                    opacity: 0;
-                                    pointer-events: none;
-                                    transition: opacity 0.2s ease-in-out;
+                        //         .btn-icon {
+                        //             position: absolute;
+                        //             background-color: $backGround-input;
+                        //             border: none;
+                        //             padding: 8px 12px;
+                        //             border-radius: 3px;
+                        //             opacity: 0;
+                        //             pointer-events: none;
+                        //             transition: opacity 0.2s ease-in-out;
 
-                                    svg {
-                                        width: 20px;
-                                        height: 18px;
-                                    }
+                        //             svg {
+                        //                 width: 20px;
+                        //                 height: 18px;
+                        //             }
 
-                                    &:hover {
-                                        svg {
-                                            fill: white;
-                                        }
-                                    }
-                                }
+                        //             &:hover {
+                        //                 svg {
+                        //                     fill: white;
+                        //                 }
+                        //             }
+                        //         }
 
-                                .quick-view {
-                                    top: 50%;
-                                    left: 35%;
-                                    transform: translate(-35, -50);
-                                    cursor: pointer;
-                                }
+                        //         .quick-view {
+                        //             top: 50%;
+                        //             left: 35%;
+                        //             transform: translate(-35, -50);
+                        //             cursor: pointer;
+                        //         }
 
-                                .add-fav-book {
-                                    top: 50%;
-                                    left: 55%;
-                                    transform: translate(-55, -50);
-                                    cursor: pointer;
-                                }
+                        //         .add-fav-book {
+                        //             top: 50%;
+                        //             left: 55%;
+                        //             transform: translate(-55, -50);
+                        //             cursor: pointer;
+                        //         }
 
-                                &:hover {
-                                    .btn-icon {
-                                        opacity: 1;
-                                        pointer-events: initial;
-                                        transition: opacity 0.2s ease-in-out;
-                                    }
-                                }
-                            }
+                        //         &:hover {
+                        //             .btn-icon {
+                        //                 opacity: 1;
+                        //                 pointer-events: initial;
+                        //                 transition: opacity 0.2s ease-in-out;
+                        //             }
+                        //         }
+                        //     }
 
-                            &:hover {
-                                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px
-                                    24px;
-                                transition: box-shadow 0.2s ease-in-out;
-                            }
-                        }
+                        //     &:hover {
+                        //         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px
+                        //             24px;
+                        //         transition: box-shadow 0.2s ease-in-out;
+                        //     }
+                        // }
                     }
                 }
             }

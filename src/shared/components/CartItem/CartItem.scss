@@ -26,9 +26,12 @@
         height: 150px;
         .card-text {
             color: #f75454;
-            font-size: 14px;
+            font-size:$fontSize-Light;
             text-transform: uppercase;
             margin-bottom: 0;
+            @media screen and (max-width: $breakpointMedium) {
+                font-size: $fontSize-Extra_Light;
+            }
         }
 
         .card-title {
@@ -39,6 +42,9 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            @media screen and (max-width: $breakpointMedium) {
+                font-size: $fontSize-Medium;
+            }
         }
 
         p {

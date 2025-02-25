@@ -7,7 +7,10 @@
             border-radius: 4px;
             padding-top: 48px;
             padding-bottom: 48px;
-
+            @media screen and (max-width: $breakpointMedium) {
+                padding-top: 38px;
+                padding-bottom: 38px;
+            }
             .title {
                 span {
                     color: $Color-1;
@@ -23,16 +26,16 @@
                     font-weight: bold;
                 }
             }
-
             .about {
                 padding: 28px 0;
                 width: 800px;
 
                 @media screen and (max-width: $breakpointMedium) {
                     width: 100%;
+                    font-size: $fontSize-Light;
+                    padding: 18px 0;
                 }
             }
-
             .product {
                 -webkit-overflow-scrolling: touch; // Tăng mượt mà trên thiết bị di động
                 overflow-x: auto;
