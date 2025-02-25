@@ -271,11 +271,17 @@
 .blogDetail {
     margin-top: 48px;
     margin-bottom: 48px;
+    @media screen and (max-width: $breakpointMedium) {
+        margin-bottom: 28px;
+    }
+    @media screen and (max-width: $breakpointSmall) {
+        margin-top: 16px;
+    }
     .container {
         .row {
             .blogDetail__img {
                 .imgWrapper {
-                    background-color: red;
+                    background-color: white;
                     width: 100%;
                     height: 729px;
                     overflow: hidden;
@@ -287,21 +293,63 @@
                     }
                 }
                 margin-bottom: 40px;
+
+                @media screen and (max-width: $breakpointEELarge) {
+                    .imgWrapper {
+                        height: 627.75px;
+                    }
+                }
+                @media screen and (max-width: $breakpointExtraLarge) {
+                    .imgWrapper {
+                        height: 526.50px;
+                    }
+                }
+                @media screen and (max-width: $breakpointLarge) {
+                    .imgWrapper {
+                        height:514.50px;
+                    }
+                }
+                @media screen and (max-width:$breakpointMedium) {
+                    margin-bottom: 28px;
+                    .imgWrapper {
+                        height: 387px;
+                    }
+                }
+                @media screen and (max-width:$breakpointSmall) {
+                    margin-bottom: 16px;
+                }
             }
 
             .blogDetail__content {
                 &-title {
+                    gap: 12px;
                     margin-bottom: calc(0.625rem * 2);
 
                     .header {
                         font-family: "Victormono";
                         font-size: $fontSize-XX_Large;
+                        @media screen and (max-width:$breakpointMedium) {
+                            font-size: $fontSize-X_Large;
+                        }
+                        @media screen and (max-width:$breakpointSmall) {
+                            font-size: $fontSize-Large;
+                        }
                     }
 
                     .date {
-                        font-size: 18px;
                         gap: 4px;
                         text-transform: uppercase;
+                        span {
+                            @media screen and (max-width: $breakpointMedium) {
+                                font-size: $fontSize-Light;
+                            }
+                        }
+                    }
+
+                    .title {
+                        @media screen and (max-width: $breakpointMedium) {
+                            font-size: $fontSize-Light;
+                        }
                     }
                 }
 
@@ -311,6 +359,62 @@
                         gap: $fontSize-Light !important;
                         .itemLibrary {
                             gap: 12px;
+                        }
+                        @media screen and (max-width: $breakpointMedium) {
+                            .itemTitle {
+                                font-size: $fontSize-Large;
+                            }
+                            .itemDescription {
+                                font-size: $fontSize-Light;
+                            }
+                            .itemLibrary {
+                                gap: 0px;
+                                p:not(.title) {
+                                    font-size: $fontSize-Light;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .blogDetail__sharing {
+                padding-top: 48px;
+                .share-title span {
+                    font-size: $fontSize-Large;
+                }
+                .network-list {
+                    padding-left: 0;
+                    margin-bottom: 0;
+                    gap: 12px;
+                    li {
+                        position: relative;
+                        cursor: pointer;
+                        transition: all 0.2s ease-in-out;
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            width: 0%;
+                            height: 50%;
+                            background-color: black;
+                            opacity: 0.1;
+                            top: 50%;
+                            left: 0;
+                            transition: all 0.2s ease-in-out;
+                        }
+
+                        &:hover::after {
+                            width: 100%;
+                            transition: all 0.2s ease-in-out;
+                        }
+                    }
+                }
+                @media screen and (max-width: $breakpointMedium) {
+                    padding-top: 28px;
+                    .network-list {
+                        flex-wrap: wrap;
+                        li {
+                            font-size: $fontSize-Light;
                         }
                     }
                 }
@@ -323,4 +427,111 @@
     width: 100%;
     padding: 40px 0;
     background-color: #f3f0ef;
+    .container {
+        .row {
+            .titleWrapper {
+                h2 {
+                    font-family: 'Victormono';
+                }
+            }
+            .listWrapper {
+                gap: 38px;
+                .comment {
+                    gap: 16px;
+                    .commentAva {
+                        background-color: red;
+                        width: 8%;
+                        height: 100%;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        .ava-placeholder {
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
+                    }
+                    .commentDetails {
+                        width: 92%;
+                        @media screen and (max-width: $breakpointMedium) {
+                            .description {
+                                font-size: $fontSize-Light;
+                            }
+                        }
+                        .name {
+                            font-size: 18px;
+                            font-weight: bold;
+                        }
+                        .date {
+                            margin-bottom: 8px;
+                            font-size: $fontSize-Light;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.blogDetailAddCmt {
+    .container {
+        .row {
+            .commentRespond {
+                .reply-title {
+                    padding-top: 48px;
+                    padding-bottom: 28px;
+                    .title {
+                        font-family: 'Victormono';
+                    }
+                }
+            }
+            .reply-form {
+                display: flex;
+                flex-wrap: wrap;
+                .reply-form-comment {
+                    flex-basis: 100%;
+                    .textarea-reply {
+                        height: 100px;
+                        padding: 8px 10px;
+                        @extend .inputClassFocusHv
+                    }
+                }
+                .reply-form-name {
+                    flex: 1;
+                    .inputname-reply {
+                        padding: 8px 10px;
+                        height: 40px;
+                        @extend .inputClassFocusHv
+                    }
+                }
+                .reply-form-email {
+                    flex: 1;
+                    .inputemail-reply {
+                        padding: 8px 10px;
+                        height: 40px;
+                        @extend .inputClassFocusHv
+                    }
+
+                }
+                .buttonSubmit {
+                    flex-basis: 100%;
+                    padding-bottom: 48px;
+                    button {
+                        border: none;
+                        outline: none;
+                        padding: 8px 12px;
+                        color: $backGround-input;
+                        border-radius: 4px;
+                        background-color: rgb(25, 17, 11, 0.9);
+                        transition: 0.2 ease-in-out;
+                        &:hover {
+                            transition: 0.2s ease-in-out;
+                            background-color: rgb(25, 17, 11, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -2,31 +2,24 @@ import { Container, Row, Col } from "react-bootstrap";
 import "./styles/Blog.scss";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { useBlogStore } from "../../common/hooks/useCustomHooks";
+import { useBlogStore, useCommentStore } from "../../common/hooks/useCustomHooks";
 import { useEffect } from "react";
 import { fetchBlogs } from "../../features/blog/blogApi";
 // import FilterBlog from "./components/FilterBlog/FilterBlog";
+import { typeBlog } from "../../common/constant/Constant";
 import BreadCrumb from "../../shared/components/Breadcrumb/BreadCrumb";
 import { Accordion } from "react-bootstrap";
 import { FiSearch } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import { IoNewspaperOutline } from "react-icons/io5";
 import * as React from "react";
+import { fetchComments } from "../../features/comments/commentApi";
 
 const Blog = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { listBlogs } = useBlogStore();
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
-    useEffect(() => {
-        if (!listBlogs.length) {
-            dispatch(fetchBlogs());
-        }
-    }, [dispatch, listBlogs.length]);
+    const { listComments } = useCommentStore();
 
     const breadcrumbItems = [
         { label: "Home", href: "/", active: false },
@@ -56,6 +49,19 @@ const Blog = () => {
         "love",
         "quotes",
     ];
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        if (!listBlogs.length) {
+            dispatch(fetchBlogs());
+        }
+        if (!listComments.length) {
+            dispatch(fetchComments());
+        }
+    }, [dispatch, listBlogs.length, listComments.length]);
 
     return (
         <>
@@ -170,7 +176,7 @@ const Blog = () => {
                                                     index: number
                                                 ) => {
                                                     return (
-                                                        <Link key={index}>
+                                                        <Link to="" key={index}>
                                                             {item}
                                                         </Link>
                                                     );
@@ -183,7 +189,7 @@ const Blog = () => {
                         </Col>
                         <Col className="custom-col post" lg={9}>
                             <section className="product-post">
-                                {listBlogs.map((item: any) => {
+                                {listBlogs.map((item: typeBlog) => {
                                     return (
                                         <>
                                             <Col

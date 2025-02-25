@@ -4,7 +4,7 @@ import Categories from "./components/Categories/Categories";
 import Authormonth from "./components/Authormonth/Authormonth";
 import ProductItems from "./components/ProductItems/ProductItems";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store"; // Import AppDispatch
+import { AppDispatch } from "../../app/store"; // Import AppDispatch
 import { useEffect } from "react";
 import { fetchProducts } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
@@ -12,16 +12,19 @@ import Blogsection from "./components/BlogSection/Blogsection";
 import {
     useBlogStore,
     useCategoriesStore,
+    useCommentStore,
     useProductStore,
 } from "../../common/hooks/useCustomHooks";
 import { fetchCategories } from "../../features/categories/categoriesApi";
 import { fetchBlogs } from "../../features/blog/blogApi";
+import { fetchComments } from "../../features/comments/commentApi";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { listProducts } = useProductStore();
     const { listBlogs } = useBlogStore();
     const { listCategories } = useCategoriesStore();
+    const { listComments } = useCommentStore();
 
     useEffect(() => {
         if (!listProducts.length) {
@@ -33,11 +36,15 @@ const Home = () => {
         if (!listBlogs.length) {
             dispatch(fetchBlogs());
         }
+        if (!listComments.length) {
+            dispatch(fetchComments());
+        }
     }, [
         dispatch,
         listProducts.length,
         listCategories.length,
         listBlogs.length,
+        listComments.length
     ]);
 
     return (

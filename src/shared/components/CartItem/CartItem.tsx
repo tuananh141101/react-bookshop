@@ -37,7 +37,11 @@ const CartItem: React.FC<ChildProps> = React.memo(
 
         return (
             <>
-                <Card style={style} key={index}>
+                <Card style={style} key={index}
+                    onClick={(event:React.MouseEvent<HTMLDivElement>) => {
+                       console.log("items.id", items.id)
+                    }} 
+                >
                     <div
                         className={`${className ? `${className} img` : "img"}`}
                     >
@@ -53,7 +57,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 variants={btnAnimationBG}
                                 initial="hidden"
                                 whileHover="show"
-                                onClick={() => {
+                                onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                                    event.stopPropagation();
                                     setShow(true);
                                     dispatch(setLoading(true));
                                     setTimeout(() => {
@@ -68,6 +73,9 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 variants={btnAnimationBG}
                                 initial="hidden"
                                 whileHover="show"
+                                onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                                    event.stopPropagation();
+                                }}
                             >
                                 <FaRegHeart />
                             </motion.div>
@@ -81,11 +89,19 @@ const CartItem: React.FC<ChildProps> = React.memo(
                             <Link to="">{items?.author}</Link>
                         </p>
                     </Card.Body>
-                    <div className="card-price">
+                    <div className="card-price"
+                        onClick={(event: React.MouseEvent<HTMLDivElement>) => {
+                            event.stopPropagation();
+                        }}
+                    >
                         <ul className="mb-0 d-flex align-items-center justify-content-between">
                             <li>${items?.price}</li>
                             <li
-                            // onClick={() => dispatch(addToCart(item))}
+                                onClick={(event: React.MouseEvent<HTMLLIElement>) => {
+                                        // dispatch(addToCart(item))
+                                        // event.stopPropagation();
+                                    }
+                                }
                             >
                                 <motion.div
                                     variants={btnAnimationBG}

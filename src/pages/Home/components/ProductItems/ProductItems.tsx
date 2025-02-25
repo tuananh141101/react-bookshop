@@ -1,5 +1,7 @@
+import React from "react";
 import "./styles/ProductItems.scss";
 import { AnimatePresence, motion } from "framer-motion";
+import { typeProduct } from "../../../../common/constant/Constant";
 import { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import CartItem from "../../../../shared/components/CartItem/CartItem";
@@ -72,7 +74,7 @@ const ProductItems = () => {
                     >
                         <Row>
                             {groupDataProduct[activeTab].map(
-                                (item: any, index: number) => {
+                                (item: typeProduct, index: number) => {
                                     return (
                                         <>
                                             <Col

@@ -1,3 +1,4 @@
+import React from "react";
 import Redirect from "./routing/router.tsx";
 
 function App() {

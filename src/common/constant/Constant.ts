@@ -89,6 +89,7 @@ export type typeBlog = {
     content: string;
     date: string;
     categories: string[];
+    section?: Array<[]>;
 };
 export type typePost = {
     id: number;
@@ -97,15 +98,30 @@ export type typePost = {
     content: string;
     date: string;
 };
-export type typeCommnets = {
-    id: number;
-    user_name: string;
-    text: string;
-    rate: number;
-    date: string;
+export type typeComment = {
+    id: string; // ID của comment
+    productId: string; // ID của sản phẩm
+    name: string; // Tên người comment
+    email: string; // Email người comment
+    content: string; // Nội dung comment
+    replies: typeReply[]; // Danh sách reply
+    createdAt: string; // Thời gian tạo comment
+    type: string; // Kiểu của cmt blog&product
+  
+};
+export type typeReply = {
+    id: string; // ID của reply
+    commentId: string; // ID của comment mà reply thuộc về
+    name: string; // Tên người reply
+    email: string; // Email người reply
+    content: string; // Nội dung reply
+    createdAt: string; // Thời gian tạo reply
 };
 export type typeCategories = {
     id: number;
     name: string;
     image: string;
 };
+
+
+export const valiEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

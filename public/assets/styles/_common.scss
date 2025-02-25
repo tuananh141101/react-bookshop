@@ -42,3 +42,20 @@ $breakpointEELarge: 1400px;
 }
 
 
+// Class Input
+.inputClassFocusHv {
+  border: 1px solid rgb(25, 17, 11, 0.2);
+  transition: 0.2s ease-in-out;
+  border-radius: 4px;
+  outline: none;
+  &:focus {
+    transition: 0.2s ease-in-out;
+    border: 1px solid rgb(25,17,11, 0.8);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+  &:hover {
+    transition: 0.2s ease-in-out;
+    border: 1px solid rgb(25,17,11, 0.8);
+  }
+}
+

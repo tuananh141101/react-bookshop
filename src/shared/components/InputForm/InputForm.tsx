@@ -1,3 +1,6 @@
+import React from "react";
+import { invalidCharsRegex } from "../../../common/utils/Utils";
+
 interface IProps {
     value: any;
     onChange?: any;
@@ -10,6 +13,7 @@ interface IProps {
     className?: string;
     maxLength?: number;
     onKeyDown?: () => void;
+    onKeyPress?: boolean;
     suffix?: string;
     style?: any;
     id?: string;
