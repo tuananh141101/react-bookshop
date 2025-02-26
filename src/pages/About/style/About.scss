@@ -1,0 +1,98 @@
+@import "../../../../public/assets/styles/common";
+
+.about {
+    .container {
+        .row:first-child {
+            padding-top: 54px;
+
+            .custom-col {
+                p.title {
+                    font-size: $fontSize-XX_Large;
+                    font-family: 'Victormono';
+                    font-weight: bold;
+                    padding-bottom: 8px;
+                }
+
+                span {
+                    color: $Color-2;
+                    opacity: .8;
+                    margin-bottom: 32px;
+                }
+
+                div>p {
+                    font-size: $fontSize-Medium;
+                    color: $Color-2;
+
+                    &:first-child {
+                        padding-bottom: 8px;
+                    }
+                }
+            }
+        }
+
+        .row:nth-child(2) {
+            .custom-col {
+                div>p {
+                    &:first-child {
+                        padding-bottom: 16px;
+                    }
+                }
+            }
+        }
+
+        .row:nth-child(3) {
+            padding-top: 48px;
+
+            .custom-col {
+                &:first-child {
+                    p.title {
+                        font-size: 24px;
+                        font-family: 'Victormono';
+                        padding-bottom: 28px;
+                    }
+                }
+
+                &:last-child {
+                    img {
+                        width: 100%;
+                        height: 477px;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+
+        .row:last-child {
+            padding-top: 48px;
+            padding-bottom: 52px;
+            border-bottom: 1px solid $border;
+
+            .custom-col {
+                &:first-child {
+                    img {
+                        width: 100%;
+                        height: 477px;
+                    }
+                }
+
+                &:last-child {
+                    p.title {
+                        font-size: 24px;
+                        font-family: 'Victormono';
+                        padding-bottom: 28px;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: $breakpointMedium) {
+            .row:nth-child(3)>.custom-col:last-child {
+                padding-top: 16px;
+            }
+
+            .row:nth-child(4)>.custom-col:first-child {
+                padding-bottom: 16px;
+            }
+        }
+    }
+}
