@@ -7,6 +7,7 @@ import Blog from "../pages/Blog/Blog";
 import BlogDetail from "../pages/Blog/BlogDetail";
 import Contact from "../pages/Contact/Contact";
 import React from "react";
+import About from "../pages/About/About";
 
 const router = () => {
     return (
@@ -22,6 +23,7 @@ const router = () => {
                         <Route path="blog/:nameBlog/:idBlog" element={<BlogDetail />} />
 
                         <Route path="contact" element={<Contact/>}/>
+                        <Route path="about" element={<About/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
