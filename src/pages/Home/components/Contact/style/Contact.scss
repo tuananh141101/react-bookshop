@@ -19,9 +19,15 @@
             color: $Color-2;
             opacity: 0.8;
             margin-bottom: 24px;
+            @media  screen and (max-width: $breakpointMedium) {
+                margin-bottom: 18px;
+            }
           }
   
           .infomation {
+            @media screen and (max-width: $breakpointMedium) {
+                flex-direction: column;
+            }
             div {
               p {
                 font-size: $fontSize-Medium;
@@ -44,17 +50,17 @@
             }
   
             .submit > button {
-              outline: none;
-              border-radius: 3px;
-              background-color: white;
-              border: 1px solid $Color-1;
-              padding: 8px 6px;
-              transition: 0.3s ease-in-out;
-  
-              &:hover {
-                background-color: $Color-1;
+                outline: none;
+                border-radius: 3px;
+                background-color: rgba(25, 17, 11, 0.9);
+                border: none;
+                padding: 8px 12px;
+                transition: 0.3s ease-in-out;
                 color: white;
-              }
+  
+                &:hover {
+                    background-color: rgb(25, 17, 11);
+                }
             }
           }
         }
