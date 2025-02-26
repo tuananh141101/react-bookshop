@@ -5,6 +5,8 @@ import Notfound from "../shared/layout/Notfound/Notfound";
 import Shop from "../pages/Shop/Shop";
 import Blog from "../pages/Blog/Blog";
 import BlogDetail from "../pages/Blog/BlogDetail";
+import React from "react";
+import Contact from "../pages/Home/components/Contact/Contact";
 
 const router = () => {
     return (
@@ -18,6 +20,8 @@ const router = () => {
 
                         <Route path="blog" element={<Blog />} />
                         <Route path="blog/:nameBlog/:idBlog" element={<BlogDetail />} />
+
+                        <Route path="contact" element={<Contact/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

@@ -495,9 +495,7 @@
                         height: 100px;
                         padding: 8px 10px;
                         @extend .inputClassFocusHv;
-                        @media screen and (max-width: $breakpointMedium) {
-                            font-size: $fontSize-Light;
-                        }
+                        font-size: $fontSize-Light;
                     }
                 }
                 .reply-form-name {
@@ -506,9 +504,7 @@
                         padding: 8px 10px;
                         height: 40px;
                         @extend .inputClassFocusHv;
-                        @media screen and (max-width: $breakpointMedium) {
-                            font-size: $fontSize-Light;
-                        }
+                        font-size: $fontSize-Light;
                     }
                 }
                 .reply-form-email {
@@ -517,9 +513,7 @@
                         padding: 8px 10px;
                         height: 40px;
                         @extend .inputClassFocusHv;
-                        @media screen and (max-width: $breakpointMedium) {
-                            font-size: $fontSize-Light;
-                        }
+                        font-size: $fontSize-Light;
                     }
 
                 }

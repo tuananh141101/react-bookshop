@@ -1,0 +1,88 @@
+@import "../../../../../../public/assets/styles/common";
+
+
+.contact {
+    .container > .row {
+      padding-top: 48px;
+      padding-bottom: 48px;
+  
+      .custom-col {
+        &:first-child {
+          p.title {
+            font-size: $fontSize-XX_Large;
+            font-family: "Victormono";
+            font-weight: bold;
+            padding-bottom: 8px;
+          }
+  
+          span {
+            color: $Color-2;
+            opacity: 0.8;
+            margin-bottom: 24px;
+          }
+  
+          .infomation {
+            div {
+              p {
+                font-size: $fontSize-Medium;
+              }
+            }
+          }
+  
+          .form-contact {
+            .form-control {
+              border-radius: 3px !important;
+            }
+  
+            .form-control:focus {
+              border-color: initial;
+              box-shadow: none;
+            }
+  
+            .form-control::placeholder {
+              font-size: $fontSize-Light;
+            }
+  
+            .submit > button {
+              outline: none;
+              border-radius: 3px;
+              background-color: white;
+              border: 1px solid $Color-1;
+              padding: 8px 6px;
+              transition: 0.3s ease-in-out;
+  
+              &:hover {
+                background-color: $Color-1;
+                color: white;
+              }
+            }
+          }
+        }
+  
+        &:last-child {
+          @media screen and (max-width: $breakpointLarge) {
+            iframe {
+              height: 400px;
+            }
+          }
+        }
+  
+        @media screen and (max-width: $breakpointLarge) {
+          &:first-child {
+            order: 2;
+  
+            .form-contact > .submit {
+              button {
+                width: 100% !important;
+              }
+            }
+          }
+  
+          &:last-child {
+            order: 1;
+            padding-bottom: 28px;
+          }
+        }
+      }
+    }
+}

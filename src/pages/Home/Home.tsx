@@ -3,7 +3,7 @@ import BannerSlide from "./components/BannerSlide/BannerSlide";
 import Categories from "./components/Categories/Categories";
 import Authormonth from "./components/Authormonth/Authormonth";
 import ProductItems from "./components/ProductItems/ProductItems";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store"; // Import AppDispatch
 import { useEffect } from "react";
 import { fetchProducts } from "../../features/products/productApi";
@@ -18,6 +18,7 @@ import {
 import { fetchCategories } from "../../features/categories/categoriesApi";
 import { fetchBlogs } from "../../features/blog/blogApi";
 import { fetchComments } from "../../features/comments/commentApi";
+import React from "react";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
