@@ -5,8 +5,8 @@ import Notfound from "../shared/layout/Notfound/Notfound";
 import Shop from "../pages/Shop/Shop";
 import Blog from "../pages/Blog/Blog";
 import BlogDetail from "../pages/Blog/BlogDetail";
+import Contact from "../pages/Contact/Contact";
 import React from "react";
-import Contact from "../pages/Home/components/Contact/Contact";
 
 const router = () => {
     return (

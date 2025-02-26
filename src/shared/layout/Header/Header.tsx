@@ -18,6 +18,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
 import InputForm from "../../components/InputForm/InputForm";
+import React from "react";
 
 const Header = () => {
     const [isMobile, setIsMobile] = useState<boolean>(
