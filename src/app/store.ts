@@ -3,7 +3,7 @@ import storage from "redux-persist/lib/storage";
 import productSlice from "../features/products/productSlice";
 import categoriesSlice from "../features/categories/categoriesSlice";
 import blogSlice from "../features/blog/blogSlice";
-import commemtSlice from "../features/comments/commentSLice";
+import commemtSlice from "../features/comments/commentSlice";
 
 import {
     persistStore,

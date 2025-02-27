@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchProducts } from "./productApi";
+import { fetchDetailProduct, fetchProducts } from "./productApi";
 import { typeProduct } from "../../common/constant/Constant";
 
 interface ProductState {
@@ -7,8 +7,11 @@ interface ProductState {
     listProductsBestSelling: typeProduct[];
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
+    detailProducts: typeProduct[];
     loadingData: boolean;
+    loadingDetailData: boolean;
     error: string | null;
+    errorDetail: string | null;
     quantityProduct: number;
 }
 
@@ -17,8 +20,11 @@ const initialState: ProductState = {
     listProductsBestSelling: [],
     listProductsLatest: [],
     listProductsSale: [],
+    detailProducts: [],
     loadingData: false,
+    loadingDetailData: false,
     error: null,
+    errorDetail: null,
     quantityProduct: 1,
 };
 
@@ -59,6 +65,19 @@ const productSlice = createSlice({
                 state.loadingData = false;
                 state.error = "Something went wrong!";
             });
+        builder
+            .addCase(fetchDetailProduct.pending, (state) => {
+                state.loadingDetailData = true;
+            })
+            .addCase(fetchDetailProduct.fulfilled, (state, action) => {
+                state.loadingDetailData = false;
+                state.detailProducts = action.payload;
+            })
+            .addCase(fetchDetailProduct.rejected, (state) => {
+                state.loadingDetailData = false;
+                state.errorDetail = null;
+            })
+        
     },
 });
 

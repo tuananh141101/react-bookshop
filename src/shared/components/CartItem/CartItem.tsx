@@ -1,5 +1,5 @@
 import { Card, Modal, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { FaFacebookF } from "react-icons/fa";
@@ -20,6 +20,7 @@ import {
     setLoading,
 } from "../../../features/products/productSlice";
 import { useProductStore } from "../../../common/hooks/useCustomHooks";
+import { fetchDetailProduct } from "../../../features/products/productApi";
 
 type ChildProps = {
     items: typeProduct;
@@ -34,12 +35,14 @@ const CartItem: React.FC<ChildProps> = React.memo(
         const { loadingData, quantityProduct } = useProductStore();
         const handleClose = () => setShow(false);
         const dispatch = useDispatch<AppDispatch>();
+        const navigate = useNavigate()
 
         return (
             <>
                 <Card style={style} key={index}
                     onClick={(event:React.MouseEvent<HTMLDivElement>) => {
-                       console.log("items.id", items.id)
+                        navigate(`/shop/product/${items?.name.replace(/\s+/g, '-')}/${items.id}`);
+                        dispatch(fetchDetailProduct(items.id))
                     }} 
                 >
                     <div
