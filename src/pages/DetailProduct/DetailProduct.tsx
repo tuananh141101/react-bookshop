@@ -1,201 +1,233 @@
-import React, { useEffect, useState } from 'react'
+import React, {useState,useEffect} from 'react';
 import "./style/DetailProduct.scss";
-import { Col, Container, Nav, Row } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
-import { motion } from "framer-motion";
-// import { motion } from "framer-motion";
-// import { FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
-// import { MdOutlineEmail } from 'react-icons/md';
+import { fetchDetailProduct, fetchProducts } from '../../features/products/productApi';
 import { useProductStore } from '../../common/hooks/useCustomHooks';
+import { motion } from "framer-motion";
+import { typeProduct } from '../../common/constant/Constant';
+import {Col,Row,Container, Nav} from "react-bootstrap";
+import { Link,useNavigate,useParams } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-// import { fetchDetailProduct } from '../../features/products/productApi';
-// import Notfound from '../../shared/layout/Notfound/Notfound';
-import { btnAnimationBG } from '../../common/constant/Constant';
 import { FaFacebookF, FaInstagram, FaRegHeart, FaTwitter } from 'react-icons/fa';
 import { MdOutlineEmail } from 'react-icons/md';
+import { AppDispatch } from '../../app/store';
+import { btnAnimationBG } from '../../common/constant/Constant';
+import CartItem from '../../shared/components/CartItem/CartItem';
+
 
 const DetailProduct = () => {
-    const { listProducts, detailProducts, errorDetail } = useProductStore();
-    console.log("🚀 ~ DetailProduct ~ detailProducts:", detailProducts)
-    console.log("🚀 ~ DetailProduct ~ errorDetail:", errorDetail)
-    const  { idProduct }  = useParams();
-    console.log("🚀 ~ DetailProduct ~ idProduct:", idProduct)
-    const dispatch = useDispatch();
+    const {listProducts, detailProducts, errorDetail, loadingDetailData} = useProductStore();
+    const dispatch = useDispatch<AppDispatch>();
+    const {idProduct,nameProduct} = useParams();
     const [activeElem, setActiveElem] = useState<number>(0);
-    
-
-    // useEffect(() => {
-    //     dispatch(fetchDetailProduct(Number(idProduct)));
-    //     console.log("run useeff in detailproduct")
-    // }, [dispatch, detailProducts.length])
-
+    const navigate = useNavigate();
 
     useEffect(() => {
-        window.scrollTo(0, 0)
+        if (!Array.isArray(listProducts) || listProducts.length === 0) {
+            dispatch(fetchProducts());
+        }
+    }, [listProducts.length]);
+     
+    useEffect(() => {
+        if (detailProducts && detailProducts?.name) {
+            const correctName = detailProducts?.name.replace(/\s+/g, "-");
+
+            if (idProduct !== detailProducts?.id) {
+                navigate(`/shop/product/${correctName}/${detailProducts?.id}`, { replace: true });
+            }
+        }
+    }, [detailProducts, nameProduct, idProduct, navigate, dispatch]);
+
+    useEffect(() => {
+        if (!detailProducts || detailProducts?.id !== Number(idProduct)) {
+            dispatch(fetchDetailProduct(Number(idProduct)));
+        }
+    }, [dispatch, idProduct]);
+
+    useEffect(() => {
+        window.scrollTo(0,0);
     }, []);
-  return (
-    <>
-        <section className="detail-product">
-            <Container>
-                <Row>
-                    <Col className="custom-col" lg={4}>
-                        <div>
-                            <img src="https://picsum.photos/200/300" alt="img-detail" />
-                        </div>
-                    </Col>
 
-                    <Col className="custom-col" lg={8}>
-                        <Link to="">
-                            <p className="mb-0">
-                                A Woman Is No Man: A Novel
-                            </p>
-                        </Link>
+    const handleClickCardScrollToTop = (event: React.MouseEvent<HTMLDivElement>) => {
+        window.scrollTo(0,0)
+    }
 
-                        <ul className="preview-item__detail mb-0">
-                            <li>
-                                <span>item.price$</span>
-                            </li>
-                            <li>
-                                <span>item.author</span>
-                            </li>
-                            <li>
-                                <span>item.year_published</span>
-                            </li>
-                            <li>
-                                <span>item.categories</span>
-                            </li>
-                            <li>
-                                <span>item.page</span>
-                            </li>
-                            <li>
-                                <span>item.language</span>
-                            </li>
-                            <li>
-                                <span>item.author</span>
-                            </li>
-                        </ul>
+    return (
+        <>
+            {loadingDetailData ? (
+                <p>Loading Data</p>
+            ) : (
+                <>
+                    <section className="detail-product">
+                        <Container>
+                            <Row>
+                                <Col className="custom-col" lg={4}>
+                                    <div><img src={`https://websitebook-api.vercel.app${detailProducts?.image}`} alt="image" /></div>
+                                </Col>
 
-                        <section className="d-flex align-items-center">
-                            <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                // dispatch(increaseItemQuantity(item.id));
-                            }}
-                            >
-                                +
-                            </button>
-                            <input type="number" value="0" readOnly />
-                            <button
-                            onClick={(e) => {
-                                e.preventDefault();
-                                // if (quantityInput > 1) {
-                                // setQuantityInput(quantityInput - 1);
-                                // }
-                            }}
-                            // style={{
-                            //     opacity: quantityInput === 1 ? "0.8" : "1",
-                            // }}
-                            >
-                                -
-                            </button>
-                            <motion.div
-                                className="icon add-to-cart d-flex align-items-center justify-content-center"
-                                variants={btnAnimationBG}
-                                initial="hidden"
-                                whileHover="show"
-                                // onClick={() => handleAddToCart(item)}
-                            >
-                                <span>Add To Cart</span>
-                            </motion.div>
-                            <motion.div
-                                className="icon add-to-fav d-flex align-items-center justify-content-center"
-                                variants={btnAnimationBG}
-                                initial="hidden"
-                                whileHover="show"
-                            >
-                                <FaRegHeart />
-                            </motion.div>
-                        </section>
+                                <Col className="custom-col" lb={8}>
+                                    <Link to="">
+                                        <p className="mb-0">{detailProducts?.name}</p>
+                                    </Link>
 
-                        <ul className="sharing mb-0 d-flex align-items-center">
-                            <li>
-                                <span>Share:</span>
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                <FaFacebookF />
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                <FaInstagram />
-                            </li>
-                            <li className="d-flex align-items-center justify-content-center">
-                                <FaTwitter />
-                            </li>
-                        </ul>
-                        <div className="send-email">
-                            <span className="d-flex align-items-center justify-content-start">
-                                <MdOutlineEmail style={{ paddingRight: "4px" }} />
-                                Email to friend.
-                            </span>
-                        </div>
-                    </Col>
-                </Row>
-            </Container>
-        </section>
+                                    <ul className="preview-item__detail mb-0">
+                                        <li>
+                                            <span>{detailProducts?.price}$</span>
+                                        </li>
+                                        <li>
+                                            <span>Publisther: </span>
+                                            <span>{detailProducts?.author}</span>
+                                        </li>
+                                        <li>
+                                            <span>YearPublisther: </span>
+                                            <span>{detailProducts?.yearpublished}</span>
+                                        </li>
+                                        <li>
+                                            <span>Categories: </span>
+                                            <span>{detailProducts?.categories}</span>
+                                        </li>
+                                        <li>
+                                            <span>Pages: </span>
+                                            <span>{detailProducts?.pages}</span>
+                                        </li>
+                                        <li>
+                                            <span>Language: </span>
+                                            <span>{detailProducts?.language}</span>
+                                        </li>
+                                        <li>
+                                            <span>Author: </span>
+                                            <span>{detailProducts?.author}</span>
+                                        </li>
+                                    </ul>
 
-        <section className="navs-and-tabs">
-          <Container>
-            <Row>
-              <Col>
-                <Nav variant="underline" defaultActiveKey={activeElem}>
-                  <Nav.Item>
-                    <Nav.Link eventKey={0} onClick={() => setActiveElem(0)}>
-                      Description
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey={1} onClick={() => setActiveElem(1)}>
-                      Reviews<span>(0)</span>
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-              </Col>
-            </Row>
-          </Container>
-        </section>
+                                    <div className="button-cart d-flex align-items-center">
+                                        <form action="">
+                                            <button>
+                                                +
+                                            </button>
+                                            <input type="number" value={0} readOnly />
+                                            <button>
+                                                -
+                                            </button>
+                                        </form>
 
-        <section className="more-info">
-          <Container>
-            <div
-              className={`tabs descriptions-tab ${
-                activeElem === 0 ? "active" : ""
-              }`}
-            >
-              <Row>
-                <Col>
-                  {detailProducts.map((item:any, index:number) => {
-                    return (
-                      <>
-                        <p key={index} className="mb-0">
-                          {item.description}
-                        </p>
-                      </>
-                    );
-                  })}
-                </Col>
-              </Row>
-            </div>
+                                        <motion.div className="icon add-to-cart d-flex align-items-center justify-content-center"
+                                            initial="hidden"
+                                            whileHover="show"
+                                            variants={btnAnimationBG}
+                                        >
+                                            <span>Add To Cart</span>
+                                        </motion.div>
 
-            <div
-              className={`tabs details-tab ${activeElem === 1 ? "active" : ""}`}
-            >
-              <Row>
-                <Col>0 Reviews</Col>
-              </Row>
-            </div>
-          </Container>
-        </section>
-    </>
-  )
+                                        <motion.div className="icon icon-fav add-to-fav d-flex align-items-center justify-content-center"
+                                            initial="hidden"
+                                            whileHover="show"
+                                            variants={btnAnimationBG}
+                                        >
+                                            <FaRegHeart />
+                                        </motion.div>
+                                    </div>
+
+                                    <div className="sharing mb-0 d-flex align-items-center">
+                                        <li>
+                                            <span>Share:</span>
+                                        </li>
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            <FaFacebookF />
+                                        </li>
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            <FaInstagram />
+                                        </li>
+                                        <li className="d-flex align-items-center justify-content-center">
+                                            <FaTwitter />
+                                        </li>
+                                    </div>
+
+                                    <div className="send-email">
+                                        <span className="d-flex align-items-center justify-content-start">
+                                            <MdOutlineEmail style={{ paddingRight: "4px" }} />
+                                            Email to friend.
+                                        </span>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+
+                    <section className="navs-and-tabs">
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <Nav variant="underline" defaultActiveKey={activeElem}>
+                                        <Nav.Item>
+                                            <Nav.Link eventKey={0} onClick={() => setActiveElem(0)}>
+                                                Description
+                                            </Nav.Link>
+                                        </Nav.Item>
+
+                                        <Nav.Item>
+                                            <Nav.Link eventKey={1} onClick={() => setActiveElem(1)}>
+                                                Reviews<span>(0)</span>
+                                            </Nav.Link>
+                                        </Nav.Item>
+                                    </Nav>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+
+                    <section className="more-info">
+                        <Container>
+                            <div className={`tabs descriptions-tab ${activeElem === 0 ? "active" : ""}`}>
+                                <Row>
+                                    <Col>
+                                        <p className="mb-0">{detailProducts?.description}</p>
+                                    </Col>
+                                </Row>
+                            </div>
+
+                            <div className={`tabs details-tab ${activeElem === 1 ? "active" : ""}`}>
+                                <Row>
+                                    <Col>
+                                        <p className="mb-0">
+                                            0 Reviews
+                                        </p>
+                                    </Col>
+                                </Row>
+                            </div>
+                        </Container>
+                    </section>
+
+                    <section className="related-product">
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <p className="mb-0">Related Product</p>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col className="d-flex align-items-center"
+                                    onClick={handleClickCardScrollToTop}
+                                >
+                                    {listProducts?.slice(0,4).map((item:typeProduct,index:number) => {
+                                        return (
+                                            <>
+                                                <CartItem
+                                                    style={{ width: "100%" }}
+                                                    items={item}
+                                                    index={index}
+                                                />
+                                            </>
+                                        )
+                                    })}
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+                </>
+            )}
+        </>
+    )
 }
 
 export default DetailProduct

@@ -1,5 +1,4 @@
 import React from "react";
-import { invalidCharsRegex } from "../../../common/utils/Utils";
 
 interface IProps {
     value: any;

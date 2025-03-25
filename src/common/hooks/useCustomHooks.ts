@@ -11,4 +11,4 @@ export const useBlogStore = () =>
     useSelector((state: RootState) => state.blogStore);
 
 export const useCommentStore = () =>  
-    useSelector((state:RootState) => state.commentStore);
+    useSelector((state:RootState) => state.commentStore);   

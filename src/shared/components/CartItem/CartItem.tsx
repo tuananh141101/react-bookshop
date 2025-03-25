@@ -41,8 +41,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
             <>
                 <Card style={style} key={index}
                     onClick={(event:React.MouseEvent<HTMLDivElement>) => {
+                        event.preventDefault();
                         navigate(`/shop/product/${items?.name.replace(/\s+/g, '-')}/${items.id}`);
-                        dispatch(fetchDetailProduct(items.id))
                     }} 
                 >
                     <div
