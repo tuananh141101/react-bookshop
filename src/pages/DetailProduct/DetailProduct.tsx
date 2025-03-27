@@ -12,6 +12,7 @@ import { MdOutlineEmail } from 'react-icons/md';
 import { AppDispatch } from '../../app/store';
 import { btnAnimationBG } from '../../common/constant/Constant';
 import CartItem from '../../shared/components/CartItem/CartItem';
+import Skeleton from 'react-loading-skeleton';
 
 
 const DetailProduct = () => {
@@ -20,6 +21,10 @@ const DetailProduct = () => {
     const {idProduct,nameProduct} = useParams();
     const [activeElem, setActiveElem] = useState<number>(0);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    },[idProduct]);
 
     useEffect(() => {
         if (!Array.isArray(listProducts) || listProducts.length === 0) {
@@ -43,18 +48,108 @@ const DetailProduct = () => {
         }
     }, [dispatch, idProduct]);
 
-    useEffect(() => {
-        window.scrollTo(0,0);
-    }, []);
-
-    const handleClickCardScrollToTop = (event: React.MouseEvent<HTMLDivElement>) => {
-        window.scrollTo(0,0)
-    }
-
     return (
         <>
             {loadingDetailData ? (
-                <p>Loading Data</p>
+                <>
+                    <section className="skeleton-detail-product">
+                        <Container>
+                            <Row>
+                                <Col className="custom-col" lb={4}>
+                                    <div><Skeleton className="skeleton-img-detail"/></div>
+                                </Col>
+
+                                <Col className="custom-col" lg={8}>
+                                    <div className="mb-0 skeleton-name-detail">
+                                        <Skeleton className="custom-skeleton" />
+                                    </div>
+
+                                    <ul className="preview-item__detail mb-0">
+                                        <li className="skeleton-price-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                        <li className="skeleton-publisther-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                        <li className="skeleton-yearpublisther-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                        <li className="skeleton-categories-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                        <li className="skeleton-pages-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                        <li className="skeleton-language-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                        <li className="skeleton-author-detail">
+                                            <Skeleton className="custom-skeleton"/>
+                                        </li>
+                                    </ul>
+
+                                    <div className="button-cart d-flex align=items-center">
+                                        <div className="btn-quantity">
+                                            <Skeleton className="skeleton-quantity-custom" />
+                                        </div>
+
+                                        <div className="btn-add-cart">
+                                            <Skeleton className="skeleton-addtocart-custom" />
+                                        </div>
+
+                                        <div className="btn-add-fav">
+                                            <Skeleton className="skeleton-addtofav-custom"/>
+                                        </div>
+                                    </div>
+
+                                    <ul className="sharing mb-0 d-flex align-items-center">
+                                        <li className="text">
+                                            <Skeleton/>
+                                        </li>
+
+                                        <li className="icon">
+                                            <Skeleton className="custom-icon"/>
+                                        </li>
+
+                                        <li className="icon">
+                                            <Skeleton className="custom-icon"/>
+                                        </li>
+
+                                        <li className="icon">
+                                            <Skeleton className="custom-icon"/>
+                                        </li>
+                                    </ul>
+
+                                    <p className="send-email mb-0">
+                                        <Skeleton className="custom-email"/>
+                                    </p>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+
+                    <section className="skeleton-navs-and-tabs">
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <Skeleton className="custom-navsandtabs"/>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+
+                    <section className="skeleton-more-info">
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <div>
+                                        <Skeleton className="custom-moreinfo"/>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </section>
+                </>
             ) : (
                 <>
                     <section className="detail-product">
@@ -127,7 +222,7 @@ const DetailProduct = () => {
                                         </motion.div>
                                     </div>
 
-                                    <div className="sharing mb-0 d-flex align-items-center">
+                                    <ul className="sharing mb-0 d-flex align-items-center">
                                         <li>
                                             <span>Share:</span>
                                         </li>
@@ -140,7 +235,7 @@ const DetailProduct = () => {
                                         <li className="d-flex align-items-center justify-content-center">
                                             <FaTwitter />
                                         </li>
-                                    </div>
+                                    </ul>
 
                                     <div className="send-email">
                                         <span className="d-flex align-items-center justify-content-start">
@@ -207,7 +302,6 @@ const DetailProduct = () => {
 
                             <Row>
                                 <Col className="d-flex align-items-center"
-                                    onClick={handleClickCardScrollToTop}
                                 >
                                     {listProducts?.slice(0,4).map((item:typeProduct,index:number) => {
                                         return (
