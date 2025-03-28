@@ -8,9 +8,9 @@ import { useDispatch } from "react-redux";
 import { fetchBlogs } from "../../features/blog/blogApi";
 import * as React from "react";
 import { fetchComments } from "../../features/comments/commentApi";
-import { typeComment, valiEmail } from "../../common/constant/Constant";
+import { typeComment } from "../../common/constant/Constant";
 import InputForm from "../../shared/components/InputForm/InputForm";
-import { setReplyCommentForm, setReplyEmailForm, setReplyNameForm } from "../../features/comments/commentSLice";
+import { setReplyCommentForm, setReplyEmailForm, setReplyNameForm } from "../../features/comments/commentSlice";
 import { toastUtils } from "../../common/utils/Toastutils";
 import TextArea from "../../shared/components/InputForm/TextArea";
 
