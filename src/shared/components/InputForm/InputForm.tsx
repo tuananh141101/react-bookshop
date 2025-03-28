@@ -1,11 +1,11 @@
 import React from "react";
 
 interface IProps {
-    value: unknown;
+    value: any;
     onChange?: unknown;
     isBorderError?: unknown;
     isError?: unknown;
-    type?: unknown;
+    type?: any;
     disabled?: unknown;
     noTextErr?: boolean;
     placeholder?: string;
@@ -14,7 +14,7 @@ interface IProps {
     onKeyDown?: () => void;
     onKeyPress?: boolean;
     suffix?: string;
-    style?: unknown;
+    style?: any;
     id?: string;
 }
 

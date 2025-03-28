@@ -7,7 +7,7 @@ interface ProductState {
     listProductsBestSelling: typeProduct[];
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
-    detailProducts: typeProduct[] | null;
+    detailProducts: typeProduct[];
     activeElem: number;
     loadingData: boolean;
     loadingDetailData: boolean;
