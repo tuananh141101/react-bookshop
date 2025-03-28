@@ -5,13 +5,12 @@ import { FaInstagram } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa";
 import { LuMapPin } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import InputForm from "../../components/InputForm/InputForm";
 import Button from "../../components/Button/Button";
 import React from "react";
 
 const Footer = () => {
-    const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 992);
+    const isMobile:number = 992;
 
     return (
         <>

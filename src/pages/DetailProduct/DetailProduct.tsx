@@ -1,4 +1,4 @@
-import React, {useState,useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import "./style/DetailProduct.scss";
 import { fetchDetailProduct, fetchProducts } from '../../features/products/productApi';
 import { useProductStore } from '../../common/hooks/useCustomHooks';
@@ -17,7 +17,7 @@ import { setActiveElem } from '../../features/products/productSlice';
 
 
 const DetailProduct = () => {
-    const {listProducts, detailProducts, errorDetail, loadingDetailData, activeElem} = useProductStore();
+    const {listProducts, detailProducts, loadingDetailData, activeElem} = useProductStore();
     const dispatch = useDispatch<AppDispatch>();
     const {idProduct,nameProduct} = useParams();
     const navigate = useNavigate();
@@ -37,17 +37,17 @@ const DetailProduct = () => {
     }, [listProducts.length]);
      
     useEffect(() => {
-        if (detailProducts && detailProducts?.name) {
-            const correctName = detailProducts?.name.replace(/\s+/g, "-");
+        if (detailProducts && detailProducts[0]?.name) {
+            const correctName = detailProducts[0]?.name.replace(/\s+/g, "-");
 
-            if (idProduct !== detailProducts?.id) {
-                navigate(`/shop/product/${correctName}/${detailProducts?.id}`, { replace: true });
+            if (idProduct?.toString() !== detailProducts[0]?.id.toString()) {
+                navigate(`/shop/product/${correctName}/${detailProducts[0]?.id}`, { replace: true });
             }
         }
     }, [detailProducts, nameProduct, idProduct, navigate, dispatch]);
 
     useEffect(() => {
-        if (!detailProducts || detailProducts?.id !== Number(idProduct)) {
+        if (!detailProducts || detailProducts[0]?.id !== Number(idProduct)) {
             dispatch(fetchDetailProduct(Number(idProduct)));
         }
     }, [dispatch, idProduct]);
@@ -160,46 +160,41 @@ const DetailProduct = () => {
                         <Container>
                             <Row>
                                 <Col className="custom-col" lg={4}>
-                                    <div><img src={`https://websitebook-api.vercel.app${detailProducts?.image}`} alt="image" /></div>
+                                    <div><img src={`https://websitebook-api.vercel.app${detailProducts[0]?.image}`} alt="image" /></div>
                                 </Col>
 
                                 <Col className="custom-col" lb={8}>
                                     <Link to="">
-                                        <p className="mb-0">{detailProducts?.name}</p>
+                                        <p className="mb-0">{detailProducts[0]?.name}</p>
                                     </Link>
 
                                     <ul className="preview-item__detail mb-0">
                                         <li>
-                                            <span>{detailProducts?.price ? detailProducts.price : "No Price"}$</span>
+                                            <span>{detailProducts[0]?.price ? detailProducts[0].price : "No Price"}$</span>
                                         </li>
                                         <li>
                                             <span>Publisther: </span>
-                                            <span>{detailProducts?.author ? detailProducts.author : "No Author"}</span>
+                                            <span>{detailProducts[0]?.author ? detailProducts[0].author : "No Author"}</span>
                                         </li>
                                         <li>
                                             <span>YearPublished: </span>
-                                            <span>{detailProducts?.yearpublished ? detailProducts.yearpublished : "No YearPublished"}</span>
+                                            <span>{detailProducts[0]?.yearpublished ? detailProducts[0].yearpublished : "No YearPublished"}</span>
                                         </li>
                                         <li>
                                             <span>Categories: </span>
-                                            <span>{detailProducts?.categories?.length ? detailProducts.categories.join(", ") : "No Categories available"}</span>
+                                            <span>{detailProducts[0]?.categories?.length ? detailProducts[0].categories.join(", ") : "No Categories available"}</span>
                                         </li>
                                         <li>
                                             <span>Pages: </span>
-                                            <span>{detailProducts?.pages ? detailProducts.pages : "No Pages"}</span>
+                                            <span>{detailProducts[0]?.pages ? detailProducts[0].pages : "No Pages"}</span>
                                         </li>
                                         <li>
                                             <span>Language: </span>
-                                            <span>{detailProducts?.language ? detailProducts.language : "No Language"}</span>
+                                            <span>{detailProducts[0]?.language ? detailProducts[0].language : "No Language"}</span>
                                         </li>
-                                        <li>
-                                            <span>Author: </span>
-                                            <span>{detailProducts?.author               
-                                            
-                                            
-                                            
-                                            
-                            ? detailProducts.author : "No Author"}</span>
+                                        <li>   
+                                            <span>Author: </span>           
+                                            <span>{detailProducts[0]?.author ? detailProducts[0].author : "No Author"}</span>
                                         </li>
                                     </ul>
 
@@ -284,7 +279,7 @@ const DetailProduct = () => {
                             <div className={`tabs descriptions-tab ${activeElem === 0 ? "active" : ""}`}>
                                 <Row>
                                     <Col>
-                                        <p className="mb-0">{detailProducts?.description ? detailProducts.description : "No Description"}</p>
+                                        <p className="mb-0">{detailProducts[0]?.description ? detailProducts[0].description : "No Description"}</p>
                                     </Col>
                                 </Row>
                             </div>

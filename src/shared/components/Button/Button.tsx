@@ -16,7 +16,7 @@ const Button = (item: IProps) => {
                 type={item.type ?? "submit"}
                 style={{ ...item.style }}
                 onClick={(e: any) => {
-                    item.onChange(e);
+                    item.onChange?.(e);
                 }}
                 disabled={item.disabled}
                 className={item.className}

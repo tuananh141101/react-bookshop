@@ -2,11 +2,11 @@ import "./style/Bookselected.scss";
 import { useEffect, useRef, useState } from "react";
 import { Col, Container, Row, Image } from "react-bootstrap";
 import { IoIosArrowForward } from "react-icons/io";
-import { useInView, motion, easeInOut } from "framer-motion";
+import { useInView } from "framer-motion";
 import React from "react";
 
 const Bookselected = () => {
-    const [quantityInput, setQuantityInput] = useState(1);
+    const [quantityInput, setQuantityInput] = useState<number>(1);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
@@ -95,9 +95,9 @@ const Bookselected = () => {
                                         type="number"
                                         value={quantityInput}
                                         onChange={(e) => {
-                                            if (e.target.value >= 1) {
+                                            if (Number(e.target.value) >= 1) {
                                                 setQuantityInput(
-                                                    e.target.value
+                                                    Number(e.target.value)
                                                 );
                                             }
                                         }}

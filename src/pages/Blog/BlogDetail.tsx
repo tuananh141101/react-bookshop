@@ -8,35 +8,37 @@ import { useDispatch } from "react-redux";
 import { fetchBlogs } from "../../features/blog/blogApi";
 import * as React from "react";
 import { fetchComments } from "../../features/comments/commentApi";
-import { typeComment, valiEmail } from "../../common/constant/Constant";
+import { typeBlog, typeComment } from "../../common/constant/Constant";
 import InputForm from "../../shared/components/InputForm/InputForm";
-import { setReplyCommentForm, setReplyEmailForm, setReplyNameForm } from "../../features/comments/commentSLice";
+import { setReplyCommentForm, setReplyEmailForm, setReplyNameForm } from "../../features/comments/commentSlice";
 import { toastUtils } from "../../common/utils/Toastutils";
 import TextArea from "../../shared/components/InputForm/TextArea";
+import { AppDispatch } from "../../app/store";
 
 const BlogDetail = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { listBlogs } = useBlogStore();
     const { listComments, replyCommentForm, replyEmailForm, replyNameForm } = useCommentStore();
     const { idBlog } = useParams();
     const detailBlog = listBlogs.filter(
-        (item: any) => item.id.toString() === idBlog?.toString()
+        (item: typeBlog) => item.id.toString() === idBlog?.toString()
     );
+    console.log("🚀 ~ BlogDetail ~ detailBlog:", detailBlog)
     const commentsBlog = listComments.filter((item:typeComment) => {
         return item?.productId?.toString() === detailBlog[0]?.id?.toString() && item?.type.toString() === "blog"
     })
     useEffect(() => {
-        if (!listBlogs.length) {
+        if (!Array.isArray(listBlogs) || listBlogs.length === 0) {
             dispatch(fetchBlogs());
         }
-        if (!listComments.length) {
+        if (!Array.isArray(listComments) || listComments.length === 0) {
             dispatch(fetchComments());
         }
-    }, [dispatch, listBlogs.length, listComments.length]);
+    }, [listBlogs.length, listComments.length, dispatch]);
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>
@@ -69,7 +71,7 @@ const BlogDetail = () => {
                                 </p>
                             </div>
                             <div className="blogDetail__content-list d-flex flex-column">
-                                {detailBlog[0]?.section.map(
+                                {detailBlog[0]?.section?.map(
                                     (item: any, index: number) => {
                                         return (
                                             <>

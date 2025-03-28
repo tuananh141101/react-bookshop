@@ -2,11 +2,11 @@ import React from "react";
 
 interface IProps {
     value: any;
-    onChange?: any;
-    isBorderError?: any;
-    isError?: any;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    isBorderError?: unknown;
+    isError?: unknown;
     type?: any;
-    disabled?: any;
+    disabled?: unknown;
     noTextErr?: boolean;
     placeholder?: string;
     className?: string;
@@ -29,13 +29,13 @@ const InputForm = (item: IProps) => {
                 className={item.className}
                 id={item.id}
                 onKeyDown={(e: any) => {
-                    if (e.key === "Enter" && !item.loadingAction) {
+                    if (e.key === "Enter") {
                         item.onKeyDown && item.onKeyDown();
                     }
                 }}
                 maxLength={item.maxLength ?? 200}
                 onChange={(e:any) => {
-                    item.onChange(e)
+                    item.onChange?.(e)
                 }}
             />
         </>

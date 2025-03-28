@@ -60,7 +60,7 @@ const Navbar: React.FC<IProps> = React.memo(
                                         }%`,
                                         color:
                                             item.checked === item.value
-                                                ? Constants.COLOR_DEFAULT
+                                                ? "blue"
                                                 : "",
                                     }}
                                     htmlFor={`radio-${item.id}`}
