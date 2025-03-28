@@ -122,6 +122,5 @@ export type typeCategories = {
     name: string;
     image: string;
 };
-
-
+// Validate email
 export const valiEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

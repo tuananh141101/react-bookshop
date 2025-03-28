@@ -8,6 +8,7 @@ interface ProductState {
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
     detailProducts: typeProduct[];
+    activeElem: number;
     loadingData: boolean;
     loadingDetailData: boolean;
     error: string | null;
@@ -26,6 +27,7 @@ const initialState: ProductState = {
     error: null,
     errorDetail: null,
     quantityProduct: 1,
+    activeElem: 0,
 };
 
 const productSlice = createSlice({
@@ -47,6 +49,9 @@ const productSlice = createSlice({
         decrementQuantityProduct: (state) => {
             state.quantityProduct = state.quantityProduct - 1;
         },
+        setActiveElem: (state,action: PayloadAction<number>) => {
+            state.activeElem = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -87,5 +92,6 @@ export const {
     setError,
     incrementQuantityProduct,
     decrementQuantityProduct,
+    setActiveElem
 } = productSlice.actions;
 export default productSlice.reducer;

@@ -30,6 +30,7 @@ const TextArea = (item: IProps) => {
         id={item.id}
         onKeyDown={(e: any) => {
             if (e.key === "Enter" && !item.loadingAction) {
+                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 item.onKeyDown && item.onKeyDown();
             }
         }}
