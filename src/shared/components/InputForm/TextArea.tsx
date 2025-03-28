@@ -29,7 +29,7 @@ const TextArea = (item: IProps) => {
         className={item.className}
         id={item.id}
         onKeyDown={(e: any) => {
-            if (e.key === "Enter" && !item.loadingAction) {
+            if (e.key === "Enter") {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 item.onKeyDown && item.onKeyDown();
             }
@@ -38,7 +38,7 @@ const TextArea = (item: IProps) => {
         onChange={(e:any) => {
             item.onChange(e)
         }}
-        cols={item.col}
+        cols={item.cols}
         rows={item.rows}
     />
   )

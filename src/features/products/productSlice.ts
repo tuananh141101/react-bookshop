@@ -7,7 +7,7 @@ interface ProductState {
     listProductsBestSelling: typeProduct[];
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
-    detailProducts: typeProduct[];
+    detailProducts: typeProduct[] | null;
     activeElem: number;
     loadingData: boolean;
     loadingDetailData: boolean;
@@ -76,7 +76,8 @@ const productSlice = createSlice({
             })
             .addCase(fetchDetailProduct.fulfilled, (state, action) => {
                 state.loadingDetailData = false;
-                state.detailProducts = action.payload;
+                // state.detailProducts = action.payload;
+                state.detailProducts = [action.payload];
             })
             .addCase(fetchDetailProduct.rejected, (state) => {
                 state.loadingDetailData = false;

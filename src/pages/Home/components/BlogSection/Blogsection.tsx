@@ -1,5 +1,5 @@
 import { useInView } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";

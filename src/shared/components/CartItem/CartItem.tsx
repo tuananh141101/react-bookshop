@@ -20,8 +20,7 @@ import {
     setLoading,
 } from "../../../features/products/productSlice";
 import { useProductStore } from "../../../common/hooks/useCustomHooks";
-import { fetchDetailProduct } from "../../../features/products/productApi";
-import { isDraft } from "@reduxjs/toolkit";
+
 
 type ChildProps = {
     items: typeProduct;
@@ -42,7 +41,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
         return (
             <>
                 <Card style={style} key={index}
-                    onClick={(event:React.MouseEvent<HTMLDivElement>) => {
+                    onClick={() => {
                         if (isRender) {
                             if ('scrollRestoration' in window.history) {
                                 window.history.scrollRestoration = 'manual'; //Ngăn trình duyệt nhớ và cuộn về vị trí cũ sau khi reload 
@@ -110,7 +109,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                         <ul className="mb-0 d-flex align-items-center justify-content-between">
                             <li>${items?.price}</li>
                             <li
-                                onClick={(event: React.MouseEvent<HTMLLIElement>) => {
+                                onClick={() => {
                                         // dispatch(addToCart(item))
                                         // event.stopPropagation();
                                     }

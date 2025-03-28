@@ -23,6 +23,7 @@ const BlogDetail = () => {
     const detailBlog = listBlogs.filter(
         (item: typeBlog) => item.id.toString() === idBlog?.toString()
     );
+    console.log("🚀 ~ BlogDetail ~ detailBlog:", detailBlog)
     const commentsBlog = listComments.filter((item:typeComment) => {
         return item?.productId?.toString() === detailBlog[0]?.id?.toString() && item?.type.toString() === "blog"
     })
@@ -36,9 +37,9 @@ const BlogDetail = () => {
         }
     }, [listBlogs.length, listComments.length, dispatch]);
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <>
@@ -71,7 +72,7 @@ const BlogDetail = () => {
                                 </p>
                             </div>
                             <div className="blogDetail__content-list d-flex flex-column">
-                                {detailBlog[0].length ? detailBlog[0].section.map(
+                                {detailBlog[0] ? detailBlog[0].section.map(
                                     (item: any, index: number) => {
                                         return (
                                             <>
