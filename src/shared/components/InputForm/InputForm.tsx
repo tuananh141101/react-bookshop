@@ -2,7 +2,7 @@ import React from "react";
 
 interface IProps {
     value: any;
-    onChange?: unknown;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     isBorderError?: unknown;
     isError?: unknown;
     type?: any;
