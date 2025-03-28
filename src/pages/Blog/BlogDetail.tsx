@@ -28,7 +28,6 @@ const BlogDetail = () => {
         return item?.productId?.toString() === detailBlog[0]?.id?.toString() && item?.type.toString() === "blog"
     })
     useEffect(() => {
-        // !Array.isArray(listProducts) || listProducts.length === 0
         if (!Array.isArray(listBlogs) || listBlogs.length === 0) {
             dispatch(fetchBlogs());
         }
@@ -72,7 +71,7 @@ const BlogDetail = () => {
                                 </p>
                             </div>
                             <div className="blogDetail__content-list d-flex flex-column">
-                                {detailBlog[0] ? detailBlog[0].section.map(
+                                {detailBlog[0]?.section?.map(
                                     (item: any, index: number) => {
                                         return (
                                             <>
@@ -116,7 +115,7 @@ const BlogDetail = () => {
                                             </>
                                         );
                                     }
-                                ) : "No Content"}
+                                )}
                             </div>
                         </Col>
                         <Col className="blogDetail__sharing">

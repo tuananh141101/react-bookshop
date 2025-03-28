@@ -40,7 +40,7 @@ const DetailProduct = () => {
         if (detailProducts && detailProducts[0]?.name) {
             const correctName = detailProducts[0]?.name.replace(/\s+/g, "-");
 
-            if (idProduct !== detailProducts[0]?.id) {
+            if (idProduct?.toString() !== detailProducts[0]?.id.toString()) {
                 navigate(`/shop/product/${correctName}/${detailProducts[0]?.id}`, { replace: true });
             }
         }
@@ -279,7 +279,7 @@ const DetailProduct = () => {
                             <div className={`tabs descriptions-tab ${activeElem === 0 ? "active" : ""}`}>
                                 <Row>
                                     <Col>
-                                        <p className="mb-0">{detailProducts[0]?.description ? detailProducts.description : "No Description"}</p>
+                                        <p className="mb-0">{detailProducts[0]?.description ? detailProducts[0].description : "No Description"}</p>
                                     </Col>
                                 </Row>
                             </div>
