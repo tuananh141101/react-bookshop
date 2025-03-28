@@ -1,4 +1,4 @@
-import React, {useState,useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import "./style/DetailProduct.scss";
 import { fetchDetailProduct, fetchProducts } from '../../features/products/productApi';
 import { useProductStore } from '../../common/hooks/useCustomHooks';
@@ -17,7 +17,7 @@ import { setActiveElem } from '../../features/products/productSlice';
 
 
 const DetailProduct = () => {
-    const {listProducts, detailProducts, errorDetail, loadingDetailData, activeElem} = useProductStore();
+    const {listProducts, detailProducts, loadingDetailData, activeElem} = useProductStore();
     const dispatch = useDispatch<AppDispatch>();
     const {idProduct,nameProduct} = useParams();
     const navigate = useNavigate();
@@ -192,14 +192,9 @@ const DetailProduct = () => {
                                             <span>Language: </span>
                                             <span>{detailProducts?.language ? detailProducts.language : "No Language"}</span>
                                         </li>
-                                        <li>
-                                            <span>Author: </span>
-                                            <span>{detailProducts?.author               
-                                            
-                                            
-                                            
-                                            
-                            ? detailProducts.author : "No Author"}</span>
+                                        <li>   
+                                            <span>Author: </span>           
+                                            <span>{detailProducts?.author ? detailProducts.author : "No Author"}</span>
                                         </li>
                                     </ul>
 

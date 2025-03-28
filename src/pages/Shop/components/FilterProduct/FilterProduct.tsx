@@ -1,3 +1,4 @@
+import React from "react";
 import "./styles/FIlterProduct.scss";
 
 const FilterProduct = () => {
