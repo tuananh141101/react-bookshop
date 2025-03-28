@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import InputForm from "../../components/InputForm/InputForm";
 import Button from "../../components/Button/Button";
+import React from "react";
 
 const Footer = () => {
     const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 992);

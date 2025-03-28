@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import "./style/Categories.scss";
 import { useCategoriesStore } from "../../../../common/hooks/useCustomHooks";
+import React from "react";
 
 const Categories = () => {
     const ref = useRef(null);
