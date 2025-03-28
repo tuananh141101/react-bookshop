@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useMemo} from 'react';
 import "./style/DetailProduct.scss";
 import { fetchDetailProduct, fetchProducts } from '../../features/products/productApi';
 import { useProductStore } from '../../common/hooks/useCustomHooks';
@@ -13,14 +13,18 @@ import { AppDispatch } from '../../app/store';
 import { btnAnimationBG } from '../../common/constant/Constant';
 import CartItem from '../../shared/components/CartItem/CartItem';
 import Skeleton from 'react-loading-skeleton';
+import { setActiveElem } from '../../features/products/productSlice';
 
 
 const DetailProduct = () => {
-    const {listProducts, detailProducts, errorDetail, loadingDetailData} = useProductStore();
+    const {listProducts, detailProducts, errorDetail, loadingDetailData, activeElem} = useProductStore();
     const dispatch = useDispatch<AppDispatch>();
     const {idProduct,nameProduct} = useParams();
-    const [activeElem, setActiveElem] = useState<number>(0);
     const navigate = useNavigate();
+
+    const shuffledProducts = useMemo(() => {
+        return listProducts ? [...listProducts].sort(() => Math.random() - 0.5).slice(0, 4) : [];
+    }, [listProducts]); 
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -166,31 +170,36 @@ const DetailProduct = () => {
 
                                     <ul className="preview-item__detail mb-0">
                                         <li>
-                                            <span>{detailProducts?.price}$</span>
+                                            <span>{detailProducts?.price ? detailProducts.price : "No Price"}$</span>
                                         </li>
                                         <li>
                                             <span>Publisther: </span>
-                                            <span>{detailProducts?.author}</span>
+                                            <span>{detailProducts?.author ? detailProducts.author : "No Author"}</span>
                                         </li>
                                         <li>
-                                            <span>YearPublisther: </span>
-                                            <span>{detailProducts?.yearpublished}</span>
+                                            <span>YearPublished: </span>
+                                            <span>{detailProducts?.yearpublished ? detailProducts.yearpublished : "No YearPublished"}</span>
                                         </li>
                                         <li>
                                             <span>Categories: </span>
-                                            <span>{detailProducts?.categories}</span>
+                                            <span>{detailProducts?.categories?.length ? detailProducts.categories.join(", ") : "No Categories available"}</span>
                                         </li>
                                         <li>
                                             <span>Pages: </span>
-                                            <span>{detailProducts?.pages}</span>
+                                            <span>{detailProducts?.pages ? detailProducts.pages : "No Pages"}</span>
                                         </li>
                                         <li>
                                             <span>Language: </span>
-                                            <span>{detailProducts?.language}</span>
+                                            <span>{detailProducts?.language ? detailProducts.language : "No Language"}</span>
                                         </li>
                                         <li>
                                             <span>Author: </span>
-                                            <span>{detailProducts?.author}</span>
+                                            <span>{detailProducts?.author               
+                                            
+                                            
+                                            
+                                            
+                            ? detailProducts.author : "No Author"}</span>
                                         </li>
                                     </ul>
 
@@ -254,13 +263,13 @@ const DetailProduct = () => {
                                 <Col>
                                     <Nav variant="underline" defaultActiveKey={activeElem}>
                                         <Nav.Item>
-                                            <Nav.Link eventKey={0} onClick={() => setActiveElem(0)}>
+                                            <Nav.Link eventKey={0} onClick={() => dispatch(setActiveElem(0))}>
                                                 Description
                                             </Nav.Link>
                                         </Nav.Item>
 
                                         <Nav.Item>
-                                            <Nav.Link eventKey={1} onClick={() => setActiveElem(1)}>
+                                            <Nav.Link eventKey={1} onClick={() => dispatch(setActiveElem(1))}>
                                                 Reviews<span>(0)</span>
                                             </Nav.Link>
                                         </Nav.Item>
@@ -275,7 +284,7 @@ const DetailProduct = () => {
                             <div className={`tabs descriptions-tab ${activeElem === 0 ? "active" : ""}`}>
                                 <Row>
                                     <Col>
-                                        <p className="mb-0">{detailProducts?.description}</p>
+                                        <p className="mb-0">{detailProducts?.description ? detailProducts.description : "No Description"}</p>
                                     </Col>
                                 </Row>
                             </div>
@@ -303,17 +312,18 @@ const DetailProduct = () => {
                             <Row>
                                 <Col className="d-flex align-items-center"
                                 >
-                                    {listProducts?.slice(0,4).map((item:typeProduct,index:number) => {
-                                        return (
-                                            <>
-                                                <CartItem
-                                                    style={{ width: "100%" }}
-                                                    items={item}
-                                                    index={index}
-                                                />
-                                            </>
+                                    {
+                                        shuffledProducts
+                                        .map((item:typeProduct, index:number) => 
+                                            <CartItem 
+                                                key={index}
+                                                style={{width: "100%"}}
+                                                items={item}
+                                                index={index}
+                                                isRender={true}
+                                            />
                                         )
-                                    })}
+                                    }
                                 </Col>
                             </Row>
                         </Container>

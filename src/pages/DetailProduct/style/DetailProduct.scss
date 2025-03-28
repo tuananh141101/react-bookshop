@@ -11,6 +11,19 @@
                         width: 100%;
                         height: 628px;
                         border-radius: 3px;
+                        @media screen and (max-width: $breakpointExtraLarge) {
+                            height: 474.67px;
+                        }
+                        @media screen and (max-width: $breakpointLarge) {
+                            height: 928px;
+                        }
+                        @media screen and (max-width: $breakpointMedium) {
+                            height: 688px;
+                        }
+                        @media screen and (max-width: $breakpointSmall) {
+                            height: 734.67px;
+                        }
+                        @media screen and (max-width: $breakpointSSmal) {}
                     }
                 }
             }
@@ -23,6 +36,10 @@
                     font-weight: bold;
                     padding-bottom: 18px;
                     font-family: "Victormono";
+                    @media screen and (max-width: $breakpointLarge) {
+                        padding-top: 18px;
+                    }
+                    
                 }
 
                 a {

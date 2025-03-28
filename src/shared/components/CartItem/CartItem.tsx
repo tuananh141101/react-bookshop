@@ -21,16 +21,18 @@ import {
 } from "../../../features/products/productSlice";
 import { useProductStore } from "../../../common/hooks/useCustomHooks";
 import { fetchDetailProduct } from "../../../features/products/productApi";
+import { isDraft } from "@reduxjs/toolkit";
 
 type ChildProps = {
     items: typeProduct;
     style?: React.CSSProperties;
     className?: string;
     index?: number;
+    isRender?: boolean;
 };
 
 const CartItem: React.FC<ChildProps> = React.memo(
-    ({ items, style, className, index }) => {
+    ({ items, style, className, index, isRender }) => {
         const [show, setShow] = useState<boolean>(false);
         const { loadingData, quantityProduct } = useProductStore();
         const handleClose = () => setShow(false);
@@ -41,7 +43,15 @@ const CartItem: React.FC<ChildProps> = React.memo(
             <>
                 <Card style={style} key={index}
                     onClick={(event:React.MouseEvent<HTMLDivElement>) => {
-                        event.preventDefault();
+                        if (isRender) {
+                            if ('scrollRestoration' in window.history) {
+                                window.history.scrollRestoration = 'manual'; //Ngăn trình duyệt nhớ và cuộn về vị trí cũ sau khi reload 
+                            }
+
+                            window.location.reload();
+                            window.scrollTo(0,0);
+                        }
+                        // event.preventDefault();
                         navigate(`/shop/product/${items?.name.replace(/\s+/g, '-')}/${items.id}`);
                     }} 
                 >
