@@ -89,6 +89,7 @@ export type typeBlog = {
     content: string;
     date: string;
     categories: string[];
+    image: string;
     section?: Array<[]>;
 };
 export type typePost = {

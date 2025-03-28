@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.
 export const fetchProducts = createAsyncThunk(
     "products/fetchListProducts",
     async () => {
-        const res = await axios.get(API_URL);
+        const res = await axios.get(`${API_URL}/products`);
         return res.data;
     }
 );
