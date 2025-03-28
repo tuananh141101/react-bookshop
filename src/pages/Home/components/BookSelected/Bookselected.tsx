@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Col, Container, Row, Image } from "react-bootstrap";
 import { IoIosArrowForward } from "react-icons/io";
 import { useInView, motion, easeInOut } from "framer-motion";
+import React from "react";
 
 const Bookselected = () => {
     const [quantityInput, setQuantityInput] = useState(1);

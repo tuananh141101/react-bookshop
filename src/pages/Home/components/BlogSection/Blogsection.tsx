@@ -6,6 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import "./style/Blogsection.scss";
 import { FaLinkSlash } from "react-icons/fa6";
 import { useBlogStore } from "../../../../common/hooks/useCustomHooks";
+import React from "react";
 
 const Blogsection = () => {
     const ref = useRef(null);
