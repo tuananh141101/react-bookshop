@@ -1,5 +1,15 @@
 @import "../../../../public/assets/styles/common";
 
+.loadingData {
+    pointer-events: none; 
+    opacity: 0.8;
+    &:hover {
+        span {
+            color: inherit; 
+        }
+    }
+}
+
 .card {
     border-radius: 6px;
     // width: 100%;
@@ -364,15 +374,18 @@
                     margin-right: 14px;
                     width: 134px;
                     text-transform: uppercase;
+                    border: none;
 
                     &:hover {
                         span {
                             color: white;
                         }
                     }
+
                 }
 
                 .add-to-fav {
+                    border: none;
                     &:hover {
                         svg {
                             fill: white;
