@@ -31,7 +31,7 @@ type ChildProps = {
 };
 
 const CartItem: React.FC<ChildProps> = React.memo(
-    ({ items, style, className, index, isRender }) => {
+    ({ items, style, className, index }) => {
         const [show, setShow] = useState<boolean>(false);
         const { loadingData, quantityProduct } = useProductStore();
         const handleClose = () => setShow(false);
@@ -42,15 +42,6 @@ const CartItem: React.FC<ChildProps> = React.memo(
             <>
                 <Card style={style} key={index}
                     onClick={() => {
-                        if (isRender) {
-                            if ('scrollRestoration' in window.history) {
-                                window.history.scrollRestoration = 'manual'; //Ngăn trình duyệt nhớ và cuộn về vị trí cũ sau khi reload 
-                            }
-
-                            window.location.reload();
-                            window.scrollTo(0,0);
-                        }
-                        // event.preventDefault();
                         navigate(`/shop/product/${items?.name.replace(/\s+/g, '-')}/${items.id}`);
                     }} 
                 >
@@ -95,7 +86,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                     </div>
 
                     <Card.Body className="border-bottom d-flex align-items-start justify-content-around flex-column">
-                        <Card.Text>{items?.categories}</Card.Text>
+                        <Card.Text>{items?.categories?.join(", ")}</Card.Text>
                         <Card.Title>{items?.name}</Card.Title>
                         <p className="mb-0">
                             <Link to="">{items?.author}</Link>
@@ -111,7 +102,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                             <li
                                 onClick={() => {
                                         // dispatch(addToCart(item))
-                                        // event.stopPropagation();
+                                        // event.stopPropagation(); 
                                     }
                                 }
                             >
@@ -166,7 +157,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                             </span>
                                         </li>
                                         <li>
-                                            <span>Publisher:</span>
+                                            <span>Publisher: </span>
                                             <span>
                                                 {loadingData ? (
                                                     <Skeleton className="loadingske-pub" />
@@ -176,12 +167,12 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                             </span>
                                         </li>
                                         <li>
-                                            <span>Categories:</span>
+                                            <span>Categories: </span>
                                             <span>
-                                                {loadingData ? (
+                                                {!loadingData ? (
                                                     <Skeleton className="loadingske-cate" />
                                                 ) : (
-                                                    `${items.categories}`
+                                                   `${items?.categories?.join(", ")}`
                                                 )}
                                             </span>
                                         </li>
@@ -189,6 +180,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                     <section className="d-flex align-items-center">
                                         <form>
                                             <button
+                                                className={`${loadingData ? "loadingData" : ""}`}
+                                                disabled={loadingData ? true : false}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     dispatch(
@@ -204,6 +197,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                                 readOnly
                                             />
                                             <button
+                                                disabled={loadingData ? true : false}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     if (quantityProduct > 1) {
@@ -222,25 +216,34 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                                 -
                                             </button>
                                         </form>
-                                        <motion.div
-                                            className="icon add-to-cart d-flex align-items-center justify-content-center"
-                                            variants={btnAnimationBG}
+                                        <motion.button
+                                            className={`icon add-to-cart d-flex align-items-center justify-content-center ${loadingData ? 'loadingData' : ''}`}
+                                            variants={loadingData ? {} : btnAnimationBG}
                                             initial="hidden"
                                             whileHover="show"
+                                            disabled={loadingData ? true : false}
                                             onClick={() =>
-                                                console.log("add to c art")
+                                                {
+                                                    console.log("add to cart")
+                                                }
                                             }
                                         >
                                             <span>Add To Cart</span>
-                                        </motion.div>
-                                        <motion.div
-                                            className="icon add-to-fav d-flex align-items-center justify-content-center"
-                                            variants={btnAnimationBG}
+                                        </motion.button>
+                                        <motion.button
+                                            className={`icon add-to-fav d-flex align-items-center justify-content-center ${loadingData ? 'loadingData' : ''}`}
+                                            variants={loadingData ? {} : btnAnimationBG}
                                             initial="hidden"
                                             whileHover="show"
+                                            disabled={loadingData ? true : false}
+                                            onClick={() =>
+                                                {
+                                                    console.log("add to fav")
+                                                }
+                                            }
                                         >
                                             <FaRegHeart />
-                                        </motion.div>
+                                        </motion.button>
                                     </section>
                                     <ul className="sharing mb-0 d-flex align-items-center">
                                         <li>
