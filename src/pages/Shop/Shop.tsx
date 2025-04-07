@@ -6,7 +6,9 @@ import { useProductStore } from "../../common/hooks/useCustomHooks";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
+    console.log("🚀 ~ Shop ~ dispatch:", dispatch);
     const {listProducts} = useProductStore();
+    console.log("🚀 ~ Shop ~ listProducts:", listProducts);
 
 
     return (
