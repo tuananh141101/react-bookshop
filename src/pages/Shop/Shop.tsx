@@ -3,12 +3,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { useProductStore } from "../../common/hooks/useCustomHooks";
+import "./styles/Shop.scss";
+import FilterProduct from "./components/FilterProduct/FilterProduct";
+import ListProduct from "./components/ListProduct/ListProduct";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    console.log("🚀 ~ Shop ~ dispatch:", dispatch);
     const {listProducts} = useProductStore();
-    console.log("🚀 ~ Shop ~ listProducts:", listProducts);
 
 
     return (
@@ -23,8 +24,12 @@ const Shop = () => {
                     </Row>
                     
                     <Row>
-                        <Col className="custom-col side-bar">side bar</Col>
-                        <Col className="custom-col side-main">side main</Col>
+                        <Col className="custom-col side-bar">
+                            <FilterProduct />
+                        </Col>
+                        <Col className="custom-col side-main">
+                            <ListProduct />
+                        </Col>
                     </Row>
                 </Container>
             </section>
