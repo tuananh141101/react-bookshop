@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
@@ -6,10 +6,24 @@ import { useProductStore } from "../../common/hooks/useCustomHooks";
 import "./styles/Shop.scss";
 import FilterProduct from "./components/FilterProduct/FilterProduct";
 import ListProduct from "./components/ListProduct/ListProduct";
+import { fetchProducts, fetchShopCategories } from "../../features/products/productApi";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {listProducts} = useProductStore();
+    const {listProducts, categories} = useProductStore();
+   
+    useEffect(() => {
+        if (!categories.length) {
+            dispatch(fetchShopCategories())
+        }
+        if (!listProducts.length) {
+            dispatch(fetchProducts())
+        }
+    }, [
+        dispatch, 
+        categories.length,
+        listProducts.length
+    ])
 
 
     return (
@@ -24,10 +38,10 @@ const Shop = () => {
                     </Row>
                     
                     <Row>
-                        <Col className="custom-col side-bar">
+                        <Col className="custom-col side-bar" lg={3}>
                             <FilterProduct />
                         </Col>
-                        <Col className="custom-col side-main">
+                        <Col className="custom-col side-main" lg={9}>
                             <ListProduct />
                         </Col>
                     </Row>

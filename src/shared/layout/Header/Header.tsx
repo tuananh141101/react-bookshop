@@ -242,7 +242,7 @@ const Header = () => {
                                             }
                                         }}
                                     >
-                                        <Link to={null}>
+                                        <Link to="#">
                                             <div className="d-flex">
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />

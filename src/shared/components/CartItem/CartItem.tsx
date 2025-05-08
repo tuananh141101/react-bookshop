@@ -103,7 +103,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 onClick={() => {
                                         // dispatch(addToCart(item))
                                         // event.stopPropagation(); 
-                                    }
+                                    }  
                                 }
                             >
                                 <motion.div

@@ -1,1 +1,68 @@
 @import "/public/assets/styles/common";
+
+.accordion  {
+    width: 100%;
+    .accordion-item {
+        width: 100%;
+
+        &:first-of-type {
+            border-top-left-radius: 3px !important;
+            border-top-right-radius: 3px !important;
+
+            .accordion-button {
+                border-top-left-radius: 3px !important;
+                border-top-right-radius: 3px !important;
+                color: rgb(25, 17, 11, 0.7) !important;
+            }
+        }
+
+        &:last-of-type {
+            border-bottom-left-radius: 3px !important;
+            border-bottom-right-radius: 3px !important;
+
+        }
+
+        .accordion-button {
+            color: rgb(25, 17, 11, 0.7) !important;
+            font-family: "Victormono";
+            font-weight: bold;
+            font-size: $fontSize-Light;
+            outline: none;
+            box-shadow: none;
+
+            &:not(.collapsed) {
+                color: $Color-1 !important;
+                background-color: white;
+            }
+        }
+
+        .accordion-body {
+            border: none;
+
+            ul {
+                padding-left: 0;
+
+                li {
+                    color: $Color-2;
+                    font-size: $fontSize-Medium;
+                    cursor: pointer;
+                    opacity: 0.6;
+                    padding-bottom: 8px;
+                    text-transform: capitalize;
+                    &:hover {
+                        opacity: 1;
+                        transition: 0.2s ease-in-out;
+                    }
+                }
+
+                li > label {
+                    display: flex;
+                    input {
+                        margin-right: 8px;
+                        width: 8%;
+                    }
+                }
+            }
+        }
+    }
+}
