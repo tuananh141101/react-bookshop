@@ -1,1 +1,119 @@
 @import "/public/assets/styles/common";
+
+.openModal {
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transition: display opacity visibility 0.1s ease-in-out;
+}
+
+.filter {
+    background-color: white;
+    
+    .filter-shop {
+        width: 100%;
+        padding-bottom: 6px;
+        
+        ul {
+            width: 100%;    
+            padding-left: 0;
+            li {
+                border-radius: 3px;
+                padding: 4px 6px;
+                border: 1px solid #F6F6F6;
+                margin-right: 8px;
+                margin-bottom: 8px;
+                cursor: pointer;
+                transition: border 0.1s ease-in;
+                font-size: $fontSize-Light;
+            }
+            .filterItemSelected {
+                background-color: #F6F6F6;
+                &:hover {
+                    border: 1px solid black;
+                    transition: border 0.1s ease-in;
+                }
+            }
+            .clearBtn {
+                border: 1px solid rgba(242, 85, 41, 0.15);
+                background-color: rgba(242,85,41,0.05);
+                color: #f25529;
+                &:hover {
+                    transition: border 0.2s ease-in;
+                    border: 1px solid #f25529;
+                }
+                .icon {
+                    fill: #f25529;
+                    margin-bottom: 2px;
+                }
+            }
+        }
+    }
+    .sorting-wrap {
+        width: 100%;
+        border-top: 1px solid $border;
+        padding: 8px 0;
+        .sortDropDown {
+            &-title {
+                position: relative;
+                color: #919191;
+                svg {
+                    fill: #919191;
+                    stroke: #919191;
+                    width: 19px;
+                    height: 19px;
+                    margin-right: 4px;
+                }
+                span {
+                    text-decoration: underline;
+                    cursor: pointer;
+                    padding-left: 6px;
+                    // color: ;
+                }
+                .dropDownListSort {
+                    width: max-content;
+                    min-width: 220px;
+                    position: absolute;
+                    background-color: white;
+                    right: -100%;
+                    top: 100%;
+                    z-index: 100;
+                    border-radius: 3px;
+                    border: 1px solid $backGround-input;
+                    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+                    .title {
+                        padding: 12px;
+                        font-size: $fontSize-Medium;
+                        font-weight: 600;
+                        border-bottom: 1px solid $backGround-input;
+                        svg {
+                            width: 24px;
+                            height: 24px;
+                            cursor: pointer;
+                        }
+                    }
+                    ul {
+                        padding-left: 0;
+                        padding: 12px 0;
+                        li {
+                            padding: 8px;
+                            color: $Color-2;
+                            opacity: .8;
+                            cursor: pointer;
+                            text-transform: capitalize;
+                            transition: background 0.1s ease-in;
+                            &:last-child {
+                                padding-bottom: 12px;
+                            }
+                            &:hover {
+                                background-color: #f6f6f6;
+                                transition: background 0.1s ease-in;
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

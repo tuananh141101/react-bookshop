@@ -15,7 +15,7 @@ import {
     useCommentStore,
     useProductStore,
 } from "../../common/hooks/useCustomHooks";
-import { fetchCategories } from "../../features/categories/categoriesApi";
+import { fetchCategories, fetchListAllCategories } from "../../features/categories/categoriesApi";
 import { fetchBlogs } from "../../features/blog/blogApi";
 import { fetchComments } from "../../features/comments/commentApi";
 import React from "react";
@@ -24,7 +24,7 @@ const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { listProducts, categories } = useProductStore();
     const { listBlogs } = useBlogStore();
-    const { listCategories } = useCategoriesStore();
+    const { listCategories,listAllCategories } = useCategoriesStore();
     const { listComments } = useCommentStore();
 
     useEffect(() => {
@@ -43,13 +43,17 @@ const Home = () => {
         if (!categories.length) {
             dispatch(fetchShopCategories())
         }
+        if (!listAllCategories.length) {
+            dispatch(fetchListAllCategories())
+        }
     }, [
         dispatch,
         listProducts.length,
         listCategories.length,
         listBlogs.length,
         listComments.length,
-        categories.length
+        categories.length,
+        listAllCategories.length,
     ]);
 
     return (

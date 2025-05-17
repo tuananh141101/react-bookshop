@@ -2,11 +2,12 @@ import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { useProductStore } from "../../common/hooks/useCustomHooks";
+import { useCategoriesStore, useProductStore } from "../../common/hooks/useCustomHooks";
 import "./styles/Shop.scss";
 import FilterProduct from "./components/FilterProduct/FilterProduct";
 import ListProduct from "./components/ListProduct/ListProduct";
 import { fetchProducts, fetchShopCategories } from "../../features/products/productApi";
+import { fetchListAllCategories } from "../../features/categories/categoriesApi";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -24,7 +25,16 @@ const Shop = () => {
         categories.length,
         listProducts.length
     ])
+    const {listAllCategories} = useCategoriesStore();
 
+    useEffect(() => {
+        if (!listAllCategories.length) {
+            dispatch(fetchListAllCategories())
+        }
+        if (!listProducts.length) {
+            dispatch(fetchProducts())
+        }
+    },[dispatch, listAllCategories.length, listProducts.length])
 
     return (
         <>

@@ -14,6 +14,17 @@ interface ProductState {
     error: string | null;
     errorDetail: string | null;
     quantityProduct: number;
+    listAuthor: string[];
+    fiteredProductsByCate: typeProduct[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    filter: {
+        priceRange: [number,number];
+        searchKeyWord: string;
+        sortBy: "from A-Z"  | "from Z-A" | "Price: Low-High" | "Price: High-Low" | "None" | "Newest Items First";
+        cate: string[];
+        author: string[];
+    },
+    openModalSort: boolean;
     categories: typeCategories[];
     author: string[]
     filterProducts: typeProduct[];
@@ -39,6 +50,17 @@ const initialState: ProductState = {
     
     quantityProduct: 1,
     activeElem: 0,
+    fiteredProductsByCate: [],
+    status: "idle",
+    listAuthor: [],
+    filter: {
+        priceRange: [0,0],
+        searchKeyWord: "",
+        sortBy: "None",
+        cate: [],
+        author: [],
+    },
+    openModalSort: false,
     categories: [],
     author: [],
     filterProducts: [],
@@ -71,7 +93,50 @@ const productSlice = createSlice({
         },
         setActiveElem: (state,action: PayloadAction<number>) => {
             state.activeElem = action.payload;
-        }
+        },
+        checkedCate: (state,action: PayloadAction<string>) => {
+            state.filter.cate.push(action.payload);
+        },
+        checkAuthor: (state, action:PayloadAction<string>) => {
+            state.filter.author.push(action.payload)
+        },
+        updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
+            const newPriceRange = [...state.filter.priceRange];
+            if (action.payload.type === 'min') {
+                newPriceRange[0] = action.payload.value;
+            } else {
+                newPriceRange[1] = action.payload.value;
+            }
+            state.filter.priceRange[0] = newPriceRange[0];
+            state.filter.priceRange[1] = newPriceRange[1];
+        },
+        sortProductList: (state, action:PayloadAction<string>) => {
+            switch(action.payload) {
+                case "from A-Z": {    
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
+                    break;
+                }
+                case "from Z-A": {
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
+                    break;
+                }
+                case "Price: Low-High": {
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.price - b.price);
+                    break;
+                }
+                case "Price: Hight-Low": {
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => b.price - a.price);
+                    break;
+                }
+                case "Newest Items First": {
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => b.yearpublished - a.yearpublished);
+                    break;
+                }
+                default: 
+                    break;
+            }
+        },
+        openModalSortDropDown: (state) => {state.openModalSort = true;}
     },
     extraReducers: (builder) => {
         builder
@@ -98,6 +163,22 @@ const productSlice = createSlice({
                     state.author = uniqueAuthor;
                 }
                 
+
+                if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
+                    const author = state.listProducts.map((item:typeProduct) => {
+                        return item.author
+                    });
+
+                    const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
+                        if (!acc.includes(curr)) {
+                            acc.push(curr);
+                        }
+                        return acc;
+                    },[])
+
+                    state.listAuthor = uniqueAuthor;
+                }
+
                 state.listProductsBestSelling = action.payload.slice(0, 8);
                 state.listProductsLatest = action.payload.slice(9, 17);
                 state.listProductsSale = action.payload.slice(16, 24);
@@ -138,6 +219,8 @@ export const {
     setError,
     incrementQuantityProduct,
     decrementQuantityProduct,
-    setActiveElem
+    setActiveElem,
+    sortProductList,
+    openModalSortDropDown,
 } = productSlice.actions;
 export default productSlice.reducer;

@@ -10,3 +10,8 @@ export const fetchCategories = createAsyncThunk(
         return res.data;
     }
 );
+
+export const fetchListAllCategories = createAsyncThunk("listCategories/fetchListCategories", async () => {
+    const res = await axios.get(`${API_URL}/shopCategories`);
+    return res.data;
+})
