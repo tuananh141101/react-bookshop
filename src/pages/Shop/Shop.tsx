@@ -2,39 +2,34 @@ import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { useCategoriesStore, useProductStore } from "../../common/hooks/useCustomHooks";
+import { useProductStore } from "../../common/hooks/useCustomHooks";
 import "./styles/Shop.scss";
 import FilterProduct from "./components/FilterProduct/FilterProduct";
 import ListProduct from "./components/ListProduct/ListProduct";
-import { fetchProducts, fetchShopCategories } from "../../features/products/productApi";
-import { fetchListAllCategories } from "../../features/categories/categoriesApi";
+import { fetchProducts, fetchShopCategories, fetchFeatCategories } from "../../features/products/productApi";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {listProducts, categories} = useProductStore();
+    const {listProducts, categories, featCategories} = useProductStore();
    
     useEffect(() => {
+        console.log("runnning outside if shop");
         if (!categories.length) {
             dispatch(fetchShopCategories())
         }
         if (!listProducts.length) {
             dispatch(fetchProducts())
+            console.log("run product in shop")
+        }
+        if (!featCategories.length) {
+            dispatch(fetchFeatCategories())
         }
     }, [
         dispatch, 
         categories.length,
-        listProducts.length
-    ])
-    const {listAllCategories} = useCategoriesStore();
-
-    useEffect(() => {
-        if (!listAllCategories.length) {
-            dispatch(fetchListAllCategories())
-        }
-        if (!listProducts.length) {
-            dispatch(fetchProducts())
-        }
-    },[dispatch, listAllCategories.length, listProducts.length])
+        listProducts.length,
+        featCategories.length
+    ]);
 
     return (
         <>

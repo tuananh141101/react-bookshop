@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchDetailProduct, fetchProducts, fetchShopCategories } from "./productApi";
-import { typeCategories, typeProduct } from "../../common/constant/Constant";
+import { fetchDetailProduct, fetchFeatCategories, fetchProducts, fetchShopCategories } from "./productApi";
+import { typeCategories, typeListCategories, typeProduct } from "../../common/constant/Constant";
 
 interface ProductState {
     listProducts: typeProduct[];
@@ -8,32 +8,35 @@ interface ProductState {
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
     detailProducts: typeProduct[];
+    listAuthor: string[];
+    categories: typeListCategories[];
+    featCategories: typeCategories[];
     activeElem: number;
     loadingData: boolean;
     loadingDetailData: boolean;
     error: string | null;
     errorDetail: string | null;
     quantityProduct: number;
-    listAuthor: string[];
     fiteredProductsByCate: typeProduct[];
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     filter: {
         priceRange: [number,number];
-        searchKeyWord: string;
         sortBy: "from A-Z"  | "from Z-A" | "Price: Low-High" | "Price: High-Low" | "None" | "Newest Items First";
         cate: string[];
         author: string[];
     },
     openModalSort: boolean;
-    categories: typeCategories[];
     author: string[]
-    filterProducts: typeProduct[];
     loadingShopCategories: boolean;
-    filters: {
-        priceRange: [number, number];
-        searchKeyword: string;
-        sortBy: 'price-asc' | 'price-desc' | 'name';
-    };
+    loadingFeatCategories: boolean;
+    paginationProps: {
+        page: number;
+        limit: number;
+        name_like: string;
+        price_gte: number;
+        price_lte: number;
+        category: string[];
+    }
 }
 
 const initialState: ProductState = {
@@ -55,20 +58,23 @@ const initialState: ProductState = {
     listAuthor: [],
     filter: {
         priceRange: [0,0],
-        searchKeyWord: "",
         sortBy: "None",
         cate: [],
         author: [],
     },
     openModalSort: false,
     categories: [],
+    featCategories: [],
     author: [],
-    filterProducts: [],
     loadingShopCategories: false,
-    filters: {
-        priceRange: [0,0],
-        searchKeyword: "",
-        sortBy: "price-asc"
+    loadingFeatCategories: false,
+    paginationProps: {
+        page: 1,
+        limit: 10,
+        name_like: "",
+        price_gte: 0,
+        price_lte: 0,
+        category: [],
     }
 };
 
@@ -76,15 +82,6 @@ const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
-        setProducts: (state, action: PayloadAction<typeProduct[]>) => {
-            state.listProducts = action.payload;
-        },
-        setLoading: (state, action: PayloadAction<boolean>) => {
-            state.loadingData = action.payload;
-        },
-        setError: (state, action: PayloadAction<string | null>) => {
-            state.error = action.payload;
-        },
         incrementQuantityProduct: (state) => {
             state.quantityProduct = state.quantityProduct + 1;
         },
@@ -111,6 +108,8 @@ const productSlice = createSlice({
             state.filter.priceRange[1] = newPriceRange[1];
         },
         sortProductList: (state, action:PayloadAction<string>) => {
+            state.filter.sortBy = action.payload;
+            state.openModalSort = false;
             switch(action.payload) {
                 case "from A-Z": {    
                     state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
@@ -136,7 +135,9 @@ const productSlice = createSlice({
                     break;
             }
         },
-        openModalSortDropDown: (state) => {state.openModalSort = true;}
+        openModalSortDropDown: (state,action:PayloadAction<boolean>) => {
+            state.openModalSort = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -210,13 +211,21 @@ const productSlice = createSlice({
             .addCase(fetchShopCategories.rejected, (state) => {
                 state.loadingShopCategories = false;
             })
+        builder
+            .addCase(fetchFeatCategories.pending, (state) => {
+                state.loadingFeatCategories = true;
+            })
+            .addCase(fetchFeatCategories.fulfilled, (state,action) => {
+                state.loadingFeatCategories = true;
+                state.featCategories = action.payload;
+            })
+            .addCase(fetchFeatCategories.rejected, (state) => {
+                state.loadingFeatCategories = false;
+            })
     },
 });
 
 export const {
-    setProducts,
-    setLoading,
-    setError,
     incrementQuantityProduct,
     decrementQuantityProduct,
     setActiveElem,

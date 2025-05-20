@@ -4,13 +4,13 @@ import { useInView, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import "./style/Categories.scss";
-import { useCategoriesStore } from "../../../../common/hooks/useCustomHooks";
+import { useProductStore } from "../../../../common/hooks/useCustomHooks";
 import React from "react";
 
 const Categories = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
-    const { listCategories } = useCategoriesStore();
+    const { featCategories } = useProductStore();
 
     return (
         <>
@@ -45,7 +45,7 @@ const Categories = () => {
                                     transition: "1.5s opacity",
                                 }}
                             >
-                                {listCategories.map(
+                                {featCategories.map(
                                     (item: any) => {
                                         return (
                                             <>

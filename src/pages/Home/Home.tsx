@@ -6,54 +6,38 @@ import ProductItems from "./components/ProductItems/ProductItems";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store"; // Import AppDispatch
 import { useEffect } from "react";
-import { fetchProducts, fetchShopCategories } from "../../features/products/productApi";
+import { fetchProducts, fetchShopCategories, fetchFeatCategories } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
 import Blogsection from "./components/BlogSection/Blogsection";
 import {
     useBlogStore,
-    useCategoriesStore,
-    useCommentStore,
     useProductStore,
 } from "../../common/hooks/useCustomHooks";
-import { fetchCategories, fetchListAllCategories } from "../../features/categories/categoriesApi";
 import { fetchBlogs } from "../../features/blog/blogApi";
-import { fetchComments } from "../../features/comments/commentApi";
 import React from "react";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { listProducts, categories } = useProductStore();
     const { listBlogs } = useBlogStore();
-    const { listCategories,listAllCategories } = useCategoriesStore();
-    const { listComments } = useCommentStore();
 
     useEffect(() => {
+        console.log("runnning outside if home");
         if (!listProducts.length) {
             dispatch(fetchProducts());
-        }
-        if (!listCategories.length) {
-            dispatch(fetchCategories());
+            console.log("run product in home")
         }
         if (!listBlogs.length) {
             dispatch(fetchBlogs());
         }
-        if (!listComments.length) {
-            dispatch(fetchComments());
-        }
         if (!categories.length) {
             dispatch(fetchShopCategories())
-        }
-        if (!listAllCategories.length) {
-            dispatch(fetchListAllCategories())
         }
     }, [
         dispatch,
         listProducts.length,
-        listCategories.length,
         listBlogs.length,
-        listComments.length,
         categories.length,
-        listAllCategories.length,
     ]);
 
     return (

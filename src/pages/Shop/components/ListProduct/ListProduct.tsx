@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import "./styles/ListProduct.scss";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../../app/store';
@@ -6,23 +6,34 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useProductStore } from '../../../../common/hooks/useCustomHooks';
-import { sortProductList } from '../../../../features/products/productSlice';
-import { typeProduct } from '../../../../common/constant/Constant';
+import { openModalSortDropDown, sortProductList } from '../../../../features/products/productSlice';
 import { IoCloseSharp } from "react-icons/io5";
-
-
+import Spinner from 'react-bootstrap/Spinner';
 
 
 const ListProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {filter,listProducts, openModalSort} = useProductStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
+    const dropdownRef = useRef(null);
 
     const handleSort = () => {
-        dispatch(sortProductList("Newest Items First"))
-    }
+        dispatch(openModalSortDropDown(true));
+    };
 
-    useEffect(() => {},[])
+    useEffect(() => {
+        const handleClickOusdide = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                dispatch(openModalSortDropDown(false));
+            }
+        } 
+        if (openModalSort) {
+            document.addEventListener('mousedown', handleClickOusdide);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOusdide);
+        }
+    },[dispatch, openModalSort])
     
     return (
         <>
@@ -44,16 +55,16 @@ const ListProduct = () => {
                         <div className="sortDropDown-title">
                             <HiOutlineMenuAlt2 /> 
                             Sort by:<span onClick={handleSort}>{filter.sortBy}</span>
-                            <div className="dropDownListSort">
+                            <div className={`dropDownListSort ${openModalSort ? "openModal" : ""}`} ref={dropdownRef}>
                                 <div className="title d-flex align-items-center justify-content-between gap-1">
                                     Sort By
-                                    <IoCloseSharp />
+                                    <IoCloseSharp onClick={() => dispatch(openModalSortDropDown(false))}/>
                                 </div>
-                                <ul className="mb-0 pl-0">
+                                <ul className={`mb-0 pl-0`}>
                                     {
                                         listSort.map((item:string, index:number) => {
                                             return (
-                                                <li key={index}>{item}</li>
+                                                <li key={index} onClick={() => dispatch(sortProductList(item))}>{item}</li>
                                             )
                                         })
                                     }
@@ -63,8 +74,10 @@ const ListProduct = () => {
                     </div>
                 </div>
             </div>
-            <div className="listProduct d-flex algin-items-center justify-content-between flex-wrap">
-                List product
+            <div className="listProduct d-flex algin-items-center justify-content-center flex-wrap">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
             </div>
         </>
     ) 
