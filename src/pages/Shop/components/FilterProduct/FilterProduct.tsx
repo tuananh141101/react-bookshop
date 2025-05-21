@@ -11,7 +11,7 @@ import InputForm from "../../../../shared/components/InputForm/InputForm";
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {categories} = useProductStore();
-    const {listAuthor} = useProductStore();
+    const {listAuthor} = useProductStore()                                                                      ;
     const handleSubmitPrice = () => {}
     return (
         <>
@@ -22,9 +22,7 @@ const FilterProduct = () => {
                             <ul className="mb-0 pl-0">
                                 {categories && categories.map((item:typeListCategories) => {
                                     return (
-                                        <>
-                                            <li key={item.id}>{item.name}</li>
-                                        </>
+                                        <li key={item.id}>{item.name}</li>
                                     );
                                 })}
                             </ul>

@@ -1,19 +1,46 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { typeProduct } from "../../common/constant/Constant";
+import { RootState } from "../../app/store";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
-interface FetchProductsParams {
-    page?: number;
-    limit?: number;
-    search?: string;
-    categories?: string[];
-    yearpublished?: number;
+interface FetchProductsResponse {
+    data: typeProduct[];
+    total: number;
 }
-export const fetchProducts = createAsyncThunk(
+export const fetchProducts = createAsyncThunk<
+    FetchProductsResponse,
+    void,
+    {state: RootState}
+>(
     "products/fetchListProducts",
-    async () => {
+    async (_, {getState}) => {
+        const { paginationProps } = getState().productStore;
+          const {
+            page,
+            limit,
+            name_like,
+            price_gte,
+            price_lte,
+            categories,
+        } = paginationProps;
+        const queryParams = new URLSearchParams();
+        queryParams.append('_page', page.toString());
+        queryParams.append('_limit', limit.toString());
+        if (name_like) queryParams.append('name_like', name_like);
+        if (price_gte) queryParams.append('price_gte', price_gte.toString());
+        if (price_lte) queryParams.append('price_lte', price_lte.toString());
+        if (categories && categories.length > 0) {
+            categories.forEach((cat:string) => {
+                queryParams.append('categories', cat)
+            });
+        }
+
         const res = await axios.get(`${API_URL}/products`);
-        return res.data;
+        return {
+            data: res.data,
+            total: Number(res.headers['x-total-count'] || 0),
+        };
     }
 );
 export const fetchShopCategories = createAsyncThunk("shopCategories/fetchShopCategories", 
@@ -29,4 +56,4 @@ export const fetchDetailProduct = createAsyncThunk("products/fetchDetailProduct"
 export const fetchFeatCategories = createAsyncThunk("featCategories/fetchFeatCategories", async () => {
     const res = await axios.get(`${API_URL}/featCategories`);
     return res.data;
-})
+});

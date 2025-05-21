@@ -10,16 +10,14 @@ import { fetchProducts, fetchShopCategories, fetchFeatCategories } from "../../f
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {listProducts, categories, featCategories} = useProductStore();
-   
+    const { listProducts, categories, featCategories } = useProductStore();
+
     useEffect(() => {
-        console.log("runnning outside if shop");
         if (!categories.length) {
             dispatch(fetchShopCategories())
         }
         if (!listProducts.length) {
             dispatch(fetchProducts())
-            console.log("run product in shop")
         }
         if (!featCategories.length) {
             dispatch(fetchFeatCategories())
@@ -30,6 +28,8 @@ const Shop = () => {
         listProducts.length,
         featCategories.length
     ]);
+
+    useEffect(() => {},[]);
 
     return (
         <>

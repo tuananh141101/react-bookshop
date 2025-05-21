@@ -35,7 +35,7 @@ interface ProductState {
         name_like: string;
         price_gte: number;
         price_lte: number;
-        category: string[];
+        categories: string[];
     }
 }
 
@@ -64,7 +64,7 @@ const initialState: ProductState = {
     },
     openModalSort: false,
     categories: [],
-    featCategories: [],
+    featCategories: [], 
     author: [],
     loadingShopCategories: false,
     loadingFeatCategories: false,
@@ -74,7 +74,7 @@ const initialState: ProductState = {
         name_like: "",
         price_gte: 0,
         price_lte: 0,
-        category: [],
+        categories: [],
     }
 };
 
@@ -82,6 +82,9 @@ const productSlice = createSlice({
     name: "product",
     initialState,
     reducers: {
+        setLoadingCartItem: (state, action: PayloadAction<boolean>) => {
+            state.loadingData = action.payload;
+        },
         incrementQuantityProduct: (state) => {
             state.quantityProduct = state.quantityProduct + 1;
         },
@@ -137,6 +140,24 @@ const productSlice = createSlice({
         },
         openModalSortDropDown: (state,action:PayloadAction<boolean>) => {
             state.openModalSort = action.payload;
+        },
+        setPage: (state, action: PayloadAction<number>) => {
+            state.paginationProps.page = action.payload;
+        },
+        setLimit: (state, action: PayloadAction<number>) => {
+            state.paginationProps.limit = action.payload;
+        },
+        setSearch: (state, action: PayloadAction<string>) => {
+            state.paginationProps.name_like = action.payload;
+        },
+        setLowPrice: (state, action: PayloadAction<number>) => {
+            state.paginationProps.price_gte = action.payload;
+        },
+        setMaxPrice: (state, action: PayloadAction<number>) => {
+            state.paginationProps.price_lte = action.payload;
+        },
+        setCategory: (state, action: PayloadAction<string[]>) => {
+            state.paginationProps.category = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -146,12 +167,11 @@ const productSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
-                state.loadingData = false;
-                state.listProducts = action.payload;
-
+                state.loadingData = false; 
+                state.listProducts = action.payload.data;
                 //Lọc ra những danh sách author 
                 if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                    const author = action.payload.map((item:typeProduct) => {
+                    const author = action.payload.data.map((item:typeProduct) => {
                         return item.author
                     });
                     
@@ -163,8 +183,6 @@ const productSlice = createSlice({
                     }, []);
                     state.author = uniqueAuthor;
                 }
-                
-
                 if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
                     const author = state.listProducts.map((item:typeProduct) => {
                         return item.author
@@ -179,15 +197,14 @@ const productSlice = createSlice({
 
                     state.listAuthor = uniqueAuthor;
                 }
-
-                state.listProductsBestSelling = action.payload.slice(0, 8);
-                state.listProductsLatest = action.payload.slice(9, 17);
-                state.listProductsSale = action.payload.slice(16, 24);
+                state.listProductsBestSelling = action.payload.data.slice(0, 8);
+                state.listProductsLatest = action.payload.data.slice(9, 17);
+                state.listProductsSale = action.payload.data.slice(16, 24);
             })
             .addCase(fetchProducts.rejected, (state) => {
                 state.loadingData = false;
                 state.error = "Something went wrong!";
-            });
+            })
         builder
             .addCase(fetchDetailProduct.pending, (state) => {
                 state.loadingDetailData = true;
@@ -226,6 +243,7 @@ const productSlice = createSlice({
 });
 
 export const {
+    setLoadingCartItem,
     incrementQuantityProduct,
     decrementQuantityProduct,
     setActiveElem,
