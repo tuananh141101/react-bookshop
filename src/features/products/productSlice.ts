@@ -158,6 +158,9 @@ const productSlice = createSlice({
         },
         setCategory: (state, action: PayloadAction<string[]>) => {
             state.paginationProps.category = action.payload;
+        },
+        cateChecked: (state, action:PayloadAction<string>) => {
+            state.filter.cate.push(action.payload)
         }
     },
     extraReducers: (builder) => {
@@ -249,5 +252,6 @@ export const {
     setActiveElem,
     sortProductList,
     openModalSortDropDown,
+    cateChecked,
 } = productSlice.actions;
 export default productSlice.reducer;

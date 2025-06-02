@@ -6,7 +6,7 @@ import ProductItems from "./components/ProductItems/ProductItems";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store"; // Import AppDispatch
 import { useEffect } from "react";
-import { fetchProducts, fetchShopCategories } from "../../features/products/productApi";
+import { fetchFeatCategories, fetchProducts, fetchShopCategories } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
 import Blogsection from "./components/BlogSection/Blogsection";
 import {
@@ -18,7 +18,7 @@ import React from "react";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { listProducts, categories } = useProductStore();
+    const { listProducts, categories, featCategories } = useProductStore();
     const { listBlogs } = useBlogStore();
 
     useEffect(() => {
@@ -31,11 +31,15 @@ const Home = () => {
         if (!categories.length) {
             dispatch(fetchShopCategories())
         }
+        if (!featCategories.length) {
+            dispatch(fetchFeatCategories())
+        }
     }, [
         dispatch,
         listProducts.length,
         listBlogs.length,
         categories.length,
+        featCategories.length
     ]);
 
     return (

@@ -7,11 +7,12 @@ import { useProductStore } from "../../../../common/hooks/useCustomHooks";
 import { Accordion } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import InputForm from "../../../../shared/components/InputForm/InputForm";
+import { cateChecked } from "../../../../features/products/productSlice";
 
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {categories} = useProductStore();
-    const {listAuthor} = useProductStore()                                                                      ;
+    const {categories,listAuthor,filter} = useProductStore();
+    console.log("🚀 ~ FilterProduct ~ filter:", filter.cate)
     const handleSubmitPrice = () => {}
     return (
         <>
@@ -22,7 +23,7 @@ const FilterProduct = () => {
                             <ul className="mb-0 pl-0">
                                 {categories && categories.map((item:typeListCategories) => {
                                     return (
-                                        <li key={item.id}>{item.name}</li>
+                                        <li key={item.id} onClick={() => dispatch(cateChecked(item.name))}>{item.name}</li>
                                     );
                                 })}
                             </ul>

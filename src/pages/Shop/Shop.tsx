@@ -10,14 +10,11 @@ import { fetchProducts, fetchShopCategories, fetchFeatCategories } from "../../f
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { listProducts, categories, featCategories } = useProductStore();
+    const { listProducts, categories, featCategories, filter } = useProductStore();
 
     useEffect(() => {
         if (!categories.length) {
             dispatch(fetchShopCategories())
-        }
-        if (!listProducts.length) {
-            dispatch(fetchProducts())
         }
         if (!featCategories.length) {
             dispatch(fetchFeatCategories())
@@ -29,7 +26,11 @@ const Shop = () => {
         featCategories.length
     ]);
 
-    useEffect(() => {},[]);
+    useEffect(() => {
+        if (!listProducts.length) {
+            dispatch(fetchProducts())
+        }
+    },[dispatch, listProducts.length, filter.cate.length]);
 
     return (
         <>

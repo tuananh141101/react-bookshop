@@ -32,11 +32,11 @@ export const fetchProducts = createAsyncThunk<
         if (price_lte) queryParams.append('price_lte', price_lte.toString());
         if (categories && categories.length > 0) {
             categories.forEach((cat:string) => {
-                queryParams.append('categories', cat)
+                queryParams.append('category', cat)
             });
         }
 
-        const res = await axios.get(`${API_URL}/products`);
+        const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);
         return {
             data: res.data,
             total: Number(res.headers['x-total-count'] || 0),
