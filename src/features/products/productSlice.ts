@@ -21,7 +21,7 @@ interface ProductState {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     filter: {
         priceRange: [number,number];
-        sortBy: "from A-Z"  | "from Z-A" | "Price: Low-High" | "Price: High-Low" | "None" | "Newest Items First";
+        sortBy: string;
         cate: string[];
         author: string[];
     },
@@ -111,7 +111,7 @@ const productSlice = createSlice({
             state.filter.priceRange[1] = newPriceRange[1];
         },
         sortProductList: (state, action:PayloadAction<string>) => {
-            state.filter.sortBy = action.payload;
+            state.filter.sortBy = action.payload.toString();
             state.openModalSort = false;
             switch(action.payload) {
                 case "from A-Z": {    
@@ -123,15 +123,15 @@ const productSlice = createSlice({
                     break;
                 }
                 case "Price: Low-High": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.price - b.price);
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(a.price) - parseFloat(b.price));
                     break;
                 }
                 case "Price: Hight-Low": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => b.price - a.price);
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.price) - parseFloat(a.price));
                     break;
                 }
                 case "Newest Items First": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => b.yearpublished - a.yearpublished);
+                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.yearpublished) - parseFloat(a.yearpublished));
                     break;
                 }
                 default: 
@@ -157,7 +157,7 @@ const productSlice = createSlice({
             state.paginationProps.price_lte = action.payload;
         },
         setCategory: (state, action: PayloadAction<string[]>) => {
-            state.paginationProps.category = action.payload;
+            state.paginationProps.categories = action.payload;
         },
         cateChecked: (state, action:PayloadAction<string>) => {
             state.filter.cate.push(action.payload)
