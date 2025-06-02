@@ -3,10 +3,11 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 
-export const fetchCategories = createAsyncThunk(
-    "categories/fetchListcategories",
+export const fetchProducts = createAsyncThunk(
+    "products/fetchListProducts",
     async () => {
-        const res = await axios.get(`${API_URL}/categories`);
+        const res = await axios.get(`${API_URL}/products`);
         return res.data;
     }
 );
+

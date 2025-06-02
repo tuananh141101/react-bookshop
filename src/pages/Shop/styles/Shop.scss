@@ -1,2 +1,17 @@
 @import "../../../../public/assets/styles/common";
 
+.shop {
+    .container {
+        .row:nth-child(1) {
+            padding-top: 48px;
+            padding-bottom: 24px;
+            p {
+                font-size: $fontSize-XX-Large;
+                font-family: "Victormono";
+                font-weight: bold;
+                padding-bottom: 8px;
+            }
+        }
+        .row:nth-child(2) {}
+    }
+}

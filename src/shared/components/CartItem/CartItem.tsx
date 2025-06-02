@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import {
     decrementQuantityProduct,
     incrementQuantityProduct,
-    setLoading,
+    setLoadingCartItem,
 } from "../../../features/products/productSlice";
 import { useProductStore } from "../../../common/hooks/useCustomHooks";
 
@@ -63,9 +63,9 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 onClick={(event: React.MouseEvent<HTMLDivElement>) => {
                                     event.stopPropagation();
                                     setShow(true);
-                                    dispatch(setLoading(true));
+                                    dispatch(setLoadingCartItem(true));
                                     setTimeout(() => {
-                                        dispatch(setLoading(false));
+                                        dispatch(setLoadingCartItem(false));
                                     }, 600);
                                 }}
                             >
@@ -103,7 +103,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 onClick={() => {
                                         // dispatch(addToCart(item))
                                         // event.stopPropagation(); 
-                                    }
+                                    }  
                                 }
                             >
                                 <motion.div

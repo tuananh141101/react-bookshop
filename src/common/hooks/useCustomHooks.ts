@@ -5,7 +5,7 @@ export const useProductStore = () =>
     useSelector((state: RootState) => state.productStore);
 
 export const useCategoriesStore = () =>
-    useSelector((state: RootState) => state.categoriesStore);
+    useSelector((state: RootState) => state.productStore);
 
 export const useBlogStore = () =>
     useSelector((state: RootState) => state.blogStore);
