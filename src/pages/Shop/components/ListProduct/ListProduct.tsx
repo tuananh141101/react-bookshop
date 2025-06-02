@@ -13,9 +13,9 @@ import Spinner from 'react-bootstrap/Spinner';
 
 const ListProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {filter,listProducts, openModalSort} = useProductStore();
+    const {filter, openModalSort} = useProductStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
-    const dropdownRef = useRef(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const handleSort = () => {
         dispatch(openModalSortDropDown(true));
