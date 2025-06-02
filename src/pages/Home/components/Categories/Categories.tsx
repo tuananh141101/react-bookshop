@@ -50,7 +50,7 @@ const Categories = () => {
                                         return (
                                             <li key={item.id}>
                                                 <Link to="">
-                                                    <div className="product-cate__inner d-flex justify-conPtent-center align-items-center flex-column">
+                                                    <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
                                                         <div className="product-cate__icon">
                                                             <img
                                                                 src={`https://websitebook-api.vercel.app/${item.image}`}

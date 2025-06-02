@@ -84,6 +84,7 @@ const ProductItems = () => {
                                             md={4}
                                             sm={6}
                                             xs={6}
+                                            key={index}
                                         >
                                             <CartItem
                                                 style={{ width: "100%" }}
