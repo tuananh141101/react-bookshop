@@ -11,8 +11,7 @@ import { cateChecked } from "../../../../features/products/productSlice";
 
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {categories,listAuthor,filter} = useProductStore();
-    console.log("🚀 ~ FilterProduct ~ filter:", filter.cate)
+    const {categories,listAuthor} = useProductStore();
     const handleSubmitPrice = () => {}
     return (
         <>
