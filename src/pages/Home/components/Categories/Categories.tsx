@@ -48,28 +48,26 @@ const Categories = () => {
                                 {featCategories.map(
                                     (item: any) => {
                                         return (
-                                            <>
-                                                <li key={item.id}>
-                                                    <Link to="">
-                                                        <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
-                                                            <div className="product-cate__icon">
-                                                                <img
-                                                                    src={`https://websitebook-api.vercel.app/${item.image}`}
-                                                                    loading="lazy"
-                                                                />
-                                                            </div>
-                                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                                <p className="mt-2 mb-0">
-                                                                    {item.name}
-                                                                </p>
-                                                                <span>
-                                                                    Shop Now
-                                                                </span>
-                                                            </div>
+                                            <li key={item.id}>
+                                                <Link to="">
+                                                    <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
+                                                        <div className="product-cate__icon">
+                                                            <img
+                                                                src={`https://websitebook-api.vercel.app/${item.image}`}
+                                                                loading="lazy"
+                                                            />
                                                         </div>
-                                                    </Link>
-                                                </li>
-                                            </>
+                                                        <div className="product-cate__text d-flex align-items-center justify-center flex-column">
+                                                            <p className="mt-2 mb-0">
+                                                                {item.name}
+                                                            </p>
+                                                            <span>
+                                                                Shop Now
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </li>
                                         );
                                     }
                                 )}
