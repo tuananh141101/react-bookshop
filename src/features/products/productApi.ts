@@ -19,23 +19,11 @@ export const fetchProducts = createAsyncThunk<
           const {
             page,
             limit,
-            name_like,
-            price_gte,
-            price_lte,
-            categories,
         } = paginationProps;
         const queryParams = new URLSearchParams();
         queryParams.append('_page', page.toString());
         queryParams.append('_limit', limit.toString());
-        if (name_like) queryParams.append('name_like', name_like);
-        if (price_gte) queryParams.append('price_gte', price_gte.toString());
-        if (price_lte) queryParams.append('price_lte', price_lte.toString());
-        if (categories && categories.length > 0) {
-            categories.forEach((cat:string) => {
-                queryParams.append('category', cat)
-            });
-        }
-
+        
         const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);
         return {
             data: res.data,
