@@ -32,10 +32,6 @@ interface ProductState {
     paginationProps: {
         page: number;
         limit: number;
-        name_like: string;
-        price_gte: number;
-        price_lte: number;
-        categories: string[];
     }
 }
 
@@ -50,7 +46,6 @@ const initialState: ProductState = {
     loadingData: false,
     loadingDetailData: false,
     errorDetail: null,
-    
     quantityProduct: 1,
     activeElem: 0,
     fiteredProductsByCate: [],
@@ -71,10 +66,6 @@ const initialState: ProductState = {
     paginationProps: {
         page: 1,
         limit: 10,
-        name_like: "",
-        price_gte: 0,
-        price_lte: 0,
-        categories: [],
     }
 };
 
@@ -93,12 +84,6 @@ const productSlice = createSlice({
         },
         setActiveElem: (state,action: PayloadAction<number>) => {
             state.activeElem = action.payload;
-        },
-        checkedCate: (state,action: PayloadAction<string>) => {
-            state.filter.cate.push(action.payload);
-        },
-        checkAuthor: (state, action:PayloadAction<string>) => {
-            state.filter.author.push(action.payload)
         },
         updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
             const newPriceRange = [...state.filter.priceRange];
@@ -147,20 +132,21 @@ const productSlice = createSlice({
         setLimit: (state, action: PayloadAction<number>) => {
             state.paginationProps.limit = action.payload;
         },
-        setSearch: (state, action: PayloadAction<string>) => {
-            state.paginationProps.name_like = action.payload;
-        },
-        setLowPrice: (state, action: PayloadAction<number>) => {
-            state.paginationProps.price_gte = action.payload;
-        },
-        setMaxPrice: (state, action: PayloadAction<number>) => {
-            state.paginationProps.price_lte = action.payload;
-        },
-        setCategory: (state, action: PayloadAction<string[]>) => {
-            state.paginationProps.categories = action.payload;
-        },
         cateChecked: (state, action:PayloadAction<string>) => {
             state.filter.cate.push(action.payload)
+        },
+        authorChecked: (state,action: PayloadAction<string>) => {
+            state.filter.author.push(action.payload)
+        },
+        clearAllCate: (state) => {
+            state.filter.cate = []
+            state.filter.author = []
+        },
+        changePageNum: (state,action: PayloadAction<number>) => {
+            state.paginationProps.page = action.payload;
+        },
+        changeLimitNum: (state,action) => {
+            state.paginationProps.limit = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -172,20 +158,6 @@ const productSlice = createSlice({
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.loadingData = false; 
                 state.listProducts = action.payload.data;
-                //Lọc ra những danh sách author 
-                if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                    const author = action.payload.data.map((item:typeProduct) => {
-                        return item.author
-                    });
-                    
-                    const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
-                        if (!acc.includes(curr)) {
-                            acc.push(curr);
-                        }
-                        return acc;
-                    }, []);
-                    state.author = uniqueAuthor;
-                }
                 if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
                     const author = state.listProducts.map((item:typeProduct) => {
                         return item.author
@@ -197,7 +169,6 @@ const productSlice = createSlice({
                         }
                         return acc;
                     },[])
-
                     state.listAuthor = uniqueAuthor;
                 }
                 state.listProductsBestSelling = action.payload.data.slice(0, 8);
@@ -253,5 +224,8 @@ export const {
     sortProductList,
     openModalSortDropDown,
     cateChecked,
+    authorChecked,
+    clearAllCate,
+    changeLimitNum
 } = productSlice.actions;
 export default productSlice.reducer;

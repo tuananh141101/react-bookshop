@@ -1,12 +1,12 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { typeProduct } from "../../common/constant/Constant";
+import { typePagination, typeProduct } from "../../common/constant/Constant";
 import { RootState } from "../../app/store";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 interface FetchProductsResponse {
     data: typeProduct[];
-    total: number;
+    pagination: typePagination[];
 }
 export const fetchProducts = createAsyncThunk<
     FetchProductsResponse,
@@ -23,12 +23,9 @@ export const fetchProducts = createAsyncThunk<
         const queryParams = new URLSearchParams();
         queryParams.append('_page', page.toString());
         queryParams.append('_limit', limit.toString());
-        
+
         const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);
-        return {
-            data: res.data,
-            total: Number(res.headers['x-total-count'] || 0),
-        };
+        return res.data;
     }
 );
 export const fetchShopCategories = createAsyncThunk("shopCategories/fetchShopCategories", 

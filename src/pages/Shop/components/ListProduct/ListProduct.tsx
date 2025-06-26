@@ -6,7 +6,7 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useProductStore } from '../../../../common/hooks/useCustomHooks';
-import { openModalSortDropDown, sortProductList } from '../../../../features/products/productSlice';
+import { clearAllCate, openModalSortDropDown, sortProductList } from '../../../../features/products/productSlice';
 import { IoCloseSharp } from "react-icons/io5";
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -44,7 +44,9 @@ const ListProduct = () => {
                             Category
                             <IoMdCloseCircleOutline className="icon"/>
                         </li>
-                        <li className="clearBtn d-flex align-items-center justify-content-between gap-1">
+                        <li className="clearBtn d-flex align-items-center justify-content-between gap-1"
+                            onClick={() => dispatch(clearAllCate())}
+                        >
                             Clear All
                             <RiArrowGoBackFill className="icon" />
                         </li>
