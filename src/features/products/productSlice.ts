@@ -132,18 +132,6 @@ const productSlice = createSlice({
         setLimit: (state, action: PayloadAction<number>) => {
             state.paginationProps.limit = action.payload;
         },
-        setSearch: (state, action: PayloadAction<string>) => {
-            state.paginationProps.name_like = action.payload;
-        },
-        setLowPrice: (state, action: PayloadAction<number>) => {
-            state.paginationProps.price_gte = action.payload;
-        },
-        setMaxPrice: (state, action: PayloadAction<number>) => {
-            state.paginationProps.price_lte = action.payload;
-        },
-        setCategory: (state, action: PayloadAction<string[]>) => {
-            state.paginationProps.categories = action.payload;
-        },
         cateChecked: (state, action:PayloadAction<string>) => {
             state.filter.cate.push(action.payload)
         },
@@ -170,20 +158,6 @@ const productSlice = createSlice({
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.loadingData = false; 
                 state.listProducts = action.payload.data.data;
-                //Lọc ra những danh sách author 
-                // if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                //     const author = action.payload.data.data.map((item:typeProduct) => {
-                //         return item.author
-                //     });
-                    
-                //     const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
-                //         if (!acc.includes(curr)) {
-                //             acc.push(curr);
-                //         }
-                //         return acc;
-                //     }, []);
-                //     state.author = uniqueAuthor;
-                // }
                 if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
                     const author = state.listProducts.map((item:typeProduct) => {
                         return item.author
