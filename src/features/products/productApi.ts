@@ -25,10 +25,7 @@ export const fetchProducts = createAsyncThunk<
         queryParams.append('_limit', limit.toString());
 
         const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);
-        return {
-            data: res.data,
-            total: Number(res.headers['x-total-count'] || 0),
-        };
+        return res.data;
     }
 );
 export const fetchShopCategories = createAsyncThunk("shopCategories/fetchShopCategories", 

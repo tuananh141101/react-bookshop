@@ -157,7 +157,7 @@ const productSlice = createSlice({
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.loadingData = false; 
-                state.listProducts = action.payload.data.data;
+                state.listProducts = action.payload.data;
                 if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
                     const author = state.listProducts.map((item:typeProduct) => {
                         return item.author
@@ -171,9 +171,9 @@ const productSlice = createSlice({
                     },[])
                     state.listAuthor = uniqueAuthor;
                 }
-                state.listProductsBestSelling = action.payload.data.data.slice(0, 8);
-                state.listProductsLatest = action.payload.data.data.slice(9, 17);
-                state.listProductsSale = action.payload.data.data.slice(16, 24);
+                state.listProductsBestSelling = action.payload.data.slice(0, 8);
+                state.listProductsLatest = action.payload.data.slice(9, 17);
+                state.listProductsSale = action.payload.data.slice(16, 24);
             })
             .addCase(fetchProducts.rejected, (state) => {
                 state.loadingData = false;
