@@ -1,12 +1,12 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { typeProduct } from "../../common/constant/Constant";
+import { typePagination, typeProduct } from "../../common/constant/Constant";
 import { RootState } from "../../app/store";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 interface FetchProductsResponse {
     data: typeProduct[];
-    total: number;
+    pagination: typePagination[];
 }
 export const fetchProducts = createAsyncThunk<
     FetchProductsResponse,

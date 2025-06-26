@@ -74,6 +74,10 @@ export type typeProduct = {
     sale: boolean;
     quantity: number;
 };
+export type typePagination = {
+    page: number;
+    limit: number;
+}
 export type typeBlog = {
     id: number;
     title: string;
