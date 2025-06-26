@@ -153,7 +153,13 @@ const productSlice = createSlice({
         clearAllCate: (state) => {
             state.filter.cate = []
             state.filter.author = []
-        } 
+        },
+        changePageNum: (state,action: PayloadAction<number>) => {
+            state.paginationProps.page = action.payload;
+        },
+        changeLimitNum: (state,action) => {
+            state.paginationProps.limit = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -163,21 +169,21 @@ const productSlice = createSlice({
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.loadingData = false; 
-                state.listProducts = action.payload.data;
+                state.listProducts = action.payload.data.data;
                 //Lọc ra những danh sách author 
-                if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                    const author = action.payload.data.map((item:typeProduct) => {
-                        return item.author
-                    });
+                // if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
+                //     const author = action.payload.data.data.map((item:typeProduct) => {
+                //         return item.author
+                //     });
                     
-                    const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
-                        if (!acc.includes(curr)) {
-                            acc.push(curr);
-                        }
-                        return acc;
-                    }, []);
-                    state.author = uniqueAuthor;
-                }
+                //     const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
+                //         if (!acc.includes(curr)) {
+                //             acc.push(curr);
+                //         }
+                //         return acc;
+                //     }, []);
+                //     state.author = uniqueAuthor;
+                // }
                 if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
                     const author = state.listProducts.map((item:typeProduct) => {
                         return item.author
@@ -191,9 +197,9 @@ const productSlice = createSlice({
                     },[])
                     state.listAuthor = uniqueAuthor;
                 }
-                state.listProductsBestSelling = action.payload.data.slice(0, 8);
-                state.listProductsLatest = action.payload.data.slice(9, 17);
-                state.listProductsSale = action.payload.data.slice(16, 24);
+                state.listProductsBestSelling = action.payload.data.data.slice(0, 8);
+                state.listProductsLatest = action.payload.data.data.slice(9, 17);
+                state.listProductsSale = action.payload.data.data.slice(16, 24);
             })
             .addCase(fetchProducts.rejected, (state) => {
                 state.loadingData = false;
@@ -245,6 +251,7 @@ export const {
     openModalSortDropDown,
     cateChecked,
     authorChecked,
-    clearAllCate
+    clearAllCate,
+    changeLimitNum
 } = productSlice.actions;
 export default productSlice.reducer;
