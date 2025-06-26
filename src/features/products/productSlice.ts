@@ -32,10 +32,6 @@ interface ProductState {
     paginationProps: {
         page: number;
         limit: number;
-        name_like: string;
-        price_gte: number;
-        price_lte: number;
-        categories: string[];
     }
 }
 
@@ -50,7 +46,6 @@ const initialState: ProductState = {
     loadingData: false,
     loadingDetailData: false,
     errorDetail: null,
-    
     quantityProduct: 1,
     activeElem: 0,
     fiteredProductsByCate: [],
@@ -71,10 +66,6 @@ const initialState: ProductState = {
     paginationProps: {
         page: 1,
         limit: 10,
-        name_like: "",
-        price_gte: 0,
-        price_lte: 0,
-        categories: [],
     }
 };
 
@@ -93,12 +84,6 @@ const productSlice = createSlice({
         },
         setActiveElem: (state,action: PayloadAction<number>) => {
             state.activeElem = action.payload;
-        },
-        checkedCate: (state,action: PayloadAction<string>) => {
-            state.filter.cate.push(action.payload);
-        },
-        checkAuthor: (state, action:PayloadAction<string>) => {
-            state.filter.author.push(action.payload)
         },
         updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
             const newPriceRange = [...state.filter.priceRange];
@@ -161,7 +146,14 @@ const productSlice = createSlice({
         },
         cateChecked: (state, action:PayloadAction<string>) => {
             state.filter.cate.push(action.payload)
-        }
+        },
+        authorChecked: (state,action: PayloadAction<string>) => {
+            state.filter.author.push(action.payload)
+        },
+        clearAllCate: (state) => {
+            state.filter.cate = []
+            state.filter.author = []
+        } 
     },
     extraReducers: (builder) => {
         builder
@@ -197,7 +189,6 @@ const productSlice = createSlice({
                         }
                         return acc;
                     },[])
-
                     state.listAuthor = uniqueAuthor;
                 }
                 state.listProductsBestSelling = action.payload.data.slice(0, 8);
@@ -253,5 +244,7 @@ export const {
     sortProductList,
     openModalSortDropDown,
     cateChecked,
+    authorChecked,
+    clearAllCate
 } = productSlice.actions;
 export default productSlice.reducer;
