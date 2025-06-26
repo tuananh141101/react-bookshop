@@ -7,12 +7,12 @@ import { useProductStore } from "../../../../common/hooks/useCustomHooks";
 import { Accordion } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import InputForm from "../../../../shared/components/InputForm/InputForm";
-import { cateChecked } from "../../../../features/products/productSlice";
+import { authorChecked, cateChecked } from "../../../../features/products/productSlice";
 
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {categories,listAuthor} = useProductStore();
-    const handleSubmitPrice = () => {}
+    const {categories,listAuthor,filter} = useProductStore();
+    const handleSubmitPrice = () => {};
     return (
         <>
             <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -22,11 +22,18 @@ const FilterProduct = () => {
                             <ul className="mb-0 pl-0">
                                 {categories && categories.map((item:typeListCategories) => {
                                     return (
-                                        <li key={item.id} onClick={() => dispatch(cateChecked(item.name))}>{item.name}</li>
+                                        <li 
+                                            key={item.id} 
+                                            onClick={() => {
+                                                if (filter.cate.includes(item.name)) return
+                                                dispatch(cateChecked(item.name))
+                                            }}
+                                            className={filter.cate.includes(item.name) ? "hasClicked" : ""}
+                                        >{item.name}</li>
                                     );
                                 })}
                             </ul>
-                        </Accordion.Body>
+                        </Accordion.Body>   
                 </Accordion.Item>
 
                 <Accordion.Item eventKey="1">
@@ -35,7 +42,14 @@ const FilterProduct = () => {
                         <ul className="mb-0 pl-0">
                             {listAuthor && listAuthor.map((item:string, index:number) => {
                                 return (
-                                    <li key={index}>{item}</li>
+                                    <li 
+                                        key={index} 
+                                        onClick={() => {
+                                            if (filter.author.includes(item)) return
+                                            dispatch(authorChecked(item))
+                                        }}
+                                        className={filter.author.includes(item) ? "hasClicked" : ""}
+                                    >{item}</li>
                                 )
                             })}
                         </ul>

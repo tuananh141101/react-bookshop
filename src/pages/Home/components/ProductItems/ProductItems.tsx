@@ -9,8 +9,7 @@ import { useProductStore } from "../../../../common/hooks/useCustomHooks";
 
 const ProductItems = () => {
     // const ref = useRef<HTMLDivElement>(null);
-    const { listProductsBestSelling, listProductsLatest, listProductsSale } =
-        useProductStore();
+    const { listProductsBestSelling, listProductsLatest, listProductsSale } = useProductStore();
     // const isInView = useInView(ref, { once: true });
     const [activeTab, setActiveTab] = useState<number>(0);
     const groupDataProduct = [

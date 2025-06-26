@@ -15,6 +15,7 @@ import {
 } from "../../common/hooks/useCustomHooks";
 import { fetchBlogs } from "../../features/blog/blogApi";
 import React from "react";
+import { changeLimitNum } from "../../features/products/productSlice";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -23,6 +24,7 @@ const Home = () => {
 
     useEffect(() => {
         if (!listProducts.length) {
+            dispatch(changeLimitNum(100))
             dispatch(fetchProducts());
         }
         if (!listBlogs.length) {
