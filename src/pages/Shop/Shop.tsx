@@ -6,31 +6,26 @@ import { useProductStore } from "../../common/hooks/useCustomHooks";
 import "./styles/Shop.scss";
 import FilterProduct from "./components/FilterProduct/FilterProduct";
 import ListProduct from "./components/ListProduct/ListProduct";
-import { fetchProducts, fetchShopCategories, fetchFeatCategories } from "../../features/products/productApi";
+import { fetchProducts, fetchShopCategories, fetchListAuthors } from "../../features/products/productApi";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { listProducts, categories, featCategories, filter } = useProductStore();
+    const { listProducts, categories, listAuthor } = useProductStore();
 
     useEffect(() => {
         if (!categories.length) {
             dispatch(fetchShopCategories())
         }
-        if (!featCategories.length) {
-            dispatch(fetchFeatCategories())
+        if (!listAuthor.length) {
+            dispatch(fetchListAuthors())
         }
-    }, [
-        dispatch, 
-        categories.length,
-        listProducts.length,
-        featCategories.length
-    ]);
+    }, []);
 
     useEffect(() => {
         if (!listProducts.length) {
             dispatch(fetchProducts())
         }
-    },[dispatch, listProducts.length, filter.cate.length]);
+    },[dispatch, listProducts.length]);
 
     return (
         <>

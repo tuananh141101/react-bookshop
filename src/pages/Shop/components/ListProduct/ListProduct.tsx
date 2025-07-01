@@ -6,9 +6,10 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useProductStore } from '../../../../common/hooks/useCustomHooks';
-import { clearAllCate, openModalSortDropDown, sortProductList } from '../../../../features/products/productSlice';
+import { clearAllCate, openModalSortDropDown, removeSingleAuthor, removeSingleCate, sortProductList } from '../../../../features/products/productSlice';
 import { IoCloseSharp } from "react-icons/io5";
 import Spinner from 'react-bootstrap/Spinner';
+import { fetchProducts } from '../../../../features/products/productApi';
 
 
 const ListProduct = () => {
@@ -40,12 +41,43 @@ const ListProduct = () => {
             <div className="filter d-flex align-items-center flex-column">
                 <div className="filter-shop d-flex">
                     <ul className="mb-0 d-flex algin-items-center flex-wrap gap-2">
-                        <li className="filterItemSelected d-flex align-items-center justify-content-between gap-1">
-                            Category
-                            <IoMdCloseCircleOutline className="icon"/>
-                        </li>
+                       {
+                            filter.cate.length > 0 &&
+                                filter.cate.map((item: string, index: number) => (
+                                    <li
+                                        className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
+                                        key={index}
+                                        onClick={() => {
+                                            dispatch(removeSingleCate(item));
+                                            dispatch(fetchProducts());
+                                        }}
+                                    >
+                                        {item}
+                                        <IoMdCloseCircleOutline className="icon" />
+                                    </li>
+                            ))
+                        }
+                        {
+                            filter.author.length > 0 &&
+                                filter.author.map((item:string, index:number) => (
+                                    <li
+                                        className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
+                                        key={index}
+                                        onClick={() => {
+                                            dispatch(removeSingleAuthor(item));
+                                            dispatch(fetchProducts());
+                                        }}
+                                    >
+                                        {item}
+                                        <IoMdCloseCircleOutline className="icon" />
+                                    </li>
+                                ))
+                        }
                         <li className="clearBtn d-flex align-items-center justify-content-between gap-1"
-                            onClick={() => dispatch(clearAllCate())}
+                            onClick={() =>  {
+                                dispatch(clearAllCate());
+                                dispatch(fetchProducts());
+                            }}
                         >
                             Clear All
                             <RiArrowGoBackFill className="icon" />

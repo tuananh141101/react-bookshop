@@ -19,8 +19,14 @@ import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
 import InputForm from "../../components/InputForm/InputForm";
 import React from "react";
+import { useProductStore } from "../../../common/hooks/useCustomHooks";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../../features/products/productApi";
+import { AppDispatch } from "../../../app/store";
+import { changeLimitNum, changeSearch } from "../../../features/products/productSlice";
 
 const Header = () => {
+    const dispatch = useDispatch<AppDispatch>()
     const [isMobile, setIsMobile] = useState<boolean>(
         window.innerWidth <= 1200
     );
@@ -29,6 +35,7 @@ const Header = () => {
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
+    const { filter } = useProductStore();
 
     // Shortcut to focus input search
     useEffect(() => {
@@ -251,10 +258,12 @@ const Header = () => {
                                                     action=""
                                                     onSubmit={(e) => {
                                                         e.preventDefault();
+                                                        dispatch(changeLimitNum(100));
+                                                        dispatch(fetchProducts());                                         
                                                     }}
                                                 >
                                                     <InputForm
-                                                        value=""
+                                                        value={filter.search}
                                                         className={`input-search ${
                                                             isFocused
                                                                 ? "focused-icon"
@@ -262,6 +271,7 @@ const Header = () => {
                                                         }`}
                                                         placeholder="Search | Ctrl K"
                                                         id="your-search-input-id2"
+                                                        onChange={(e:any) => dispatch(changeSearch(e.target.value))}
                                                     />
                                                 </form>
                                             </div>
@@ -367,7 +377,7 @@ const Header = () => {
                                 >
                                     Categories
                                 </span>
-                                <IoIosArrowDown />
+                                {/* <IoIosArrowDown />
 
                                 <Collapse in={categoriesOpen}>
                                     <div id="example-collapse-text">
@@ -407,7 +417,7 @@ const Header = () => {
                                             </li>
                                         </ul>
                                     </div>
-                                </Collapse>
+                                </Collapse> */}
                             </Link>
                         </li>
                         <li>

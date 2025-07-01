@@ -29,6 +29,7 @@
             }
             .filterItemSelected {
                 background-color: #F6F6F6;
+                text-transform: capitalize;
                 &:hover {
                     border: 1px solid black;
                     transition: border 0.1s ease-in;

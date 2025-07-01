@@ -19,30 +19,37 @@ import { changeLimitNum } from "../../features/products/productSlice";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { listProducts, categories, featCategories } = useProductStore();
+    // const { listProducts, categories, featCategories } = useProductStore();
     const { listBlogs } = useBlogStore();
 
+    // useEffect(() => {
+    //     if (!listProducts.length) {
+    //         dispatch(changeLimitNum(100))
+    //         dispatch(fetchProducts());
+    //     }
+    //     if (!listBlogs.length) {
+    //         dispatch(fetchBlogs());
+    //     }
+    //     if (!categories.length) {
+    //         dispatch(fetchShopCategories())
+    //     }
+    //     if (!featCategories.length) {
+    //         dispatch(fetchFeatCategories())
+    //     }
+    // }, [
+    //     dispatch,
+    //     listProducts.length,
+    //     listBlogs.length,
+    //     categories.length,
+    //     featCategories.length
+    // ]);
     useEffect(() => {
-        if (!listProducts.length) {
-            dispatch(changeLimitNum(100))
-            dispatch(fetchProducts());
-        }
-        if (!listBlogs.length) {
-            dispatch(fetchBlogs());
-        }
-        if (!categories.length) {
-            dispatch(fetchShopCategories())
-        }
-        if (!featCategories.length) {
-            dispatch(fetchFeatCategories())
-        }
-    }, [
-        dispatch,
-        listProducts.length,
-        listBlogs.length,
-        categories.length,
-        featCategories.length
-    ]);
+        dispatch(changeLimitNum(100));
+        dispatch(fetchProducts());
+        dispatch(fetchBlogs());
+        dispatch(fetchShopCategories());
+        dispatch(fetchFeatCategories());
+    },[dispatch])
 
     return (
         <>

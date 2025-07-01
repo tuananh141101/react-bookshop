@@ -21,8 +21,8 @@
                 color: rgb(25, 17, 11, 0.7) !important;
 
                 &:not(.collapsed) {
-                  color: $Color-1 !important;
-                  background-color: white;
+                    color: $Color-1 !important;
+                    background-color: white;
                 }
             }
         }
@@ -74,7 +74,6 @@
                 color: $Color-1;
                 font-size: $fontSize-Medium;
                 cursor: pointer;
-                opacity: 0.6;
                 padding-bottom: 8px;
                 text-transform: capitalize;
                 &:hover {

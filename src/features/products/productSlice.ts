@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchDetailProduct, fetchFeatCategories, fetchProducts, fetchShopCategories } from "./productApi";
+import { fetchDetailProduct, fetchFeatCategories, fetchListAuthors, fetchProducts, fetchShopCategories } from "./productApi";
 import { typeCategories, typeListCategories, typeProduct } from "../../common/constant/Constant";
 
 interface ProductState {
@@ -9,30 +9,31 @@ interface ProductState {
     listProductsSale: typeProduct[];
     detailProducts: typeProduct[];
     listAuthor: string[];
+    listAuthorNotAllow: string[];
     categories: typeListCategories[];
     featCategories: typeCategories[];
     activeElem: number;
-    loadingData: boolean;
-    loadingDetailData: boolean;
     error: string | null;
     errorDetail: string | null;
     quantityProduct: number;
-    fiteredProductsByCate: typeProduct[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
     filter: {
-        priceRange: [number,number];
+        minPrice: number;
+        maxPrice: number;
         sortBy: string;
         cate: string[];
         author: string[];
+        search: string;
     },
-    openModalSort: boolean;
-    author: string[]
-    loadingShopCategories: boolean;
-    loadingFeatCategories: boolean;
     paginationProps: {
         page: number;
         limit: number;
     }
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    loadingDetailData: boolean;
+    loadingData: boolean;
+    openModalSort: boolean;
+    loadingShopCategories: boolean;
+    loadingFeatCategories: boolean;
 }
 
 const initialState: ProductState = {
@@ -40,33 +41,33 @@ const initialState: ProductState = {
     listProductsBestSelling: [],
     listProductsLatest: [],
     listProductsSale: [],
-    error: null,
-
+    listAuthor: [],
+    listAuthorNotAllow: [],
     detailProducts: [],
-    loadingData: false,
-    loadingDetailData: false,
-    errorDetail: null,
     quantityProduct: 1,
     activeElem: 0,
-    fiteredProductsByCate: [],
-    status: "idle",
-    listAuthor: [],
     filter: {
-        priceRange: [0,0],
+        minPrice: 0,
+        maxPrice: 100,
         sortBy: "None",
         cate: [],
         author: [],
+        search: "",
     },
-    openModalSort: false,
-    categories: [],
-    featCategories: [], 
-    author: [],
-    loadingShopCategories: false,
-    loadingFeatCategories: false,
     paginationProps: {
         page: 1,
         limit: 10,
-    }
+    },
+    error: null,
+    errorDetail: null,
+    loadingDetailData: false,
+    loadingData: false,
+    status: "idle",
+    openModalSort: false,
+    categories: [],
+    featCategories: [], 
+    loadingShopCategories: false,
+    loadingFeatCategories: false,
 };
 
 const productSlice = createSlice({
@@ -85,16 +86,16 @@ const productSlice = createSlice({
         setActiveElem: (state,action: PayloadAction<number>) => {
             state.activeElem = action.payload;
         },
-        updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
-            const newPriceRange = [...state.filter.priceRange];
-            if (action.payload.type === 'min') {
-                newPriceRange[0] = action.payload.value;
-            } else {
-                newPriceRange[1] = action.payload.value;
-            }
-            state.filter.priceRange[0] = newPriceRange[0];
-            state.filter.priceRange[1] = newPriceRange[1];
-        },
+        // updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
+        //     const newPriceRange = [...state.filter.priceRange];
+        //     if (action.payload.type === 'min') {
+        //         newPriceRange[0] = action.payload.value;
+        //     } else {
+        //         newPriceRange[1] = action.payload.value;
+        //     }
+        //     state.filter.priceRange[0] = newPriceRange[0];
+        //     state.filter.priceRange[1] = newPriceRange[1];
+        // },
         sortProductList: (state, action:PayloadAction<string>) => {
             state.filter.sortBy = action.payload.toString();
             state.openModalSort = false;
@@ -138,6 +139,20 @@ const productSlice = createSlice({
         authorChecked: (state,action: PayloadAction<string>) => {
             state.filter.author.push(action.payload)
         },
+        removeSingleCate: (state, action: PayloadAction<string>) => {
+            const deleteCate = action.payload;
+            if (state.filter.cate.includes(deleteCate)) {
+                const newDataCate = state.filter.cate.filter((item:string) => item !== deleteCate)
+                state.filter.cate = newDataCate
+            } 
+        },
+        removeSingleAuthor: (state,action: PayloadAction<string>) => {
+            const deleteAuthor = action.payload;
+            if (state.filter.author.includes(deleteAuthor)) {
+                const newDataAuthor = state.filter.author.filter((item:string) => item !== deleteAuthor)
+                state.filter.author = newDataAuthor;
+            }
+        },
         clearAllCate: (state) => {
             state.filter.cate = []
             state.filter.author = []
@@ -147,6 +162,9 @@ const productSlice = createSlice({
         },
         changeLimitNum: (state,action) => {
             state.paginationProps.limit = action.payload;
+        },
+        changeSearch: (state,action: PayloadAction<string>) => {
+            state.filter.search = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -158,19 +176,19 @@ const productSlice = createSlice({
             .addCase(fetchProducts.fulfilled, (state, action) => {
                 state.loadingData = false; 
                 state.listProducts = action.payload.data;
-                if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                    const author = state.listProducts.map((item:typeProduct) => {
-                        return item.author
-                    });
+                // if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
+                //     const author = state.listProducts.map((item:typeProduct) => {
+                //         return item.author
+                //     });
 
-                    const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
-                        if (!acc.includes(curr)) {
-                            acc.push(curr);
-                        }
-                        return acc;
-                    },[])
-                    state.listAuthor = uniqueAuthor;
-                }
+                //     const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
+                //         if (!acc.includes(curr)) {
+                //             acc.push(curr);
+                //         }
+                //         return acc;
+                //     },[])
+                //     state.listAuthorNotAllow = uniqueAuthor;
+                // }
                 state.listProductsBestSelling = action.payload.data.slice(0, 8);
                 state.listProductsLatest = action.payload.data.slice(9, 17);
                 state.listProductsSale = action.payload.data.slice(16, 24);
@@ -213,6 +231,17 @@ const productSlice = createSlice({
             .addCase(fetchFeatCategories.rejected, (state) => {
                 state.loadingFeatCategories = false;
             })
+        builder 
+            .addCase(fetchListAuthors.pending, (state) => {
+                state.status = "loading"
+            })
+            .addCase(fetchListAuthors.fulfilled, (state,action) => {
+                state.status = "succeeded";
+                state.listAuthor = action.payload;
+            })
+            .addCase(fetchListAuthors.rejected, (state) => {
+                state.status = "failed";
+            })
     },
 });
 
@@ -225,7 +254,10 @@ export const {
     openModalSortDropDown,
     cateChecked,
     authorChecked,
+    removeSingleCate,
+    removeSingleAuthor,
     clearAllCate,
-    changeLimitNum
+    changeLimitNum,
+    changeSearch
 } = productSlice.actions;
 export default productSlice.reducer;

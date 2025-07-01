@@ -85,6 +85,7 @@
                             border: none;
                             outline: none;
                             background-color: #f6f5f3;
+                            border-radius: 2px 0 0 2px;
 
                             .icon {
                                 stroke: $Color-3;
@@ -99,10 +100,11 @@
 
                         input {
                             width: 85%;
+                            height: 45px;
                             border: none;
                             outline: none;
                             background-color: #f6f5f3;
-                            border-radius: 3px;
+                            border-radius: 0 2px 2px 0;
                         }
 
                         .recent-post-blog {

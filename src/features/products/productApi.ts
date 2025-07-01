@@ -15,14 +15,19 @@ export const fetchProducts = createAsyncThunk<
 >(
     "products/fetchListProducts",
     async (_, {getState}) => {
-        const { paginationProps } = getState().productStore;
-          const {
-            page,
-            limit,
-        } = paginationProps;
-        const queryParams = new URLSearchParams();
-        queryParams.append('_page', page.toString());
-        queryParams.append('_limit', limit.toString());
+        const { paginationProps, filter } = getState().productStore;
+        const { page, limit } = paginationProps;
+        const { search, author, cate, sortBy, minPrice, maxPrice } = filter;
+        const queryParams = [
+            page ? `_page=${page.toString()}` : "",
+            limit ? `_limit=${limit.toString()}` : "",
+            search ? `search=${search.toString()}` : "",
+            author.length > 0 && author ? `author=${author.toString()}` : "",
+            cate.length > 0 && cate ? `category=${cate.toString()}` : "",
+            sortBy !== "None" && sortBy ? `sortBy=${sortBy.toString()}` : "",
+            minPrice ? `minPrice=${minPrice.toString()}` : "",
+            maxPrice ? `maxPrice=${maxPrice.toString()}` : "",
+        ].filter(Boolean).join("&");
 
         const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);
         return res.data;
@@ -42,3 +47,7 @@ export const fetchFeatCategories = createAsyncThunk("featCategories/fetchFeatCat
     const res = await axios.get(`${API_URL}/featCategories`);
     return res.data;
 });
+export const fetchListAuthors = createAsyncThunk("listAuthors/featListAuthors", async() => {
+    const res = await axios.get(`${API_URL}/listAuthors`);
+    return res.data;
+})

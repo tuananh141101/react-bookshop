@@ -8,10 +8,11 @@ import { Accordion } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import InputForm from "../../../../shared/components/InputForm/InputForm";
 import { authorChecked, cateChecked } from "../../../../features/products/productSlice";
+import { fetchProducts } from "../../../../features/products/productApi";
 
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {categories,listAuthor,filter} = useProductStore();
+    const { categories,listAuthor,filter } = useProductStore();
     const handleSubmitPrice = () => {};
     return (
         <>
@@ -25,8 +26,9 @@ const FilterProduct = () => {
                                         <li 
                                             key={item.id} 
                                             onClick={() => {
-                                                if (filter.cate.includes(item.name)) return
-                                                dispatch(cateChecked(item.name))
+                                                if (filter.cate.includes(item.name)) return 
+                                                dispatch(cateChecked(item.name));
+                                                dispatch(fetchProducts());
                                             }}
                                             className={filter.cate.includes(item.name) ? "hasClicked" : ""}
                                         >{item.name}</li>
@@ -40,16 +42,17 @@ const FilterProduct = () => {
                     <Accordion.Header>Author</Accordion.Header>
                     <Accordion.Body>
                         <ul className="mb-0 pl-0">
-                            {listAuthor && listAuthor.map((item:string, index:number) => {
+                            {listAuthor && listAuthor.map((item:any, index:number) => {
                                 return (
                                     <li 
                                         key={index} 
                                         onClick={() => {
-                                            if (filter.author.includes(item)) return
-                                            dispatch(authorChecked(item))
+                                            if (filter.author.includes(item.name)) return
+                                            dispatch(authorChecked(item.name));
+                                            dispatch(fetchProducts());
                                         }}
-                                        className={filter.author.includes(item) ? "hasClicked" : ""}
-                                    >{item}</li>
+                                        className={filter.author.includes(item.name) ? "hasClicked" : ""}
+                                    >{item.name}</li>
                                 )
                             })}
                         </ul>
