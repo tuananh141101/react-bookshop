@@ -10,11 +10,13 @@ import { clearAllCate, openModalSortDropDown, removeSingleAuthor, removeSingleCa
 import { IoCloseSharp } from "react-icons/io5";
 import Spinner from 'react-bootstrap/Spinner';
 import { fetchProducts } from '../../../../features/products/productApi';
+import { typeProduct } from '../../../../common/constant/Constant';
+import CartItem from '../../../../shared/components/CartItem/CartItem';
 
 
 const ListProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {filter, openModalSort} = useProductStore();
+    const {filter, openModalSort, listProducts} = useProductStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -108,10 +110,22 @@ const ListProduct = () => {
                     </div>
                 </div>
             </div>
-            <div className="listProduct d-flex algin-items-center justify-content-center flex-wrap">
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
+            <div className={`listProduct ${listProducts.length < 0 ? `d-flex` : `d-block`} algin-items-center justify-content-center flex-wrap`}>
+                {listProducts.length < 0 ? (
+                    <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                ) : (
+                    <div className="listProduct-items">
+                        {
+                            listProducts.map((item:typeProduct) => {
+                                return (
+                                    <CartItem items={item} index={item.id}/>
+                                )
+                            })
+                        }
+                    </div>
+                )}
             </div>
         </>
     ) 

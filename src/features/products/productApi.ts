@@ -16,10 +16,10 @@ export const fetchProducts = createAsyncThunk<
     "products/fetchListProducts",
     async (_, {getState}) => {
         const { paginationProps, filter } = getState().productStore;
-        const { page, limit } = paginationProps;
+        const { currentPage, limit } = paginationProps;
         const { search, author, cate, sortBy, minPrice, maxPrice } = filter;
         const queryParams = [
-            page ? `_page=${page.toString()}` : "",
+            currentPage ? `_page=${currentPage.toString()}` : "",
             limit ? `_limit=${limit.toString()}` : "",
             search ? `search=${search.toString()}` : "",
             author.length > 0 && author ? `author=${author.toString()}` : "",

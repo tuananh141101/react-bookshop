@@ -25,8 +25,10 @@ interface ProductState {
         search: string;
     },
     paginationProps: {
-        page: number;
+        currentPage: number;
         limit: number;
+        totalItems:number;
+        totalPages:number;
     }
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     loadingDetailData: boolean;
@@ -55,8 +57,10 @@ const initialState: ProductState = {
         search: "",
     },
     paginationProps: {
-        page: 1,
+        currentPage: 1,
         limit: 10,
+        totalItems:0,
+        totalPages: 0
     },
     error: null,
     errorDetail: null,
@@ -128,7 +132,7 @@ const productSlice = createSlice({
             state.openModalSort = action.payload;
         },
         setPage: (state, action: PayloadAction<number>) => {
-            state.paginationProps.page = action.payload;
+            state.paginationProps.currentPage = action.payload;
         },
         setLimit: (state, action: PayloadAction<number>) => {
             state.paginationProps.limit = action.payload;

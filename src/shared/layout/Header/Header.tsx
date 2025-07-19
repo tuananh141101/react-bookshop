@@ -24,6 +24,7 @@ import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../../features/products/productApi";
 import { AppDispatch } from "../../../app/store";
 import { changeLimitNum, changeSearch } from "../../../features/products/productSlice";
+import { toastUtils } from "../../../common/utils/Toastutils";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -271,7 +272,13 @@ const Header = () => {
                                                         }`}
                                                         placeholder="Search | Ctrl K"
                                                         id="your-search-input-id2"
-                                                        onChange={(e:any) => dispatch(changeSearch(e.target.value))}
+                                                        onChange={(e:any) => {
+                                                            if (e.target.value.length > 100) {
+                                                                toastUtils.warning("Maximum 100 characters", "");
+                                                                return;
+                                                            }
+                                                            dispatch(changeSearch(e.target.value))
+                                                        }}
                                                     />
                                                 </form>
                                             </div>
@@ -328,9 +335,9 @@ const Header = () => {
                                         className="mobile-icon"
                                         onClick={handleShow}
                                     >
-                                        <Link to="">
+                                        <span>
                                             <RiMenu3Fill className="icon" />
-                                        </Link>
+                                        </span>
                                     </li>
                                 </ul>
                             </Col>

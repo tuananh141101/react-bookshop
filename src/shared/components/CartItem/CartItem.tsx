@@ -72,8 +72,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 <FaRegEye />
                             </motion.div>
                             <motion.div
-                                className="btn-icon add-fav-book"
-                                variants={btnAnimationBG}
+                            className="btn-icon add-fav-book"
+                            variants={btnAnimationBG}
                                 initial="hidden"
                                 whileHover="show"
                                 onClick={(event: React.MouseEvent<HTMLDivElement>) => {
@@ -87,8 +87,12 @@ const CartItem: React.FC<ChildProps> = React.memo(
 
                     <Card.Body className="border-bottom d-flex align-items-start justify-content-around flex-column">
                         <Card.Text>{items?.categories?.join(", ")}</Card.Text>
-                        <Card.Title>{items?.name}</Card.Title>
-                        <p className="mb-0">
+                        <Card.Title>
+                            <p>
+                                {items?.name}
+                            </p>
+                        </Card.Title>
+                        <p className="mb-0 author">
                             <Link to="">{items?.author}</Link>
                         </p>
                     </Card.Body>

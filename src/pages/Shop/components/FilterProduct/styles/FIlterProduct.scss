@@ -80,6 +80,9 @@
                     opacity: 1;
                     transition: 0.2s ease-in-out;
                 }
+                @media screen and (max-width: $breakpointSmall) {
+                    font-size: $fontSize-Light;
+                }
             }
 
             li > label {
@@ -89,6 +92,16 @@
                     margin-right: 8px;
                     width: 8%;
                 }
+            }
+        }
+        @media screen and (max-width: $breakpointSmall) {
+            form {
+                input {
+                    font-size: $fontSize-Light;
+                }
+            }
+            button {
+                font-size: $fontSize-Light;
             }
         }
     }

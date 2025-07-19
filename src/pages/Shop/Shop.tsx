@@ -34,7 +34,7 @@ const Shop = () => {
                     <Row>
                         <Col>
                             <p className="mb-0">Shop</p>
-                            <span>Showing 1-12 of 31 results</span>
+                            {/* <span>Showing 1-12 of {listProducts.length > 0 ? () : ()} results</span> */}
                         </Col>
                     </Row>
                     

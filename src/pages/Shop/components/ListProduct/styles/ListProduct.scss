@@ -9,11 +9,9 @@
 
 .filter {
     background-color: white;
-    
     .filter-shop {
         width: 100%;
         padding-bottom: 6px;
-        
         ul {
             width: 100%;    
             padding-left: 0;
@@ -46,6 +44,21 @@
                 .icon {
                     fill: #f25529;
                     margin-bottom: 2px;
+                }
+            }
+        }
+        @media screen and (max-width: $breakpointLarge) {
+            margin-bottom: 6px;
+            ul {margin-top: 18px;}
+        }
+        @media screen and (max-width: $breakpointSmall) {
+            margin-bottom: 6px;
+            ul {
+                margin-top: 12px;
+                li {
+                    margin-top: 2px;
+                    margin-bottom: 2px;
+                    font-size: 12px;
                 }
             }
         }
@@ -117,6 +130,57 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+.listProduct {
+    height: 100%;
+    .listProduct-items {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(3, 1fr);
+        @media screen and (max-width: $breakpointEELarge) {}
+        @media screen and (max-width: $breakpointLarge) {
+            grid-template-columns: repeat(2,1fr);
+        }
+        @media screen and (max-width: 445px) {
+            grid-template-columns: repeat(1,1fr);
+        }
+        .card {
+            img {
+                @media screen and (max-width: $breakpointEELarge) {
+                    height: 352px;
+                }
+                @media screen and (max-width: $breakpointExtraLarge) {
+                    height: 292px;
+                }
+                @media screen and (max-width: $breakpointLarge) {
+                    height: 450.67px;
+                }
+                @media screen and (max-width: $breakpointMedium) {
+                    height: 330.67px;
+                }
+                @media screen and (max-width: $breakpointSmall) {
+                    height: 353.33px;
+                }
+                @media screen and (max-width: $breakpointSSmal) {}
+                @media screen and (max-width: 445px) {
+                    height: 413px;
+                }
+            }
+            .card-body {
+                @media screen and (max-width: $breakpointSSmal) {
+                    .card-title {
+                        font-size: $fontSize-Medium;
+                    }
+                }
+                @media screen and (max-width: $breakpointSSmal) {
+                    height: 120px;
+                }
+                
+
             }
         }
     }
