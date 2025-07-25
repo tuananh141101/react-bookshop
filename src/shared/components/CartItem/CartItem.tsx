@@ -54,7 +54,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                             loading="lazy"
                             alt="images"
                         />
-                        <div className="wrapBtnIcon">
+                        <div className={`wrapBtnIcon ${window.innerWidth > 576 ? "d-flex" : "d-none"}`}>
                             <motion.div
                                 className="btn-icon quick-view"
                                 variants={btnAnimationBG}
@@ -173,7 +173,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                         <li>
                                             <span>Categories: </span>
                                             <span>
-                                                {!loadingData ? (
+                                                {loadingData ? (
                                                     <Skeleton className="loadingske-cate" />
                                                 ) : (
                                                    `${items?.categories?.join(", ")}`

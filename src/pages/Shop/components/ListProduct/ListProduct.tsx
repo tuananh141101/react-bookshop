@@ -6,23 +6,37 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useProductStore } from '../../../../common/hooks/useCustomHooks';
-import { clearAllCate, openModalSortDropDown, removeSingleAuthor, removeSingleCate, sortProductList } from '../../../../features/products/productSlice';
+import { clearAllCate, openModalSortDropDown, removeSingleAuthor, removeSingleCate, setPage, sortProductList } from '../../../../features/products/productSlice';
 import { IoCloseSharp } from "react-icons/io5";
 import Spinner from 'react-bootstrap/Spinner';
 import { fetchProducts } from '../../../../features/products/productApi';
 import { typeProduct } from '../../../../common/constant/Constant';
 import CartItem from '../../../../shared/components/CartItem/CartItem';
+import ReactPaginate from "react-paginate";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+import { div, span } from 'framer-motion/client';
 
 
 const ListProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {filter, openModalSort, listProducts} = useProductStore();
+    const {filter, openModalSort, listProducts, paginationProps, loadingData} = useProductStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     const handleSort = () => {
         dispatch(openModalSortDropDown(true));
     };
+
+    const handlePageChange = (e: {selected: number}) => {
+        const selectedPage = e.selected + 1
+        dispatch(setPage(selectedPage));
+        dispatch(fetchProducts())
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }
 
     useEffect(() => {
         const handleClickOusdide = (event: MouseEvent) => {
@@ -36,7 +50,9 @@ const ListProduct = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOusdide);
         }
-    },[dispatch, openModalSort])
+    },[dispatch, openModalSort]);
+
+    console.log("check", paginationProps);
     
     return (
         <>
@@ -111,10 +127,18 @@ const ListProduct = () => {
                 </div>
             </div>
             <div className={`listProduct ${listProducts.length < 0 ? `d-flex` : `d-block`} algin-items-center justify-content-center flex-wrap`}>
-                {listProducts.length < 0 ? (
-                    <Spinner animation="border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </Spinner>
+                {
+                    loadingData ? (
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>   
+                    ) : listProducts.length > 0 ? (
+                    <div className='noFound'>
+                        <div className="noFound-items d-flex align-items-center justify-content-center flex-column gap-2">
+                            <span>No products found</span>
+                            <button onClick={() => window.location.reload()}>Reset all</button>
+                        </div>
+                    </div>
                 ) : (
                     <div className="listProduct-items">
                         {
@@ -126,6 +150,24 @@ const ListProduct = () => {
                         }
                     </div>
                 )}
+                <div className="paginateProduct">
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel={
+                            <IoIosArrowForward />
+                        }
+                        previousLabel={
+                            <IoIosArrowBack />
+                        }
+                        marginPagesDisplayed={2}
+                        pageRangeDisplayed={3}
+                        containerClassName={"pagination"}
+                        pageCount={paginationProps.totalPages}
+                        renderOnZeroPageCount={null}
+                        forcePage={paginationProps.currentPage - 1}
+                        onPageChange={handlePageChange}
+                    />
+                </div>
             </div>
         </>
     ) 

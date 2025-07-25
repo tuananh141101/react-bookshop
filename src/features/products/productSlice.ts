@@ -1,3 +1,4 @@
+import { typeProduct, typePagination } from './../../common/constant/Constant';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchDetailProduct, fetchFeatCategories, fetchListAuthors, fetchProducts, fetchShopCategories } from "./productApi";
 import { typeCategories, typeListCategories, typeProduct } from "../../common/constant/Constant";
@@ -73,6 +74,7 @@ const initialState: ProductState = {
     loadingShopCategories: false,
     loadingFeatCategories: false,
 };
+
 
 const productSlice = createSlice({
     name: "product",
@@ -162,7 +164,7 @@ const productSlice = createSlice({
             state.filter.author = []
         },
         changePageNum: (state,action: PayloadAction<number>) => {
-            state.paginationProps.page = action.payload;
+            state.paginationProps.currentPage = action.payload;
         },
         changeLimitNum: (state,action) => {
             state.paginationProps.limit = action.payload;
@@ -178,8 +180,13 @@ const productSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
+                const {currentPage, limit, totalItems, totalPages} = action.payload.pagination;
                 state.loadingData = false; 
                 state.listProducts = action.payload.data;
+                state.paginationProps.currentPage = currentPage;
+                state.paginationProps.limit = limit;
+                state.paginationProps.totalItems = totalItems;
+                state.paginationProps.totalPages = totalPages;
                 // if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
                 //     const author = state.listProducts.map((item:typeProduct) => {
                 //         return item.author
@@ -262,6 +269,7 @@ export const {
     removeSingleAuthor,
     clearAllCate,
     changeLimitNum,
-    changeSearch
+    changeSearch,
+    setPage
 } = productSlice.actions;
 export default productSlice.reducer;

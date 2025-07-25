@@ -179,9 +179,34 @@
                 @media screen and (max-width: $breakpointSSmal) {
                     height: 120px;
                 }
-                
-
             }
         }
     }
+    .noFound {
+        &-items {
+            background-color: #fbfbfb;
+            width: 300px;
+            height: 300px;
+            span {
+                color: #BDC3C7;
+                font-size: $fontSize-Medium;
+                text-transform: uppercase;
+            }
+            button {
+                width: max-content;
+                min-width: 40px;
+                height: 40px;
+                border: none;
+                outline: none;
+                font-size: $fontSize-Light;
+                padding: 0 15px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.paginateProduct {
+    margin-top: 24px;
 }

@@ -75,8 +75,10 @@ export type typeProduct = {
     quantity: number;
 };
 export type typePagination = {
-    page: number;
+    currentPage: number;
     limit: number;
+    totalPages: number;
+    totalItems: number;
 }
 export type typeBlog = {
     id: number;
