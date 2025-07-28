@@ -51,8 +51,6 @@ const ListProduct = () => {
             document.removeEventListener('mousedown', handleClickOusdide);
         }
     },[dispatch, openModalSort]);
-
-    console.log("check", paginationProps);
     
     return (
         <>
@@ -126,13 +124,13 @@ const ListProduct = () => {
                     </div>
                 </div>
             </div>
-            <div className={`listProduct ${listProducts.length < 0 ? `d-flex` : `d-block`} algin-items-center justify-content-center flex-wrap`}>
+            <div className={`listProduct ${loadingData ? "d-flex flex-column justify-content-start align-items-center" : listProducts.length > 0 ? "d-block" : "d-flex algin-items-center justify-content-center flex-wrap"}`}>
                 {
                     loadingData ? (
                         <Spinner animation="border" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </Spinner>   
-                    ) : listProducts.length > 0 ? (
+                    ) : !listProducts.length ? (
                     <div className='noFound'>
                         <div className="noFound-items d-flex align-items-center justify-content-center flex-column gap-2">
                             <span>No products found</span>
@@ -140,34 +138,38 @@ const ListProduct = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="listProduct-items">
-                        {
-                            listProducts.map((item:typeProduct) => {
-                                return (
-                                    <CartItem items={item} index={item.id}/>
-                                )
-                            })
-                        }
-                    </div>
+                    <>
+                        <div className="listProduct-items">
+                            {
+                                listProducts.map((item:typeProduct) => {
+                                    return (
+                                        <CartItem items={item} index={item.id}/>
+                                    )
+                                })
+                            }
+                        </div>
+                    </>
                 )}
-                <div className="paginateProduct">
-                    <ReactPaginate
-                        breakLabel="..."
-                        nextLabel={
-                            <IoIosArrowForward />
-                        }
-                        previousLabel={
-                            <IoIosArrowBack />
-                        }
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={3}
-                        containerClassName={"pagination"}
-                        pageCount={paginationProps.totalPages}
-                        renderOnZeroPageCount={null}
-                        forcePage={paginationProps.currentPage - 1}
-                        onPageChange={handlePageChange}
-                    />
-                </div>
+                {listProducts.length ? (
+                    <div className="paginateProduct">
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel={
+                                <IoIosArrowForward />
+                            }
+                            previousLabel={
+                                <IoIosArrowBack />
+                            }
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={3}
+                            containerClassName={"pagination"}
+                            pageCount={paginationProps.totalPages}
+                            renderOnZeroPageCount={null}
+                            forcePage={paginationProps.currentPage - 1}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                ) : ""}
             </div>
         </>
     ) 

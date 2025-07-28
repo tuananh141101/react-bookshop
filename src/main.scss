@@ -38,6 +38,8 @@ a {
 .pagination {
     margin-top: 20px;
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 8px;
     li {
         a {
@@ -86,7 +88,12 @@ a {
             letter-spacing: -0.2800000011920929px;
             text-align: center;
             color: #fff;
-            background: rgb(25, 17, 11, 0.9)
+            background: rgb(25, 17, 11, 0.9);
+            &:focus {
+                background-color: none!important;
+                border: none!important;
+                color: none!important;
+            }
         }
     }
 }
