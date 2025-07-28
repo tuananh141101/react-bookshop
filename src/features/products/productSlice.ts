@@ -1,4 +1,3 @@
-import { typeProduct, typePagination } from './../../common/constant/Constant';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchDetailProduct, fetchFeatCategories, fetchListAuthors, fetchProducts, fetchShopCategories } from "./productApi";
 import { typeCategories, typeListCategories, typeProduct } from "../../common/constant/Constant";

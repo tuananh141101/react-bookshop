@@ -9,10 +9,7 @@ import { useEffect } from "react";
 import { fetchFeatCategories, fetchProducts, fetchShopCategories } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
 import Blogsection from "./components/BlogSection/Blogsection";
-import {
-    useBlogStore,
-    useProductStore,
-} from "../../common/hooks/useCustomHooks";
+import { useBlogStore } from "../../common/hooks/useCustomHooks";
 import { fetchBlogs } from "../../features/blog/blogApi";
 import React from "react";
 import { changeLimitNum } from "../../features/products/productSlice";

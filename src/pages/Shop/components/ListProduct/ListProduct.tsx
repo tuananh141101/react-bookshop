@@ -15,7 +15,6 @@ import CartItem from '../../../../shared/components/CartItem/CartItem';
 import ReactPaginate from "react-paginate";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
-import { div, span } from 'framer-motion/client';
 
 
 const ListProduct = () => {
