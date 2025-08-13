@@ -15,15 +15,15 @@ export const fetchProducts = createAsyncThunk<
 >(
     "products/fetchListProducts",
     async (_, {getState}) => {
-        const { paginationProps, filter } = getState().productStore;
+        const { paginationProps } = getState().productStore;
+        const { cate,author,sortBy,maxPrice,minPrice, search } = getState().filterStore;
         const { currentPage, limit } = paginationProps;
-        const { search, author, cate, sortBy, minPrice, maxPrice } = filter;
         const queryParams = [
             currentPage ? `_page=${currentPage.toString()}` : "",
             limit ? `_limit=${limit.toString()}` : "",
             search ? `search=${search.toString()}` : "",
             author.length > 0 && author ? `author=${author.toString()}` : "",
-            cate.length > 0 && cate ? `category=${cate.toString()}` : "",
+            cate.length > 0 && cate ? `category=${cate.map((item:string) => item).toString()}` : "",
             sortBy !== "None" && sortBy ? `sortBy=${sortBy.toString()}` : "",
             minPrice ? `minPrice=${minPrice.toString()}` : "",
             maxPrice ? `maxPrice=${maxPrice.toString()}` : "",

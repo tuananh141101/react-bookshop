@@ -2,15 +2,55 @@ import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { useProductStore } from "../../common/hooks/useCustomHooks";
+import { useFilterStore, useProductStore } from "../../common/hooks/useCustomHooks";
 import "./styles/Shop.scss";
 import FilterProduct from "./components/FilterProduct/FilterProduct";
 import ListProduct from "./components/ListProduct/ListProduct";
-import { fetchProducts, fetchShopCategories, fetchListAuthors } from "../../features/products/productApi";
+import { fetchShopCategories, fetchListAuthors, fetchProducts } from "../../features/products/productApi";
+import { changeLimitNum, setPage } from "../../features/products/productSlice";
+import { useLocation } from "react-router-dom";
+import { cateChecked } from "../../features/filter/filterSlice";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { listProducts, categories, listAuthor } = useProductStore();
+    const location = useLocation()
+    const { categories, listAuthor, paginationProps } = useProductStore();
+    const { cate, author, search } = useFilterStore();
+    const searchprm = new URLSearchParams(location.search);
+
+    console.log("check cate --- ",cate)
+    console.log("check url cate --- ",searchprm.get("category"))
+
+    // console.log("check searchprm ---- ", searchprm)
+    // console.log("check location.search ---- ", location.search)
+    // console.log("check category url ---- ", searchprm.get("category"))
+    const arr1 = ["fiction", "drama", "history"];
+    const arr2 = ["fiction", "drama", "history", "family"];
+    const missingValue = arr2.filter(item => !arr1.includes(item))
+    // console.log("missingValue -- ",missingValue)
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const pageParams = searchParams.get("page");
+        const cateParams = searchParams.get("category");
+        const page = pageParams 
+            ? parseInt(pageParams) > 1
+                ? parseInt(pageParams)
+                : 1
+            : 1;
+        dispatch(setPage(page || 1));
+        if (cateParams) {
+            const cateArray = cateParams.split(",").filter(Boolean);
+            const isDifferent =
+                cateArray.length !== cate.length ||
+                cateArray.some(c => !cate.includes(c));
+            if (isDifferent) {
+                dispatch(cateChecked(cateParams));
+            }
+        }
+
+        dispatch(fetchProducts())
+    },[location.search, dispatch])
 
     useEffect(() => {
         if (!categories.length) {
@@ -19,14 +59,11 @@ const Shop = () => {
         if (!listAuthor.length) {
             dispatch(fetchListAuthors())
         }
-    }, []);
-
-    useEffect(() => {
-        if (!listProducts.length) {
-            dispatch(fetchProducts())
+        if  (paginationProps.limit !==  10) {
+            dispatch(changeLimitNum(10));
         }
-    },[dispatch, listProducts.length]);
-
+    }, []);
+   
     return (
         <>
             <section className="shop">

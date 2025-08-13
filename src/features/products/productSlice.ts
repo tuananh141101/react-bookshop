@@ -1,6 +1,7 @@
+import { typeListAuthor } from './../../common/constant/Constant';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchDetailProduct, fetchFeatCategories, fetchListAuthors, fetchProducts, fetchShopCategories } from "./productApi";
 import { typeCategories, typeListCategories, typeProduct } from "../../common/constant/Constant";
+import { fetchDetailProduct, fetchFeatCategories, fetchListAuthors, fetchProducts, fetchShopCategories } from "./productApi";
 
 interface ProductState {
     listProducts: typeProduct[];
@@ -8,7 +9,7 @@ interface ProductState {
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
     detailProducts: typeProduct[];
-    listAuthor: string[];
+    listAuthor: typeListAuthor[];
     listAuthorNotAllow: string[];
     categories: typeListCategories[];
     featCategories: typeCategories[];
@@ -16,19 +17,18 @@ interface ProductState {
     error: string | null;
     errorDetail: string | null;
     quantityProduct: number;
-    filter: {
-        minPrice: number;
-        maxPrice: number;
-        sortBy: string;
-        cate: string[];
-        author: string[];
-        search: string;
-    },
     paginationProps: {
         currentPage: number;
         limit: number;
         totalItems:number;
         totalPages:number;
+    };
+    metadata: {
+        totalItems: number,
+        totalPages: number,
+        page: number,
+        limit: number,
+
     }
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     loadingDetailData: boolean;
@@ -48,13 +48,11 @@ const initialState: ProductState = {
     detailProducts: [],
     quantityProduct: 1,
     activeElem: 0,
-    filter: {
-        minPrice: 0,
-        maxPrice: 100,
-        sortBy: "None",
-        cate: [],
-        author: [],
-        search: "",
+    metadata: {
+        totalItems: 0,
+        totalPages: 0,
+        page: 0,
+        limit: 0,
     },
     paginationProps: {
         currentPage: 1,
@@ -101,34 +99,34 @@ const productSlice = createSlice({
         //     state.filter.priceRange[0] = newPriceRange[0];
         //     state.filter.priceRange[1] = newPriceRange[1];
         // },
-        sortProductList: (state, action:PayloadAction<string>) => {
-            state.filter.sortBy = action.payload.toString();
-            state.openModalSort = false;
-            switch(action.payload) {
-                case "from A-Z": {    
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
-                    break;
-                }
-                case "from Z-A": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
-                    break;
-                }
-                case "Price: Low-High": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(a.price) - parseFloat(b.price));
-                    break;
-                }
-                case "Price: Hight-Low": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.price) - parseFloat(a.price));
-                    break;
-                }
-                case "Newest Items First": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.yearpublished) - parseFloat(a.yearpublished));
-                    break;
-                }
-                default: 
-                    break;
-            }
-        },
+        // sortProductList: (state, action:PayloadAction<string>) => {
+        //     state.filter.sortBy = action.payload.toString();
+        //     state.openModalSort = false;
+        //     switch(action.payload) {
+        //         case "from A-Z": {    
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
+        //             break;
+        //         }
+        //         case "from Z-A": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
+        //             break;
+        //         }
+        //         case "Price: Low-High": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(a.price) - parseFloat(b.price));
+        //             break;
+        //         }
+        //         case "Price: Hight-Low": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.price) - parseFloat(a.price));
+        //             break;
+        //         }
+        //         case "Newest Items First": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.yearpublished) - parseFloat(a.yearpublished));
+        //             break;
+        //         }
+        //         default: 
+        //             break;
+        //     }
+        // },
         openModalSortDropDown: (state,action:PayloadAction<boolean>) => {
             state.openModalSort = action.payload;
         },
@@ -137,30 +135,6 @@ const productSlice = createSlice({
         },
         setLimit: (state, action: PayloadAction<number>) => {
             state.paginationProps.limit = action.payload;
-        },
-        cateChecked: (state, action:PayloadAction<string>) => {
-            state.filter.cate.push(action.payload)
-        },
-        authorChecked: (state,action: PayloadAction<string>) => {
-            state.filter.author.push(action.payload)
-        },
-        removeSingleCate: (state, action: PayloadAction<string>) => {
-            const deleteCate = action.payload;
-            if (state.filter.cate.includes(deleteCate)) {
-                const newDataCate = state.filter.cate.filter((item:string) => item !== deleteCate)
-                state.filter.cate = newDataCate
-            } 
-        },
-        removeSingleAuthor: (state,action: PayloadAction<string>) => {
-            const deleteAuthor = action.payload;
-            if (state.filter.author.includes(deleteAuthor)) {
-                const newDataAuthor = state.filter.author.filter((item:string) => item !== deleteAuthor)
-                state.filter.author = newDataAuthor;
-            }
-        },
-        clearAllCate: (state) => {
-            state.filter.cate = []
-            state.filter.author = []
         },
         changePageNum: (state,action: PayloadAction<number>) => {
             state.paginationProps.currentPage = action.payload;
@@ -182,23 +156,10 @@ const productSlice = createSlice({
                 const {currentPage, limit, totalItems, totalPages} = action.payload.pagination;
                 state.loadingData = false; 
                 state.listProducts = action.payload.data;
-                state.paginationProps.currentPage = currentPage;
-                state.paginationProps.limit = limit;
-                state.paginationProps.totalItems = totalItems;
-                state.paginationProps.totalPages = totalPages;
-                // if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                //     const author = state.listProducts.map((item:typeProduct) => {
-                //         return item.author
-                //     });
-
-                //     const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
-                //         if (!acc.includes(curr)) {
-                //             acc.push(curr);
-                //         }
-                //         return acc;
-                //     },[])
-                //     state.listAuthorNotAllow = uniqueAuthor;
-                // }
+                state.metadata.page = Number(currentPage);
+                state.metadata.limit = Number(limit);
+                state.metadata.totalItems = Number(totalItems);
+                state.metadata.totalPages = Number(totalPages);
                 state.listProductsBestSelling = action.payload.data.slice(0, 8);
                 state.listProductsLatest = action.payload.data.slice(9, 17);
                 state.listProductsSale = action.payload.data.slice(16, 24);
@@ -260,13 +221,8 @@ export const {
     incrementQuantityProduct,
     decrementQuantityProduct,
     setActiveElem,
-    sortProductList,
+    // sortProductList,
     openModalSortDropDown,
-    cateChecked,
-    authorChecked,
-    removeSingleCate,
-    removeSingleAuthor,
-    clearAllCate,
     changeLimitNum,
     changeSearch,
     setPage

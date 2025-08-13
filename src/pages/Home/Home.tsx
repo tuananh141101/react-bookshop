@@ -19,27 +19,6 @@ const Home = () => {
     // const { listProducts, categories, featCategories } = useProductStore();
     const { listBlogs } = useBlogStore();
 
-    // useEffect(() => {
-    //     if (!listProducts.length) {
-    //         dispatch(changeLimitNum(100))
-    //         dispatch(fetchProducts());
-    //     }
-    //     if (!listBlogs.length) {
-    //         dispatch(fetchBlogs());
-    //     }
-    //     if (!categories.length) {
-    //         dispatch(fetchShopCategories())
-    //     }
-    //     if (!featCategories.length) {
-    //         dispatch(fetchFeatCategories())
-    //     }
-    // }, [
-    //     dispatch,
-    //     listProducts.length,
-    //     listBlogs.length,
-    //     categories.length,
-    //     featCategories.length
-    // ]);
     useEffect(() => {
         dispatch(changeLimitNum(100));
         dispatch(fetchProducts());

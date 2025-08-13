@@ -19,7 +19,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
 import InputForm from "../../components/InputForm/InputForm";
 import React from "react";
-import { useProductStore } from "../../../common/hooks/useCustomHooks";
+import { useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../../features/products/productApi";
 import { AppDispatch } from "../../../app/store";
@@ -36,7 +36,7 @@ const Header = () => {
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
-    const { filter } = useProductStore();
+    const { search } = useFilterStore();
 
     // Shortcut to focus input search
     useEffect(() => {
@@ -177,7 +177,7 @@ const Header = () => {
                                         <Link to="/">Home</Link>
                                     </li>
                                     <li className={isMobile ? "hidden" : ""}>
-                                        <span>
+                                        <span onClick={() => dispatch(changeLimitNum(10))}>
                                             <Link to="shop">Shop</Link>
                                         </span>
                                     </li>
@@ -264,7 +264,7 @@ const Header = () => {
                                                     }}
                                                 >
                                                     <InputForm
-                                                        value={filter.search}
+                                                        value={search}
                                                         className={`input-search ${
                                                             isFocused
                                                                 ? "focused-icon"

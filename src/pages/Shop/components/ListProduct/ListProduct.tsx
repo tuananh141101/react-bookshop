@@ -1,46 +1,35 @@
 import React, { useEffect, useRef } from 'react';
-import "./styles/ListProduct.scss";
+import Spinner from 'react-bootstrap/Spinner';
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { IoIosArrowBack, IoIosArrowForward, IoMdCloseCircleOutline } from "react-icons/io";
+import { IoCloseSharp } from "react-icons/io5";
+import { RiArrowGoBackFill } from "react-icons/ri";
+import ReactPaginate from "react-paginate";
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../../app/store';
-import { IoMdCloseCircleOutline } from "react-icons/io";
-import { RiArrowGoBackFill } from "react-icons/ri";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
-import { useProductStore } from '../../../../common/hooks/useCustomHooks';
-import { clearAllCate, openModalSortDropDown, removeSingleAuthor, removeSingleCate, setPage, sortProductList } from '../../../../features/products/productSlice';
-import { IoCloseSharp } from "react-icons/io5";
-import Spinner from 'react-bootstrap/Spinner';
-import { fetchProducts } from '../../../../features/products/productApi';
 import { typeProduct } from '../../../../common/constant/Constant';
+import { useFilterStore, useProductStore } from '../../../../common/hooks/useCustomHooks';
+import { fetchProducts } from '../../../../features/products/productApi';
 import CartItem from '../../../../shared/components/CartItem/CartItem';
-import ReactPaginate from "react-paginate";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+import "./styles/ListProduct.scss";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clearAllCate, toggleFilterValue } from '../../../../features/filter/filterSlice';
+import { setPage } from '../../../../features/products/productSlice';
 
 
 const ListProduct = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const {filter, openModalSort, listProducts, paginationProps, loadingData} = useProductStore();
+    const {filter, openModalSort, listProducts, paginationProps, loadingData, metadata} = useProductStore();
+    const { cate,author,sortBy } = useFilterStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
     const dropdownRef = useRef<HTMLDivElement>(null);
-
-    const handleSort = () => {
-        dispatch(openModalSortDropDown(true));
-    };
-
-    const handlePageChange = (e: {selected: number}) => {
-        const selectedPage = e.selected + 1
-        dispatch(setPage(selectedPage));
-        dispatch(fetchProducts())
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    }
 
     useEffect(() => {
         const handleClickOusdide = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                dispatch(openModalSortDropDown(false));
+                // dispatch(openModalSortDropDown(false));
             }
         } 
         if (openModalSort) {
@@ -50,37 +39,72 @@ const ListProduct = () => {
             document.removeEventListener('mousedown', handleClickOusdide);
         }
     },[dispatch, openModalSort]);
-    
+
+    const handleSort = () => {
+        dispatch(openModalSortDropDown(true));
+    };
+
+    const handlePageChange = (e: {selected: number}) => {
+        dispatch(setPage(e.selected + 1));
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set(
+            "page", (e.selected + 1).toString()
+        );
+        navigate({
+            search: searchParams.toString(),
+        })
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    }
+
+    const updateURLParams = (isSearch:boolean) => {
+        const searchParams = new URLSearchParams();
+        const params = {
+            page: (paginationProps.currentPage).toString(),
+            category: (filter.cate.join(','))
+        }
+        Object.entries(params).forEach(([key,value]) => {
+            if (value) {
+                searchParams.set(key,value)
+            }
+        })
+        navigate({ search: searchParams.toString() }, { replace: true });
+        if (isSearch) dispatch(fetchProducts())
+    }
+
     return (
         <>
             <div className="filter d-flex align-items-center flex-column">
                 <div className="filter-shop d-flex">
                     <ul className="mb-0 d-flex algin-items-center flex-wrap gap-2">
-                       {
-                            filter.cate.length > 0 &&
-                                filter.cate.map((item: string, index: number) => (
+                        {
+                            cate.length > 0 &&
+                                cate.map((item:string, index:number) => 
                                     <li
-                                        className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
+                                        className="filterItemSelected d-flex align-items-center justify-content-between gap-1"  
                                         key={index}
                                         onClick={() => {
-                                            dispatch(removeSingleCate(item));
-                                            dispatch(fetchProducts());
+                                            // dispatch(removeSingleCate(item));
+                                            dispatch(toggleFilterValue({key: 'cate', value: item}));
+                                            // dispatch(fetchProducts());
                                         }}
                                     >
                                         {item}
                                         <IoMdCloseCircleOutline className="icon" />
                                     </li>
-                            ))
+                                )
                         }
                         {
-                            filter.author.length > 0 &&
-                                filter.author.map((item:string, index:number) => (
+                            author.length > 0 &&
+                                author.map((item:string, index:number) => (
                                     <li
                                         className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
                                         key={index}
                                         onClick={() => {
-                                            dispatch(removeSingleAuthor(item));
-                                            dispatch(fetchProducts());
+                                            dispatch(toggleFilterValue({key: 'author', value: item}))
+                                            // dispatch(fetchProducts());
                                         }}
                                     >
                                         {item}
@@ -94,7 +118,7 @@ const ListProduct = () => {
                                 dispatch(fetchProducts());
                             }}
                         >
-                            Clear All
+                            Clear
                             <RiArrowGoBackFill className="icon" />
                         </li>
                     </ul>
@@ -103,17 +127,18 @@ const ListProduct = () => {
                     <div className="sortDropDown">
                         <div className="sortDropDown-title">
                             <HiOutlineMenuAlt2 /> 
-                            Sort by:<span onClick={handleSort}>{filter.sortBy}</span>
+                            Sort by:<span onClick={handleSort}>{sortBy}</span>
                             <div className={`dropDownListSort ${openModalSort ? "openModal" : ""}`} ref={dropdownRef}>
                                 <div className="title d-flex align-items-center justify-content-between gap-1">
                                     Sort By
-                                    <IoCloseSharp onClick={() => dispatch(openModalSortDropDown(false))}/>
+                                    {/* <IoCloseSharp onClick={() => dispatch(openModalSortDropDown(false))}/> */}
+                                    <IoCloseSharp />
                                 </div>
                                 <ul className={`mb-0 pl-0`}>
                                     {
                                         listSort.map((item:string, index:number) => {
                                             return (
-                                                <li key={index} onClick={() => dispatch(sortProductList(item))}>{item}</li>
+                                                <li key={index}>{item}</li>
                                             )
                                         })
                                     }
@@ -142,7 +167,7 @@ const ListProduct = () => {
                             {
                                 listProducts.map((item:typeProduct) => {
                                     return (
-                                        <CartItem items={item} index={item.id}/>
+                                        <CartItem key={item.id} items={item} index={item.id}/>
                                     )
                                 })
                             }
@@ -162,9 +187,9 @@ const ListProduct = () => {
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             containerClassName={"pagination"}
-                            pageCount={paginationProps.totalPages}
+                            pageCount={metadata.totalPages}
                             renderOnZeroPageCount={null}
-                            forcePage={paginationProps.currentPage - 1}
+                            forcePage={metadata.page - 1}
                             onPageChange={handlePageChange}
                         />
                     </div>
