@@ -46,6 +46,13 @@ const filterSlice = createSlice({
         clearAllCate: (state) => {
             state.cate = []
             state.author = []
+        },
+        changeSearch: (state,action: PayloadAction<string>) => {
+            state.search = action.payload;
+        },
+        changePrice: (state, action:PayloadAction<{key: 'maxPrice' | 'minPrice'; value: number}>) => {
+            const {key, value} = action.payload;
+            state[key] = value;
         }
     }
 })
@@ -56,6 +63,8 @@ export const {
     cateChecked,
     authorChecked,
     removeCateAuthor,
-    clearAllCate
+    clearAllCate,
+    changeSearch,
+    changePrice
 } = filterSlice.actions;
 export default filterSlice.reducer;

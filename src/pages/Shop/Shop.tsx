@@ -16,18 +16,6 @@ const Shop = () => {
     const location = useLocation()
     const { categories, listAuthor, paginationProps } = useProductStore();
     const { cate, author, search } = useFilterStore();
-    const searchprm = new URLSearchParams(location.search);
-
-    console.log("check cate --- ",cate)
-    console.log("check url cate --- ",searchprm.get("category"))
-
-    // console.log("check searchprm ---- ", searchprm)
-    // console.log("check location.search ---- ", location.search)
-    // console.log("check category url ---- ", searchprm.get("category"))
-    const arr1 = ["fiction", "drama", "history"];
-    const arr2 = ["fiction", "drama", "history", "family"];
-    const missingValue = arr2.filter(item => !arr1.includes(item))
-    // console.log("missingValue -- ",missingValue)
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -47,7 +35,7 @@ const Shop = () => {
             if (isDifferent) {
                 dispatch(cateChecked(cateParams));
             }
-        }
+        };
 
         dispatch(fetchProducts())
     },[location.search, dispatch])

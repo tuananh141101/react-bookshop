@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { LuMapPin } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
@@ -23,7 +23,8 @@ import { useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "../../../features/products/productApi";
 import { AppDispatch } from "../../../app/store";
-import { changeLimitNum, changeSearch } from "../../../features/products/productSlice";
+import { changeLimitNum } from "../../../features/products/productSlice";
+import { changeSearch } from "../../../features/filter/filterSlice";
 import { toastUtils } from "../../../common/utils/Toastutils";
 
 const Header = () => {
@@ -37,6 +38,7 @@ const Header = () => {
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
+    const navigate = useNavigate()
 
     // Shortcut to focus input search
     useEffect(() => {
@@ -250,7 +252,7 @@ const Header = () => {
                                             }
                                         }}
                                     >
-                                        <Link to="#">
+                                        {/* <Link to="#"> */}
                                             <div className="d-flex">
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />
@@ -260,7 +262,14 @@ const Header = () => {
                                                     onSubmit={(e) => {
                                                         e.preventDefault();
                                                         dispatch(changeLimitNum(100));
-                                                        dispatch(fetchProducts());                                         
+                                                        const searchParams = new URLSearchParams(location.search);
+                                                        if (search.length > 0) {
+                                                            searchParams.set("search", search.toString());
+                                                        } else {
+                                                            searchParams.delete("search");
+                                                        }
+                                                        navigate({search: searchParams.toString()}, {replace: true});
+                                                        // dispatch(fetchProducts());                                         
                                                     }}
                                                 >
                                                     <InputForm
@@ -273,16 +282,17 @@ const Header = () => {
                                                         placeholder="Search | Ctrl K"
                                                         id="your-search-input-id2"
                                                         onChange={(e:any) => {
+                                                            e.preventDefault();
                                                             if (e.target.value.length > 100) {
                                                                 toastUtils.warning("Maximum 100 characters", "");
                                                                 return;
                                                             }
-                                                            dispatch(changeSearch(e.target.value))
+                                                            dispatch(changeSearch(e.target.value));
                                                         }}
                                                     />
                                                 </form>
                                             </div>
-                                        </Link>
+                                        {/* </Link> */}
                                     </li>
                                     <li className="login">
                                         <Dropdown>

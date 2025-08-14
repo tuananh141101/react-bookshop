@@ -7,16 +7,29 @@ import { useFilterStore, useProductStore } from "../../../../common/hooks/useCus
 import { Accordion } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import InputForm from "../../../../shared/components/InputForm/InputForm";
-import { fetchProducts } from "../../../../features/products/productApi";
 import { useNavigate } from "react-router-dom";
-import { toggleFilterValue } from "../../../../features/filter/filterSlice";
+import { changePrice, toggleFilterValue } from "../../../../features/filter/filterSlice";
+import { toastUtils } from "../../../../common/utils/Toastutils";
 
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { categories, listAuthor } = useProductStore();
-    const { cate, author } = useFilterStore();
-    const handleSubmitPrice = () => {};
+    const { cate, author,minPrice, maxPrice } = useFilterStore();
+
+    const handleSubmitPrice = (e) => {
+        e.preventDefault();
+        const searchParams = new URLSearchParams(location.search);
+        
+        if (minPrice > maxPrice) {
+            toastUtils.warning("Minimum price should be lower than maximum price", "")
+            return
+        } else {
+            searchParams.set("minPrice", minPrice.toString());
+            searchParams.set("maxPrice", maxPrice,toString())
+        }
+        navigate({search: searchParams.toString()}, {replace: true});
+    };
 
     const updateURLParams = (isSearch:boolean) => {1
         const searchParams = new URLSearchParams(location.search);
@@ -48,20 +61,16 @@ const FilterProduct = () => {
                                             onClick={() => {
                                                 if (cate.includes(item.name)) return
                                                 dispatch(toggleFilterValue({key: 'cate', value: item.name}));
-                                                console.log("check cate in filter onclick --- ",cate)
                                                 const newCate = [...cate, item.name];
-                                                console.log("check newCate in filter onclick --- ", newCate.join(","))
 
                                                 const searchParams = new URLSearchParams(location.search);
                                                 const params = {
                                                     category: newCate.join(',')
                                                 }
-                                                console.log("check params in filter onclick --- ", params);
                                                 Object.entries(params).forEach(([key,value]) => {
                                                     if (value) searchParams.set(key,value)
                                                 })
                                                 navigate({search: searchParams.toString()}, {replace: true});
-                                                console.log("check navigate --- ", navigate({search: searchParams.toString()}, {replace: true}))
                                                 // updateURLParams(true);
                                             }}
                                             className={cate.includes(item.name) ? "hasClicked" : ""}
@@ -82,7 +91,18 @@ const FilterProduct = () => {
                                         key={index} 
                                         onClick={() => {
                                             if (author.includes(item.name)) return
-                                            dispatch(fetchProducts());
+                                            dispatch(toggleFilterValue({key: 'author', value: item.name}));
+                                            const newAuthor = [...author,item.name];
+
+                                            const searchParams = new URLSearchParams(location.search);
+                                            const params = {
+                                                author: newAuthor.join(",")
+                                            };
+                                            Object.entries(params).forEach(([key, value]) => {
+                                                if (value) searchParams.set(key,value)
+                                            });
+                                            navigate({search: searchParams.toString()}, {replace:true});
+                                            // dispatch(fetchProducts());
                                         }}
                                         className={author.includes(item.name) ? "hasClicked" : ""}
                                     >{item.name}</li>
@@ -98,17 +118,31 @@ const FilterProduct = () => {
                         <Form onSubmit={handleSubmitPrice}>
                             <InputForm 
                                 type="number"
-                                value={0}
+                                value={minPrice}
+                                onChange={(e) => {
+                                    if (Number(e.target.value) < 1) {
+                                        toastUtils.warning("Price must be a positive value","");
+                                        return
+                                    }
+                                    dispatch(changePrice({key: 'minPrice', value: Number(e.target.value)}));
+                                }}
                                 className="minPrice"
                                 placeholder="Min Price"                        
                             />
                             <InputForm 
                                 type="number"
-                                value={100}
+                                value={maxPrice}
+                                onChange={(e) => {
+                                    if (Number(e.target.value) < 1) {
+                                        toastUtils.warning("Price must be a positive value", "");
+                                        return;
+                                    }
+                                    dispatch(changePrice({key: 'maxPrice', value: Number(e.target.value)}))
+                                }}
                                 className="maxPrice"
                                 placeholder="Max Price"
                             />
-                            <button>Apply</button>
+                            <button type="submit">Apply</button>
                         </Form>
                     </Accordion.Body>
                 </Accordion.Item>

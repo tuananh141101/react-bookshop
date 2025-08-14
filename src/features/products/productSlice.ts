@@ -141,9 +141,6 @@ const productSlice = createSlice({
         },
         changeLimitNum: (state,action) => {
             state.paginationProps.limit = action.payload;
-        },
-        changeSearch: (state,action: PayloadAction<string>) => {
-            state.filter.search = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -224,7 +221,6 @@ export const {
     // sortProductList,
     openModalSortDropDown,
     changeLimitNum,
-    changeSearch,
     setPage
 } = productSlice.actions;
 export default productSlice.reducer;

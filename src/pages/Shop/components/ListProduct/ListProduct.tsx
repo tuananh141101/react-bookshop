@@ -74,6 +74,7 @@ const ListProduct = () => {
         if (isSearch) dispatch(fetchProducts())
     }
 
+
     return (
         <>
             <div className="filter d-flex align-items-center flex-column">
@@ -86,9 +87,16 @@ const ListProduct = () => {
                                         className="filterItemSelected d-flex align-items-center justify-content-between gap-1"  
                                         key={index}
                                         onClick={() => {
-                                            // dispatch(removeSingleCate(item));
+                                            const newCate = cate.filter(c => c !== item);
                                             dispatch(toggleFilterValue({key: 'cate', value: item}));
-                                            // dispatch(fetchProducts());
+
+                                            const searchParams = new URLSearchParams(location.search);
+                                            if (newCate.length > 0) {
+                                                searchParams.set("category", newCate.join(","))
+                                            } else {
+                                                searchParams.delete("category")
+                                            }
+                                            navigate({search: searchParams.toString()}, {replace: true});
                                         }}
                                     >
                                         {item}
@@ -103,8 +111,16 @@ const ListProduct = () => {
                                         className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
                                         key={index}
                                         onClick={() => {
-                                            dispatch(toggleFilterValue({key: 'author', value: item}))
-                                            // dispatch(fetchProducts());
+                                            dispatch(toggleFilterValue({key: 'author', value: item}));
+                                            const newAuthor = author.filter(c => c!== item);
+                                            const searchParams = new URLSearchParams(location.search);
+
+                                            if (newAuthor.length > 0) {
+                                                searchParams.set("author", newAuthor.join(","))
+                                            } else {
+                                                searchParams.delete("author");
+                                            }
+                                            navigate({search: searchParams.toString()}, {replace:true});
                                         }}
                                     >
                                         {item}
