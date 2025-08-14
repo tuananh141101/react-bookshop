@@ -21,7 +21,7 @@ const ListProduct = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const {filter, openModalSort, listProducts, paginationProps, loadingData, metadata} = useProductStore();
+    const { openModalSort, listProducts, paginationProps, loadingData, metadata} = useProductStore();
     const { cate,author,sortBy } = useFilterStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -41,7 +41,7 @@ const ListProduct = () => {
     },[dispatch, openModalSort]);
 
     const handleSort = () => {
-        dispatch(openModalSortDropDown(true));
+        // dispatch(openModalSortDropDown(true));
     };
 
     const handlePageChange = (e: {selected: number}) => {
@@ -59,20 +59,20 @@ const ListProduct = () => {
         });
     }
 
-    const updateURLParams = (isSearch:boolean) => {
-        const searchParams = new URLSearchParams();
-        const params = {
-            page: (paginationProps.currentPage).toString(),
-            category: (filter.cate.join(','))
-        }
-        Object.entries(params).forEach(([key,value]) => {
-            if (value) {
-                searchParams.set(key,value)
-            }
-        })
-        navigate({ search: searchParams.toString() }, { replace: true });
-        if (isSearch) dispatch(fetchProducts())
-    }
+    // const updateURLParams = (isSearch:boolean) => {
+    //     const searchParams = new URLSearchParams();
+    //     const params = {
+    //         page: (paginationProps.currentPage).toString(),
+    //         category: (filter.cate.join(','))
+    //     }
+    //     Object.entries(params).forEach(([key,value]) => {
+    //         if (value) {
+    //             searchParams.set(key,value)
+    //         }
+    //     })
+    //     navigate({ search: searchParams.toString() }, { replace: true });
+    //     if (isSearch) dispatch(fetchProducts())
+    // }
 
 
     return (

@@ -21,7 +21,6 @@ import InputForm from "../../components/InputForm/InputForm";
 import React from "react";
 import { useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
-import { fetchProducts } from "../../../features/products/productApi";
 import { AppDispatch } from "../../../app/store";
 import { changeLimitNum } from "../../../features/products/productSlice";
 import { changeSearch } from "../../../features/filter/filterSlice";

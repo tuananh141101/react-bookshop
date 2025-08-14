@@ -15,7 +15,7 @@ const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
     const location = useLocation()
     const { categories, listAuthor, paginationProps } = useProductStore();
-    const { cate, author, search } = useFilterStore();
+    const { cate } = useFilterStore();
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);

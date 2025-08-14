@@ -17,7 +17,7 @@ const FilterProduct = () => {
     const { categories, listAuthor } = useProductStore();
     const { cate, author,minPrice, maxPrice } = useFilterStore();
 
-    const handleSubmitPrice = (e) => {
+    const handleSubmitPrice = (e:any) => {
         e.preventDefault();
         const searchParams = new URLSearchParams(location.search);
         
@@ -26,26 +26,26 @@ const FilterProduct = () => {
             return
         } else {
             searchParams.set("minPrice", minPrice.toString());
-            searchParams.set("maxPrice", maxPrice,toString())
+            searchParams.set("maxPrice", maxPrice.toString())
         }
         navigate({search: searchParams.toString()}, {replace: true});
     };
 
-    const updateURLParams = (isSearch:boolean) => {1
-        const searchParams = new URLSearchParams(location.search);
-        const params = {
-            page: "1",
-            category: (cate.join(','))
-        }
-        Object.entries(params).forEach(([key,value]) => {
-            if (value) {
-                searchParams.set(key,value)
-            } else {
-                searchParams.delete(key); 
-            }
-        })    
-        navigate({ search: searchParams.toString() }, { replace: true });
-    }
+    // const updateURLParams = (isSearch:boolean) => {1
+    //     const searchParams = new URLSearchParams(location.search);
+    //     const params = {
+    //         page: "1",
+    //         category: (cate.join(','))
+    //     }
+    //     Object.entries(params).forEach(([key,value]) => {
+    //         if (value) {
+    //             searchParams.set(key,value)
+    //         } else {
+    //             searchParams.delete(key); 
+    //         }
+    //     })    
+    //     navigate({ search: searchParams.toString() }, { replace: true });
+    // }
 
     return (
         <>
