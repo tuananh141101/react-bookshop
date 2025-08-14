@@ -21,7 +21,7 @@ const ListProduct = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const { openModalSort, listProducts, paginationProps, loadingData, metadata} = useProductStore();
+    const { openModalSort, listProducts, loadingData, metadata} = useProductStore();
     const { cate,author,sortBy } = useFilterStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
     const dropdownRef = useRef<HTMLDivElement>(null);
