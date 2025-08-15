@@ -17,14 +17,18 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
-import InputForm from "../../components/InputForm/InputForm";
 import React from "react";
 import { useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { changeLimitNum } from "../../../features/products/productSlice";
-import { changeSearch } from "../../../features/filter/filterSlice";
+// import { changeSearch } from "../../../features/filter/filterSlice";
 import { toastUtils } from "../../../common/utils/Toastutils";
+ import { Field, Form, Formik } from 'formik';
+ import * as Yup from "yup";
+import { changeSearch } from "../../../features/filter/filterSlice";
+import { fetchProducts } from "../../../features/products/productApi";
+
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -37,7 +41,7 @@ const Header = () => {
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
     const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // Shortcut to focus input search
     useEffect(() => {
@@ -61,13 +65,11 @@ const Header = () => {
     // Offcanvas handlers
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     // Responsive handler
     const handleResize = () => {
         setIsMobile(window.innerWidth <= 1200);
         setContainerPadding(window.innerWidth <= 992 ? "py-3" : "py-custom");
     };
-
     useEffect(() => {
         window.addEventListener("resize", handleResize);
 
@@ -96,6 +98,22 @@ const Header = () => {
             searchIcon.classList.add("focused-icon");
         }
     };
+
+    // Formik schema
+    const SigupSchema = Yup.object().shape({
+        search: Yup.string()
+            .max(100, "Max length")
+            .required("Search field is required")
+            .matches(
+                /^[^<>(){}[\]`\/!@#$%^&*~"'.,:?|\\]+$/,
+                "Không chứa kí tự"
+            )
+            .test(
+                "No only spaces",
+                'The search keyword cannot contain only whitespace',
+                (value:any) => value && value.trim().length > 0
+            )
+    });
 
     return (
         <>
@@ -256,7 +274,7 @@ const Header = () => {
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />
                                                 </button>
-                                                <form
+                                                {/* <form
                                                     action=""
                                                     onSubmit={(e) => {
                                                         e.preventDefault();
@@ -289,7 +307,44 @@ const Header = () => {
                                                             dispatch(changeSearch(e.target.value));
                                                         }}
                                                     />
-                                                </form>
+                                                </form> */}
+                                                <Formik
+                                                    initialValues={{
+                                                        search: search || '', // Đảm bảo giá trị mặc định
+                                                    }}
+                                                    enableReinitialize
+                                                    validationSchema={SigupSchema}
+                                                    onSubmit={(value) => {
+                                                        if (!value.search.length) return;
+                                                        const searchParams = new URLSearchParams(location.search);
+                                                        dispatch(changeSearch(value.search.toString()));
+                                                        if (value.search.length > 0) {
+                                                            searchParams.set("search", value.search.toString());
+                                                        } else {
+                                                            searchParams.delete("search");
+                                                        }
+                                                        navigate({search: searchParams.toString()}, {replace: true});
+                                                        dispatch(fetchProducts());
+                                                    }}
+                                                    >
+                                                    {() => (
+                                                        <Form>
+                                                            <div className="item-form">
+                                                                <Field
+                                                                name="search"
+                                                                placeholder="Enter search"
+                                                                maxLength={201}
+                                                                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                                    if (e.target.value.length > 200) toastUtils.warning('Please enter at least 200 words', '');
+                                                                }}
+                                                                />
+                                                            </div>
+                                                            <button type="submit" style={{ display: 'none' }}>
+                                                                Submit
+                                                            </button>
+                                                        </Form>
+                                                    )}
+                                                </Formik>
                                             </div>
                                         {/* </Link> */}
                                     </li>

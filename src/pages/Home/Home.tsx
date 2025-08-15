@@ -16,7 +16,6 @@ import { changeLimitNum } from "../../features/products/productSlice";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    // const { listProducts, categories, featCategories } = useProductStore();
     const { listBlogs } = useBlogStore();
 
     useEffect(() => {

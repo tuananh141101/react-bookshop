@@ -164,6 +164,17 @@
                             }
                         }
 
+                        .item-form input {
+                            border: none;
+                            outline: none;
+                            padding: 9px 0 9px 0;
+                            background-color: $backGround-input;
+                            border-radius: 3px;
+                            &::placeholder {
+                                font-size: $fontSize-Light;
+                            }
+                        }
+
                         .icon-search {
                             height: 42px;
                             line-height: 42px;
