@@ -323,7 +323,7 @@ const Header = () => {
                                                         } else {
                                                             searchParams.delete("search");
                                                         }
-                                                        navigate({search: searchParams.toString()}, {replace: true});
+                                                        navigate(`/shop?search=${value.search}`)
                                                         dispatch(fetchProducts());
                                                     }}
                                                     >

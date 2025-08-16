@@ -25,8 +25,8 @@ export const fetchProducts = createAsyncThunk<
             author.length > 0 && author ? `author=${author.toString()}` : "",
             cate.length > 0 && cate ? `category=${cate.map((item:string) => item).toString()}` : "",
             sortBy !== "None" && sortBy ? `sortBy=${sortBy.toString()}` : "",
-            minPrice ? `minPrice=${minPrice.toString()}` : "",
-            maxPrice ? `maxPrice=${maxPrice.toString()}` : "",
+            minPrice ? `minPrice=${minPrice.toString()}` : `minPrice=1`,
+            maxPrice ? `maxPrice=${maxPrice.toString()}` : `maxPrice=1000`,
         ].filter(Boolean).join("&");
 
         const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);

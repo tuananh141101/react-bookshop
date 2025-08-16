@@ -1,8 +1,8 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
 
 interface FilterState {
-    minPrice: number;
-    maxPrice: number;
+    minPrice: number | null;
+    maxPrice: number | null;
     sortBy: string;
     cate: string[];
     author: string[];
@@ -10,8 +10,8 @@ interface FilterState {
 }
 
 const initialState: FilterState = {
-    minPrice:0,
-    maxPrice: 100,
+    minPrice: null,
+    maxPrice: null,
     sortBy: "none",
     cate: [],
     author: [],
@@ -23,16 +23,20 @@ const filterSlice = createSlice({
     initialState,
     reducers: {
         cateChecked: (state,action:PayloadAction<string>) => {
-            state.cate.push(action.payload)
+            state.cate = action.payload.split(",").filter(Boolean)
         },
         authorChecked: (state,action:PayloadAction<string>) => {
-            state.author.push(action.payload)
+            state.author = action.payload.split(",").filter(Boolean)
         },
         removeCateAuthor: (state,action:PayloadAction<{key: 'cate' | 'author'; value:string}>) => {
             const {key,value} = action.payload;
             if (state[key].includes(value)) {
                 state[key] = state[key].filter(item => item !== value); 
             }
+        },
+        removePrice: (state) => {
+            state.minPrice = null
+            state.maxPrice = null
         },
         toggleFilterValue: (state,action:PayloadAction<{key: 'cate' | 'author'; value:string}>) => {
             const {key,value} = action.payload;
@@ -46,6 +50,9 @@ const filterSlice = createSlice({
         clearAllCate: (state) => {
             state.cate = []
             state.author = []
+            state.search = ""
+            state.minPrice = null
+            state.maxPrice = null
         },
         changeSearch: (state,action: PayloadAction<string>) => {
             state.search = action.payload;
@@ -65,6 +72,7 @@ export const {
     removeCateAuthor,
     clearAllCate,
     changeSearch,
-    changePrice
+    changePrice,
+    removePrice
 } = filterSlice.actions;
 export default filterSlice.reducer;

@@ -9,11 +9,11 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../../app/store';
 import { typeProduct } from '../../../../common/constant/Constant';
 import { useFilterStore, useProductStore } from '../../../../common/hooks/useCustomHooks';
-import { fetchProducts } from '../../../../features/products/productApi';
+// import { fetchProducts } from '../../../../features/products/productApi';
 import CartItem from '../../../../shared/components/CartItem/CartItem';
 import "./styles/ListProduct.scss";
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clearAllCate, toggleFilterValue } from '../../../../features/filter/filterSlice';
+import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
+import { clearAllCate, removePrice, toggleFilterValue } from '../../../../features/filter/filterSlice';
 import { setPage } from '../../../../features/products/productSlice';
 
 
@@ -22,7 +22,7 @@ const ListProduct = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { openModalSort, listProducts, loadingData, metadata} = useProductStore();
-    const { cate,author,sortBy } = useFilterStore();
+    const { cate, author, sortBy, minPrice, maxPrice} = useFilterStore();
     const listSort = ["from A-Z", "from Z-A", "Price: Low-High", "Price: High-Low", "Newest Items First", "None"];
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,6 +57,36 @@ const ListProduct = () => {
             top: 0,
             behavior: "smooth",
         });
+    };
+
+    let renderLiPrice = null;
+    if (minPrice && !maxPrice) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        renderLiPrice = 
+        <li 
+            className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
+            onClick={() => dispatch(removePrice())}
+        >
+            From {minPrice}$
+        </li>
+    } else if (!minPrice && maxPrice) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        renderLiPrice =
+        <li 
+            className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
+            onClick={() => dispatch(removePrice())}
+        >
+            Up to {maxPrice}$
+        </li>
+    } else if (minPrice && maxPrice) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        renderLiPrice = 
+        <li 
+            className="filterItemSelected d-flex align-items-center justify-content-between gap-1"
+            onClick={() => dispatch(removePrice())}
+        >
+           Range {minPrice}$ - {maxPrice}$
+        </li>
     }
 
     // const updateURLParams = (isSearch:boolean) => {
@@ -128,10 +158,14 @@ const ListProduct = () => {
                                     </li>
                                 ))
                         }
+                        {renderLiPrice}
                         <li className="clearBtn d-flex align-items-center justify-content-between gap-1"
                             onClick={() =>  {
+                                navigate({
+                                    search: createSearchParams({}).toString(),
+                                });
                                 dispatch(clearAllCate());
-                                dispatch(fetchProducts());
+                                // dispatch(fetchProducts());
                             }}
                         >
                             Clear
@@ -174,7 +208,13 @@ const ListProduct = () => {
                     <div className='noFound'>
                         <div className="noFound-items d-flex align-items-center justify-content-center flex-column gap-2">
                             <span>No products found</span>
-                            <button onClick={() => window.location.reload()}>Reset all</button>
+                            <button onClick={() => {
+                                // window.location.reload()
+                                navigate({
+                                    search: createSearchParams({}).toString(),
+                                });
+                                dispatch(clearAllCate())
+                            }}>Reset all</button>
                         </div>
                     </div>
                 ) : (

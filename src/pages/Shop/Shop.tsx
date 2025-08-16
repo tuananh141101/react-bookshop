@@ -9,7 +9,7 @@ import ListProduct from "./components/ListProduct/ListProduct";
 import { fetchShopCategories, fetchListAuthors, fetchProducts } from "../../features/products/productApi";
 import { changeLimitNum, setPage } from "../../features/products/productSlice";
 import { useLocation } from "react-router-dom";
-import { cateChecked } from "../../features/filter/filterSlice";
+import { authorChecked, cateChecked, changePrice, changeSearch } from "../../features/filter/filterSlice";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -21,21 +21,31 @@ const Shop = () => {
         const searchParams = new URLSearchParams(location.search);
         const pageParams = searchParams.get("page");
         const cateParams = searchParams.get("category");
+        const authorParams = searchParams.get("author");
+        const keyParams = searchParams.get("search");
+        const minPriceParams = searchParams.get("minPrice");
+        const maxPriceParams = searchParams.get("maxPrice");
         const page = pageParams 
             ? parseInt(pageParams) > 1
                 ? parseInt(pageParams)
                 : 1
             : 1;
         dispatch(setPage(page || 1));
+        if (keyParams) dispatch(changeSearch(keyParams.toString()));
+        if (minPriceParams) dispatch(changePrice({key: 'minPrice', value: Number(minPriceParams)}))
+        if (maxPriceParams) dispatch(changePrice({key: 'maxPrice', value: Number(maxPriceParams)}))
         if (cateParams) {
             const cateArray = cateParams.split(",").filter(Boolean);
             const isDifferent =
                 cateArray.length !== cate.length ||
                 cateArray.some(c => !cate.includes(c));
-            if (isDifferent) {
-                dispatch(cateChecked(cateParams));
-            }
+            if (isDifferent) dispatch(cateChecked(cateParams));
         };
+        if (authorParams) {
+            const authorArray = authorParams.split(",").filter(Boolean);
+            const isDifferent = authorParams.length !== authorArray.length || authorParams.some(c => !authorParams.includes(c)); 
+            if (isDifferent) dispatch(authorChecked(authorParams))
+        }
 
         dispatch(fetchProducts())
     },[location.search, dispatch])
