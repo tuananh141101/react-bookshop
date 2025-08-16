@@ -50,7 +50,8 @@ const DetailProduct = () => {
         if (!detailProducts || detailProducts[0]?.id !== Number(idProduct)) {
             dispatch(fetchDetailProduct(Number(idProduct)));
         }
-    }, [dispatch, idProduct]);
+    }, [dispatch, 1]);
+
 
     return (
         <>

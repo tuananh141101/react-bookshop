@@ -75,8 +75,10 @@ export type typeProduct = {
     quantity: number;
 };
 export type typePagination = {
-    page: number;
+    currentPage: number;
     limit: number;
+    totalPages: number;
+    totalItems: number;
 }
 export type typeBlog = {
     id: number;
@@ -120,6 +122,10 @@ export type typeCategories = {
 };
 export type typeListCategories = {
     id:number;
+    name:string;
+}
+export type typeListAuthor = {
+    id: number;
     name:string;
 }
 // Validate email

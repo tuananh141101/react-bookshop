@@ -36,11 +36,6 @@ $breakpointEELarge: 1400px;
   align-items: $alignitem;
   justify-content: $justifycontent;
 }
-@mixin flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
 
 // Class Input
 .inputClassFocusHv {

@@ -2,17 +2,51 @@ import React from "react";
 import "./styles/FIlterProduct.scss";
 import { AppDispatch } from "../../../../app/store";
 import { useDispatch } from "react-redux";
-import { typeListCategories } from "../../../../common/constant/Constant";
-import { useProductStore } from "../../../../common/hooks/useCustomHooks";
+import { typeListAuthor, typeListCategories } from "../../../../common/constant/Constant";
+import { useFilterStore, useProductStore } from "../../../../common/hooks/useCustomHooks";
 import { Accordion } from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
 import InputForm from "../../../../shared/components/InputForm/InputForm";
-import { authorChecked, cateChecked } from "../../../../features/products/productSlice";
+import { useNavigate } from "react-router-dom";
+import { changePrice, toggleFilterValue } from "../../../../features/filter/filterSlice";
+import { toastUtils } from "../../../../common/utils/Toastutils";
 
 const FilterProduct = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const {categories,listAuthor,filter} = useProductStore();
-    const handleSubmitPrice = () => {};
+    const navigate = useNavigate();
+    const { categories, listAuthor } = useProductStore();
+    const { cate, author,minPrice, maxPrice } = useFilterStore();
+
+    const handleSubmitPrice = (e:any) => {
+        e.preventDefault();
+        const searchParams = new URLSearchParams(location.search);
+        
+        if (Number(minPrice) > Number(maxPrice)) {
+            toastUtils.warning("Minimum price should be lower than maximum price", "")
+            return
+        } else {
+            searchParams.set("minPrice", Number(minPrice).toString());
+            searchParams.set("maxPrice", Number(maxPrice).toString())
+        }
+        navigate({search: searchParams.toString()}, {replace: true});
+    };
+
+    // const updateURLParams = (isSearch:boolean) => {1
+    //     const searchParams = new URLSearchParams(location.search);
+    //     const params = {
+    //         page: "1",
+    //         category: (cate.join(','))
+    //     }
+    //     Object.entries(params).forEach(([key,value]) => {
+    //         if (value) {
+    //             searchParams.set(key,value)
+    //         } else {
+    //             searchParams.delete(key); 
+    //         }
+    //     })    
+    //     navigate({ search: searchParams.toString() }, { replace: true });
+    // }
+
     return (
         <>
             <Accordion defaultActiveKey={["0"]} alwaysOpen>
@@ -25,10 +59,21 @@ const FilterProduct = () => {
                                         <li 
                                             key={item.id} 
                                             onClick={() => {
-                                                if (filter.cate.includes(item.name)) return
-                                                dispatch(cateChecked(item.name))
+                                                if (cate.includes(item.name)) return
+                                                dispatch(toggleFilterValue({key: 'cate', value: item.name}));
+                                                const newCate = [...cate, item.name];
+
+                                                const searchParams = new URLSearchParams(location.search);
+                                                const params = {
+                                                    category: newCate.join(',')
+                                                }
+                                                Object.entries(params).forEach(([key,value]) => {
+                                                    if (value) searchParams.set(key,value)
+                                                })
+                                                navigate({search: searchParams.toString()}, {replace: true});
+                                                // updateURLParams(true);
                                             }}
-                                            className={filter.cate.includes(item.name) ? "hasClicked" : ""}
+                                            className={cate.includes(item.name) ? "hasClicked" : ""}
                                         >{item.name}</li>
                                     );
                                 })}
@@ -40,16 +85,27 @@ const FilterProduct = () => {
                     <Accordion.Header>Author</Accordion.Header>
                     <Accordion.Body>
                         <ul className="mb-0 pl-0">
-                            {listAuthor && listAuthor.map((item:string, index:number) => {
+                            {listAuthor && listAuthor.map((item:typeListAuthor, index:number) => {
                                 return (
                                     <li 
                                         key={index} 
                                         onClick={() => {
-                                            if (filter.author.includes(item)) return
-                                            dispatch(authorChecked(item))
+                                            if (author.includes(item.name)) return
+                                            dispatch(toggleFilterValue({key: 'author', value: item.name}));
+                                            const newAuthor = [...author,item.name];
+
+                                            const searchParams = new URLSearchParams(location.search);
+                                            const params = {
+                                                author: newAuthor.join(",")
+                                            };
+                                            Object.entries(params).forEach(([key, value]) => {
+                                                if (value) searchParams.set(key,value)
+                                            });
+                                            navigate({search: searchParams.toString()}, {replace:true});
+                                            // dispatch(fetchProducts());
                                         }}
-                                        className={filter.author.includes(item) ? "hasClicked" : ""}
-                                    >{item}</li>
+                                        className={author.includes(item.name) ? "hasClicked" : ""}
+                                    >{item.name}</li>
                                 )
                             })}
                         </ul>
@@ -62,17 +118,31 @@ const FilterProduct = () => {
                         <Form onSubmit={handleSubmitPrice}>
                             <InputForm 
                                 type="number"
-                                value={0}
+                                value={minPrice}
+                                onChange={(e) => {
+                                    if (Number(e.target.value) < 1) {
+                                        toastUtils.warning("Price must be a positive value","");
+                                        return
+                                    }
+                                    dispatch(changePrice({key: 'minPrice', value: Number(e.target.value)}));
+                                }}
                                 className="minPrice"
                                 placeholder="Min Price"                        
                             />
                             <InputForm 
                                 type="number"
-                                value={100}
+                                value={maxPrice}
+                                onChange={(e) => {
+                                    if (Number(e.target.value) < 1) {
+                                        toastUtils.warning("Price must be a positive value", "");
+                                        return;
+                                    }
+                                    dispatch(changePrice({key: 'maxPrice', value: Number(e.target.value)}))
+                                }}
                                 className="maxPrice"
                                 placeholder="Max Price"
                             />
-                            <button>Apply</button>
+                            <button type="submit">Apply</button>
                         </Form>
                     </Accordion.Body>
                 </Accordion.Item>
@@ -82,3 +152,4 @@ const FilterProduct = () => {
 };
 
 export default FilterProduct;
+

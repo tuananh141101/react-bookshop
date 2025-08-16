@@ -6,7 +6,7 @@ import { RootState } from "../../app/store";
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 interface FetchProductsResponse {
     data: typeProduct[];
-    pagination: typePagination[];
+    pagination: typePagination;
 }
 export const fetchProducts = createAsyncThunk<
     FetchProductsResponse,
@@ -16,13 +16,18 @@ export const fetchProducts = createAsyncThunk<
     "products/fetchListProducts",
     async (_, {getState}) => {
         const { paginationProps } = getState().productStore;
-          const {
-            page,
-            limit,
-        } = paginationProps;
-        const queryParams = new URLSearchParams();
-        queryParams.append('_page', page.toString());
-        queryParams.append('_limit', limit.toString());
+        const { cate,author,sortBy,maxPrice,minPrice, search } = getState().filterStore;
+        const { currentPage, limit } = paginationProps;
+        const queryParams = [
+            currentPage ? `_page=${currentPage.toString()}` : "",
+            limit ? `_limit=${limit.toString()}` : "",
+            search ? `search=${search.toString()}` : "",
+            author.length > 0 && author ? `author=${author.toString()}` : "",
+            cate.length > 0 && cate ? `category=${cate.map((item:string) => item).toString()}` : "",
+            sortBy !== "None" && sortBy ? `sortBy=${sortBy.toString()}` : "",
+            minPrice ? `minPrice=${minPrice.toString()}` : `minPrice=1`,
+            maxPrice ? `maxPrice=${maxPrice.toString()}` : `maxPrice=1000`,
+        ].filter(Boolean).join("&");
 
         const res = await axios.get(`${API_URL}/products?${queryParams.toString()}`);
         return res.data;
@@ -42,3 +47,7 @@ export const fetchFeatCategories = createAsyncThunk("featCategories/fetchFeatCat
     const res = await axios.get(`${API_URL}/featCategories`);
     return res.data;
 });
+export const fetchListAuthors = createAsyncThunk("listAuthors/featListAuthors", async() => {
+    const res = await axios.get(`${API_URL}/listAuthors`);
+    return res.data;
+})

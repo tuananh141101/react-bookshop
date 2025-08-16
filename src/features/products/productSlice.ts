@@ -1,6 +1,7 @@
+import { typeListAuthor } from './../../common/constant/Constant';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchDetailProduct, fetchFeatCategories, fetchProducts, fetchShopCategories } from "./productApi";
 import { typeCategories, typeListCategories, typeProduct } from "../../common/constant/Constant";
+import { fetchDetailProduct, fetchFeatCategories, fetchListAuthors, fetchProducts, fetchShopCategories } from "./productApi";
 
 interface ProductState {
     listProducts: typeProduct[];
@@ -8,31 +9,33 @@ interface ProductState {
     listProductsLatest: typeProduct[];
     listProductsSale: typeProduct[];
     detailProducts: typeProduct[];
-    listAuthor: string[];
+    listAuthor: typeListAuthor[];
+    listAuthorNotAllow: string[];
     categories: typeListCategories[];
     featCategories: typeCategories[];
     activeElem: number;
-    loadingData: boolean;
-    loadingDetailData: boolean;
     error: string | null;
     errorDetail: string | null;
     quantityProduct: number;
-    fiteredProductsByCate: typeProduct[];
+    paginationProps: {
+        currentPage: number;
+        limit: number;
+        totalItems:number;
+        totalPages:number;
+    };
+    metadata: {
+        totalItems: number,
+        totalPages: number,
+        page: number,
+        limit: number,
+
+    }
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    filter: {
-        priceRange: [number,number];
-        sortBy: string;
-        cate: string[];
-        author: string[];
-    },
+    loadingDetailData: boolean;
+    loadingData: boolean;
     openModalSort: boolean;
-    author: string[]
     loadingShopCategories: boolean;
     loadingFeatCategories: boolean;
-    paginationProps: {
-        page: number;
-        limit: number;
-    }
 }
 
 const initialState: ProductState = {
@@ -40,34 +43,35 @@ const initialState: ProductState = {
     listProductsBestSelling: [],
     listProductsLatest: [],
     listProductsSale: [],
-    error: null,
-
+    listAuthor: [],
+    listAuthorNotAllow: [],
     detailProducts: [],
-    loadingData: false,
-    loadingDetailData: false,
-    errorDetail: null,
     quantityProduct: 1,
     activeElem: 0,
-    fiteredProductsByCate: [],
-    status: "idle",
-    listAuthor: [],
-    filter: {
-        priceRange: [0,0],
-        sortBy: "None",
-        cate: [],
-        author: [],
+    metadata: {
+        totalItems: 0,
+        totalPages: 0,
+        page: 0,
+        limit: 0,
     },
+    paginationProps: {
+        currentPage: 1,
+        limit: 10,
+        totalItems:0,
+        totalPages: 0
+    },
+    error: null,
+    errorDetail: null,
+    loadingDetailData: false,
+    loadingData: false,
+    status: "idle",
     openModalSort: false,
     categories: [],
     featCategories: [], 
-    author: [],
     loadingShopCategories: false,
     loadingFeatCategories: false,
-    paginationProps: {
-        page: 1,
-        limit: 10,
-    }
 };
+
 
 const productSlice = createSlice({
     name: "product",
@@ -85,65 +89,55 @@ const productSlice = createSlice({
         setActiveElem: (state,action: PayloadAction<number>) => {
             state.activeElem = action.payload;
         },
-        updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
-            const newPriceRange = [...state.filter.priceRange];
-            if (action.payload.type === 'min') {
-                newPriceRange[0] = action.payload.value;
-            } else {
-                newPriceRange[1] = action.payload.value;
-            }
-            state.filter.priceRange[0] = newPriceRange[0];
-            state.filter.priceRange[1] = newPriceRange[1];
-        },
-        sortProductList: (state, action:PayloadAction<string>) => {
-            state.filter.sortBy = action.payload.toString();
-            state.openModalSort = false;
-            switch(action.payload) {
-                case "from A-Z": {    
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
-                    break;
-                }
-                case "from Z-A": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
-                    break;
-                }
-                case "Price: Low-High": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(a.price) - parseFloat(b.price));
-                    break;
-                }
-                case "Price: Hight-Low": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.price) - parseFloat(a.price));
-                    break;
-                }
-                case "Newest Items First": {
-                    state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.yearpublished) - parseFloat(a.yearpublished));
-                    break;
-                }
-                default: 
-                    break;
-            }
-        },
+        // updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
+        //     const newPriceRange = [...state.filter.priceRange];
+        //     if (action.payload.type === 'min') {
+        //         newPriceRange[0] = action.payload.value;
+        //     } else {
+        //         newPriceRange[1] = action.payload.value;
+        //     }
+        //     state.filter.priceRange[0] = newPriceRange[0];
+        //     state.filter.priceRange[1] = newPriceRange[1];
+        // },
+        // sortProductList: (state, action:PayloadAction<string>) => {
+        //     state.filter.sortBy = action.payload.toString();
+        //     state.openModalSort = false;
+        //     switch(action.payload) {
+        //         case "from A-Z": {    
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
+        //             break;
+        //         }
+        //         case "from Z-A": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => a.name.localeCompare(b.name));
+        //             break;
+        //         }
+        //         case "Price: Low-High": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(a.price) - parseFloat(b.price));
+        //             break;
+        //         }
+        //         case "Price: Hight-Low": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.price) - parseFloat(a.price));
+        //             break;
+        //         }
+        //         case "Newest Items First": {
+        //             state.listProducts = [...state.listProducts].sort((a:typeProduct, b:typeProduct) => parseFloat(b.yearpublished) - parseFloat(a.yearpublished));
+        //             break;
+        //         }
+        //         default: 
+        //             break;
+        //     }
+        // },
         openModalSortDropDown: (state,action:PayloadAction<boolean>) => {
             state.openModalSort = action.payload;
         },
         setPage: (state, action: PayloadAction<number>) => {
-            state.paginationProps.page = action.payload;
+            state.paginationProps.currentPage = action.payload;
         },
         setLimit: (state, action: PayloadAction<number>) => {
             state.paginationProps.limit = action.payload;
         },
-        cateChecked: (state, action:PayloadAction<string>) => {
-            state.filter.cate.push(action.payload)
-        },
-        authorChecked: (state,action: PayloadAction<string>) => {
-            state.filter.author.push(action.payload)
-        },
-        clearAllCate: (state) => {
-            state.filter.cate = []
-            state.filter.author = []
-        },
         changePageNum: (state,action: PayloadAction<number>) => {
-            state.paginationProps.page = action.payload;
+            state.paginationProps.currentPage = action.payload;
         },
         changeLimitNum: (state,action) => {
             state.paginationProps.limit = action.payload;
@@ -156,21 +150,13 @@ const productSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
+                const {currentPage, limit, totalItems, totalPages} = action.payload.pagination;
                 state.loadingData = false; 
                 state.listProducts = action.payload.data;
-                if (Array.isArray(state.listProducts) && state.listProducts.length > 0) {
-                    const author = state.listProducts.map((item:typeProduct) => {
-                        return item.author
-                    });
-
-                    const uniqueAuthor = author.reduce((acc:string[],curr:string) => {
-                        if (!acc.includes(curr)) {
-                            acc.push(curr);
-                        }
-                        return acc;
-                    },[])
-                    state.listAuthor = uniqueAuthor;
-                }
+                state.metadata.page = Number(currentPage);
+                state.metadata.limit = Number(limit);
+                state.metadata.totalItems = Number(totalItems);
+                state.metadata.totalPages = Number(totalPages);
                 state.listProductsBestSelling = action.payload.data.slice(0, 8);
                 state.listProductsLatest = action.payload.data.slice(9, 17);
                 state.listProductsSale = action.payload.data.slice(16, 24);
@@ -213,6 +199,17 @@ const productSlice = createSlice({
             .addCase(fetchFeatCategories.rejected, (state) => {
                 state.loadingFeatCategories = false;
             })
+        builder 
+            .addCase(fetchListAuthors.pending, (state) => {
+                state.status = "loading"
+            })
+            .addCase(fetchListAuthors.fulfilled, (state,action) => {
+                state.status = "succeeded";
+                state.listAuthor = action.payload;
+            })
+            .addCase(fetchListAuthors.rejected, (state) => {
+                state.status = "failed";
+            })
     },
 });
 
@@ -221,11 +218,9 @@ export const {
     incrementQuantityProduct,
     decrementQuantityProduct,
     setActiveElem,
-    sortProductList,
+    // sortProductList,
     openModalSortDropDown,
-    cateChecked,
-    authorChecked,
-    clearAllCate,
-    changeLimitNum
+    changeLimitNum,
+    setPage
 } = productSlice.actions;
 export default productSlice.reducer;
