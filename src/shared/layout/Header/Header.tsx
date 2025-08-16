@@ -39,7 +39,8 @@ const Header = () => {
     const [show, setShow] = useState<boolean>(false); // *offcanvas
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
-    const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
     const navigate = useNavigate();
 
@@ -89,15 +90,15 @@ const Header = () => {
     }, [isMobile]);
 
     // Focus change color icon search
-    const handleFocus = () => {
-        setIsFocused(true);
-        const searchIcon = document.querySelector<HTMLDivElement>(
-            "#searchInputLi .icon-search .icon"
-        );
-        if (searchIcon) {
-            searchIcon.classList.add("focused-icon");
-        }
-    };
+    // const handleFocus = () => {
+    //     setIsFocused(true);
+    //     const searchIcon = document.querySelector<HTMLDivElement>(
+    //         "#searchInputLi .icon-search .icon"
+    //     );
+    //     if (searchIcon) {
+    //         searchIcon.classList.add("focused-icon");
+    //     }
+    // };
 
     // Formik schema
     const SigupSchema = Yup.object().shape({
@@ -255,9 +256,9 @@ const Header = () => {
                                     <li
                                         className={isMobile ? "hidden" : ""}
                                         id="searchInputLi"
-                                        onFocus={handleFocus}
+                                        // onFocus={handleFocus}
                                         onBlur={() => {
-                                            setIsFocused(false);
+                                            // setIsFocused(false);
                                             const searchIcon =
                                                 document.querySelector<HTMLDivElement>(
                                                     "#searchInputLi .icon-search .icon"
