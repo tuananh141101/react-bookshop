@@ -15,7 +15,7 @@ const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
     const location = useLocation()
     const { categories, listAuthor, paginationProps } = useProductStore();
-    const { cate } = useFilterStore();
+    const { cate, author } = useFilterStore();
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -43,7 +43,7 @@ const Shop = () => {
         };
         if (authorParams) {
             const authorArray = authorParams.split(",").filter(Boolean);
-            const isDifferent = authorParams.length !== authorArray.length || authorParams.some(c => !authorParams.includes(c)); 
+            const isDifferent = authorParams.length !== authorArray.length || authorArray.some(c => !author.includes(c)); 
             if (isDifferent) dispatch(authorChecked(authorParams))
         }
 

@@ -21,12 +21,12 @@ const FilterProduct = () => {
         e.preventDefault();
         const searchParams = new URLSearchParams(location.search);
         
-        if (minPrice > maxPrice) {
+        if (Number(minPrice) > Number(maxPrice)) {
             toastUtils.warning("Minimum price should be lower than maximum price", "")
             return
         } else {
-            searchParams.set("minPrice", minPrice.toString());
-            searchParams.set("maxPrice", maxPrice.toString())
+            searchParams.set("minPrice", Number(minPrice).toString());
+            searchParams.set("maxPrice", Number(maxPrice).toString())
         }
         navigate({search: searchParams.toString()}, {replace: true});
     };
