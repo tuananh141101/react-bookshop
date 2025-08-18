@@ -4,6 +4,7 @@ import productSlice from "../features/products/productSlice";
 import blogSlice from "../features/blog/blogSlice";
 import commemtSlice from "../features/comments/commentSlice";
 import filterSlice  from "../features/filter/filterSlice";
+import cartSlice from "../features/cart/cartSlice";
 
 import {
     persistStore,
@@ -20,14 +21,15 @@ const persistConfig = {
     key: "root",
     version: 1,
     storage,
-    whitelist: ["carts", "auths"],
+    whitelist: ["cartStore"],
 };
 
 const rootReducer = combineReducers({
     productStore: productSlice,
     blogStore: blogSlice,
     commentStore: commemtSlice,
-    filterStore: filterSlice
+    filterStore: filterSlice,
+    cartStore: cartSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
