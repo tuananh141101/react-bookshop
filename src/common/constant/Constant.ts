@@ -34,6 +34,26 @@ export const btnAnimationBG = {
         y: 0,
     },
 };
+export const btnAnimationBGBlacktoWhite = {
+    hidden: {
+        y: 0,
+        background: "#19110b",
+        color: "#FFFFFF",
+    },
+    show: {
+        y: -5,
+        background: "white",
+        border: "1px solid #19110b",
+        color: "#19110b",
+        transition: {
+            duration: 0.2,
+            ease: "easeInOut",
+        },
+    },
+    exit: {
+        y: 0,
+    },
+};
 
 // Messages
 export const Messages = {

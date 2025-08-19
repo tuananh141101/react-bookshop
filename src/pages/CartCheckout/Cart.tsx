@@ -1,0 +1,126 @@
+import React from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import "./style/Cart.scss";
+import { Link } from "react-router-dom";
+
+
+const Index = () => {
+    return (
+        <section className="cart">
+            <Container>
+                <Row>
+                    <Col className="cart-content-btn" xs={12}>
+                        <p className="mb-0">delivery details</p>   
+                        <div className="cart-btn d-flex align-items-center justify-content-between">
+                            <button className="continue-shop">Continue shopping</button>
+                            <button className="go-checkout">Go checkout</button>
+                        </div>                     
+                    </Col>
+                    <Col className="cart-detail" xs={12}>
+                        <table className="cart-table">
+                            <thead>
+                                <tr>
+                                    <th className="title">Product</th>
+                                    <th className="title">&nbsp;</th>
+                                    <th className="title">Price</th>
+                                    <th className="title">Quantity</th>
+                                    <th className="title">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="cart-table__image-block">
+                                        {/* <span>Product</span> */}
+                                        <div className="image-wrapper d-flex align-items-center justify-content-center">
+                                            <Link to="">
+                                                <img src="https://picsum.photos/200/300" alt="" />
+                                            </Link>
+                                        </div>
+                                    </td>
+                                    <td className="cart-table__description">
+                                        <Link to="">Born a Crime: Stories from a South African Childhood</Link>
+                                    </td>
+                                    <td className="cart-table__price">
+                                        <span>Price</span>
+                                        <p className="mb-0" style={{paddingLeft: "0px"}}>13.49$</p>
+                                    </td>
+                                    <td className="cart-table__qty">
+                                        <span>Quantity</span>
+                                        <div className="qty-wrapper">
+                                            <button>-</button>
+                                            <input type="number" name="quantity" value={1} />
+                                            <button>+</button>    
+                                        </div>
+                                    </td>
+                                    <td className="cart-table__total">
+                                        <span>Total</span>
+                                        <p className="mb-0" style={{paddingLeft: "0px"}}>13.49$</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="cart-table__image-block">
+                                        <div className="image-wrapper d-flex align-items-center justify-content-center">
+                                            <Link to="">
+                                                <img src="https://picsum.photos/200/300" alt="" />
+                                            </Link>
+                                        </div>
+                                    </td>
+                                    <td className="cart-table__description">
+                                        <Link to="">Born a Crime: Stories from a South African Childhood</Link>
+                                    </td>
+                                    <td className="cart-table__price">
+                                        <span>13.49$</span>
+                                    </td>
+                                    <td className="cart-table__qty">
+                                        <div className="qty-wrapper">
+                                            <button>-</button>
+                                            <input type="number" name="quantity" value={1} />
+                                            <button>+</button>    
+                                        </div>
+                                    </td>
+                                    <td className="cart-table__total">
+                                        <span>13.49$</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td className="cart-table__image-block">
+                                        <div className="image-wrapper d-flex align-items-center justify-content-center">
+                                            <Link to="">
+                                                <img src="https://picsum.photos/200/300" alt="" />
+                                            </Link>
+                                        </div>
+                                    </td>
+                                    <td className="cart-table__description">
+                                        <Link to="">Born a Crime: Stories from a South African Childhood</Link>
+                                    </td>
+                                    <td className="cart-table__price">
+                                        <span>13.49$</span>
+                                    </td>
+                                    <td className="cart-table__qty">
+                                        <div className="qty-wrapper">
+                                            <button>-</button>
+                                            <input type="number" name="quantity" value={1} />
+                                            <button>+</button>    
+                                        </div>
+                                    </td>
+                                    <td className="cart-table__total">
+                                        <span>13.49$</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </Col>
+                    <Col className="cart-total" xs={12}>
+                        <div className="cart-total__wrapper da-flex align-items-center">
+                            <div className="cart-total__top">top</div>
+                            <div className="cart-total__bottom">bottom</div>
+                        </div>
+                    </Col>
+                    <Col className="cart-bottom-btn" xs={12}>Cart detail</Col>
+                </Row>
+            </Container>
+        </section>
+    )
+}
+
+export default Index;

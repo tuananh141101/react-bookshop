@@ -15,6 +15,8 @@ export const useCommentStore = () =>
     useSelector((state:RootState) => state.commentStore);   
 export const useFilterStore = () => 
     useSelector((state:RootState) => state.filterStore);
+export const useCartStore = () => 
+    useSelector((state:RootState) => state.cartStore);
 
 export const useDebounce = (value:any, delay:number) => {
     const [debounceValue,setDebouncedValue] = useState(value);

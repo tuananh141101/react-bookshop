@@ -18,7 +18,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
 import React from "react";
-import { useFilterStore } from "../../../common/hooks/useCustomHooks";
+import { useCartStore, useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { changeLimitNum } from "../../../features/products/productSlice";
@@ -39,6 +39,7 @@ const Header = () => {
     const [show, setShow] = useState<boolean>(false); // *offcanvas
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
+    const { cart } = useCartStore();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
@@ -249,8 +250,7 @@ const Header = () => {
                                     <li className="cart-icon">
                                         <Link to="cart">
                                             <FiShoppingCart className="icon" />
-                                            {/* ({totalQuantity}) */}
-                                            (0)
+                                            ({cart.length})
                                         </Link>
                                     </li>
                                     <li
@@ -274,6 +274,7 @@ const Header = () => {
                                             <div className="d-flex">
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />
+                                                    
                                                 </button>
                                                 {/* <form
                                                     action=""
