@@ -111,9 +111,32 @@ const Index = () => {
                         </table>
                     </Col>
                     <Col className="cart-total" xs={12}>
-                        <div className="cart-total__wrapper da-flex align-items-center">
-                            <div className="cart-total__top">top</div>
-                            <div className="cart-total__bottom">bottom</div>
+                        <div className="cart-total__wrapper da-flex align-items-center border">
+                            <div className="cart-total__top d-flex align-items-center justify-content-between border-bottom">
+                                <div className="coupon">
+                                    <p className="mb-0">Coupon</p>
+                                    <form className="d-flex algin-items-center justify-content-center">
+                                        <input type="text" name="coupon" id="" placeholder="Enter your coupon!"/>
+                                        <button type="submit">Apply</button>
+                                    </form>
+                                </div>
+                                <div className="statistic-list">
+                                    <ul className="mb-0">
+                                        <li>
+                                            <span className="title">Subtotal: </span>
+                                            <span className="value">133.99$</span>
+                                        </li>
+                                        <li style={{textAlign: "center"}}>
+                                            <span className="cost">Shipping costs</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className="cart-total__bottom">
+                                <span className="total-title">Total: </span>
+                                <span className="total-value">133.99$</span>
+
+                            </div>
                         </div>
                     </Col>
                     <Col className="cart-bottom-btn" xs={12}>Cart detail</Col>

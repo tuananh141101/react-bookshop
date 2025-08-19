@@ -165,9 +165,94 @@
             }
         }
         .cart-total {
-            padding: 17px 20px;
             &__wrapper {
-                .cart-total__top {}
+                padding: 17px 20px;
+                border-radius: 3px;                 
+                .cart-total__top {
+                    padding: 20px 0;
+                    .coupon {
+                        p {
+                            color: #919191;
+                            padding-left: 0;
+                        }
+                        form {
+                            input,
+                            button {
+                                outline: none;
+                                border: none;
+                                height: 38px;
+                                transition: all .2s ease-in-out;
+                            }
+                            input {
+                                padding: 4px 120px 4px 8px;
+                                border: 1px solid #919191;
+                                border-right: none;
+                                border-radius: 3px 0 0 3px;
+                            }
+                            button {
+                                width: 95px;
+                                border-radius: 0 3px 3px 0;
+                                border: 1px solid #919191;
+                            }
+                            &:hover {
+                                input {
+                                    border: 1px solid $Color-1;
+                                    border-right: none;
+                                    transition: all .2s ease-in-out;
+                                    border-radius: 3px 0 0 3px;
+                                }
+                                button {
+                                    border:1px solid $Color-1;
+                                    border-left: 1px solid #919191;
+                                    transition: all .2s ease-in-out;
+                                    border-radius: 0 3px 3px 0;
+                                }
+                            }
+                        }
+                    }
+                    .statistic-list {
+                        ul {
+                            padding-left: 0;
+                            li span {color:#919191}
+                        }
+                    } 
+                }
+                .cart-total__bottom {
+                    text-align: right;
+                    padding-top: 20px;
+                    .total-title {color: #919191;}
+                    .total-value {
+                        color: $Color-1;
+                        font-size: $fontSize-Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                    }
+                }
+                @media screen and (max-width: $breakpointMedium) {
+                    .cart-total__top {
+                        flex-direction: column;
+                        .coupon {
+                            width: 100%;
+                            form {
+                                width: 100%;
+                                input {width: 75%;}
+                                button {width: 25%;}
+                            }
+                        }
+                        .statistic-list {
+                            width: 100%;
+                            ul {
+                                li {
+                                    margin-bottom: 6px;
+                                    text-align: right!important;
+                                    &:first-child {
+                                        margin-top: 6px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
