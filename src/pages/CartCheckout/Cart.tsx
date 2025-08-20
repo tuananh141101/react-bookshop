@@ -1,10 +1,11 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "./style/Cart.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Index = () => {
+    const navigate = useNavigate()
     return (
         <section className="cart">
             <Container>
@@ -12,8 +13,12 @@ const Index = () => {
                     <Col className="cart-content-btn" xs={12}>
                         <p className="mb-0">delivery details</p>   
                         <div className="cart-btn d-flex align-items-center justify-content-between">
-                            <button className="continue-shop">Continue shopping</button>
-                            <button className="go-checkout">Go checkout</button>
+                            <button className="continue-shop"
+                                onClick={() => navigate("/shop")}
+                            >Continue shopping</button>
+                            <button className="go-checkout"
+                                onClick={() => navigate("/checkout")}
+                            >Go checkout</button>
                         </div>                     
                     </Col>
                     <Col className="cart-detail" xs={12}>
@@ -139,7 +144,21 @@ const Index = () => {
                             </div>
                         </div>
                     </Col>
-                    <Col className="cart-bottom-btn" xs={12}>Cart detail</Col>
+                    <Col className="cart-bottom-btn" xs={12}>
+                        <div className="btn-wrapper d-flex align-items-center justify-content-between">
+                            <div className="btn-left">
+                                <button className="continue-shop"
+                                    onClick={() => navigate("/shop")}
+                                >Continue shopping</button>
+                                <button>Delete cart</button>
+                            </div>
+                            <div className="btn-right">
+                                <button className="checkout"
+                                    onClick={() => navigate("/checkout")}
+                                >Go checkout</button>
+                            </div>
+                        </div>
+                    </Col>
                 </Row>
             </Container>
         </section>

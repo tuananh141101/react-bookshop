@@ -1,0 +1,16 @@
+@import "../../../../public/assets/styles/common";
+
+
+.checkout {
+    .container {
+        .row {
+            .checkout-customer {
+                
+            }
+            .checkout-order {
+                position: sticky;
+                top: 16px;
+            }
+        }
+    }
+}
