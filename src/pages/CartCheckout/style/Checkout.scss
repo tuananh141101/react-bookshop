@@ -1,15 +1,128 @@
 @import "../../../../public/assets/styles/common";
 
 
-.checkout {
+
+.litecheckout-header {
     .container {
         .row {
-            .checkout-customer {
-                
+            .col {
+                height: 94px;
+                .logo {
+                    font-size: $fontSize-X-Large;
+                    font-family: "Victormono";
+                    text-transform: uppercase;
+                }
+                .contact {
+                    .number {margin-left: 6px;font-weight: bold;}
+                }
             }
+        }
+    }
+}
+.checkout {
+    .checkout-header {
+        width: 100%;
+        height: 94px;
+    }
+    .container {
+        .row {
+            .checkout-customer {}
             .checkout-order {
-                position: sticky;
-                top: 16px;
+                // position: sticky;
+                // top: 26px;
+                margin-top: 26px;
+                &__coupon {
+                    background: #F6F6F6;
+                    border-radius: 4px;
+                    padding: 20px;
+                    margin-bottom: 26px;
+                    .coupon-title {
+                        font-size: $fontSize-Large;
+                        font-weight: bold;
+                        font-family: "Victormono";
+                        text-transform: uppercase;
+                        margin-bottom: 8px;
+                    }
+                    .coupon-input {
+                        label {color: #919191;}
+                        .input-wrapper {
+                            width: 100%;
+                            button,
+                            input {
+                                border: none;
+                                outline: none;
+                                transition: border .2s ease-in-out;
+                                height: 34.5px;
+                            }
+                            input {
+                                width: 70%;
+                                padding: 4px 4px 4px 8px;
+                                border: 1px solid #919191;
+                                border-right: none;
+                                border-radius: 3px 0 0 3px;
+                            }
+                            button {
+                                width: 30%;
+                                border-radius: 0 3px 3px 0;
+                                border: 1px solid #919191;
+                            }
+                            &:hover {
+                                input {
+                                    border: 1px solid $Color-1;
+                                    border-right: none;
+                                    transition: all .2s ease-in-out;
+                                    border-radius: 3px 0 0 3px;
+                                }
+                                button {
+                                    border:1px solid $Color-1;
+                                    border-left: 1px solid #919191;
+                                    transition: all .2s ease-in-out;
+                                    border-radius: 0 3px 3px 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                &__abcart {
+                    background-color: #F6F6F6;
+                    border-radius: 4px;
+                    padding: 20px;
+                    .abcart-title {
+                        font-size: $fontSize-Large;
+                        font-weight: bold;
+                        font-family: "Victormono";
+                        text-transform: uppercase;
+                        margin-bottom: 8px;
+                    }
+                    .abcart-body {
+                        .checkout-summary {
+                            &__block {
+                                width: 100%;
+                                tr {
+                                    td {&:first-child {color: #919191;padding-bottom: 3px;}&:last-child {text-align: right;}}
+                                }
+                                .total tr td {&:last-child {font-size: $fontSize-X-Large;font-weight: bold;}}
+                            }
+                        }
+                        .checkout-submit {
+                            margin-top: 20px;
+                            button {
+                                outline: none;
+                                border: none;
+                                border-radius: 3px;
+                                height: 52px;
+                                width: 100%;
+                                background-color: rgba(25, 17, 11, .9);
+                                color: white;
+                                transition: .2s ease-in-out;
+                                border: 1px solid rgba(25, 17, 11, .9);
+                                &:hover {
+                                    background-color: rgba(25, 17, 11, 1);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
