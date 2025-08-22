@@ -26,7 +26,48 @@
     }
     .container {
         .row {
-            .checkout-customer {}
+            .checkout-customer {
+                &__stepuser {
+                    .user {
+                        width: 100%;
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        grid-template-rows: auto auto;        
+                        gap: 10px;
+                        .item-form {
+                            .showError {
+                                font-size: $fontSize-Light;
+                                color: $Color-5;
+                            }
+                            label {
+                                color: #BCBCBCE6;
+                                font-size: $fontSize-Light;
+                            }
+                            input {
+                                border: none;
+                                outline: none;
+                                border: 1px solid #BCBCBCE6;
+                                border-radius: 4px;
+                                padding: 8px 12px;
+                            }
+                            &:last-child {grid-column: 1 / span 3;}
+                        }
+                    }
+                    .checkbox {
+                        width: 100%;
+                        padding: 10px 0;
+                        cursor: pointer;
+                        input {
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 4px;
+                        }
+                    }
+                    .billing {
+                        width: 100%;
+                    }
+                }
+            }
             .checkout-order {
                 // position: sticky;
                 // top: 26px;
