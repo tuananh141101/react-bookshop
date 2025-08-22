@@ -1,4 +1,3 @@
-import { RiGitPullRequestLine } from 'react-icons/ri';
 import * as Yup from 'yup';
 class Utils {
     /**
@@ -47,7 +46,7 @@ export function checkPhoneNumber(phoneNumber: string) {
 }
 
 const noSpecialCharsRegex = /^[^<>(){}[\]`\/!@#$%^&*~"'.,:?|\\]+$/;
-const noOnlySpacesTest = (value) => value && value.trim().length > 0;
+const noOnlySpacesTest = (value:any) => value && value.trim().length > 0;
 export const yupFields = {
     // @param {string} fieldNameTên hiển thị của trường để báo lỗi.
     search: Yup.string()
