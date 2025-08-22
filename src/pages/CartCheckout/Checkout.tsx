@@ -11,7 +11,7 @@ import "./style/Checkout.scss";
 
 
 const Checkout = () => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const {
         fullName,
         address,
@@ -73,7 +73,8 @@ const Checkout = () => {
                         }}
                         validationSchema={SignupSchema}
                         onSubmit={(value: any, { resetForm }: any) => {
-                            console.log("check value submit", value)
+                            console.log("check value submit", value);
+                            resetForm()
                         }}
                     >
                         <Form>
@@ -117,7 +118,7 @@ const Checkout = () => {
 
                                         <div className="checkbox d-flex align-items-center gap-1">
                                             <input type="checkbox" name="checkbox" id="checkbox" />
-                                            <label for="checkbox">The payment details are different from the shipping details</label>
+                                            <label htmlFor="checkbox">The payment details are different from the shipping details</label>
                                         </div>
 
                                         <div className="billing">billing</div>
