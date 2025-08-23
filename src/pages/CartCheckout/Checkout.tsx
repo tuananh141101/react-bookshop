@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { FaPhoneVolume } from "react-icons/fa6";
 import { Field, Form, Formik } from "formik";
 import { yupFields } from "../../common/utils/Utils";
-// import { useDispatch } from "react-redux";
-// import { toggleChangeValue } from "../../features/checkout/checkoutSlice";
+import { useDispatch } from "react-redux";
+import { toggleChangeValue } from "../../features/checkout/checkoutSlice";
 import { useCheckoutStore } from "../../common/hooks/useCustomHooks";
 import * as Yup from 'yup';
 import "./style/Checkout.scss";
+import { fetchListDistrict, fetchListProvince, fetchListWard } from "../../features/checkout/checkoutApi";
+import { AppDispatch } from "../../app/store";
 
 
 const Checkout = () => {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const {
         fullName,
         address,
@@ -23,7 +25,10 @@ const Checkout = () => {
         billingPhone,
         province,
         district,
-        ward
+        ward,
+        dataProvince,
+        dataDistrict,
+        dataWard
     } = useCheckoutStore();
 
     const SignupSchema = Yup.object({
@@ -37,7 +42,11 @@ const Checkout = () => {
         field_Province: yupFields.name("Province"),
         field_District: yupFields.name("District"),
         field_Ward: yupFields.name("Ward")
-    })
+    });
+
+    useEffect(() => {
+        dispatch(fetchListProvince())
+    },[])
 
     return (
         <>
@@ -81,6 +90,9 @@ const Checkout = () => {
                             <Row>
                                 <Col className="checkout-customer" md={8}>
                                     <div className="checkout-customer__stepuser d-flex align-items-center flex-column">
+                                        <p className="title d-flex align-items-center gap-3">
+                                            <span>1</span> Customer Information
+                                        </p>
                                         <div className="user">
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Full name<span style={{color:"red"}}>*</span></label>
@@ -115,16 +127,94 @@ const Checkout = () => {
                                                 />
                                             </div>
                                         </div>
-
                                         <div className="checkbox d-flex align-items-center gap-1">
-                                            <input type="checkbox" name="checkbox" id="checkbox" />
+                                            <input type="checkbox" name="checkbox" id="checkbox" 
+                                                onClick={(e:React.MouseEvent<HTMLInputElement>) => 
+                                                dispatch(toggleChangeValue({key: 'isDifferentBilling', value: (e.target as HTMLInputElement).checked}))}
+                                            />
                                             <label htmlFor="checkbox">The payment details are different from the shipping details</label>
                                         </div>
-
-                                        <div className="billing">billing</div>
+                                        {!isDifferentBilling && 
+                                        <div className="billing">
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-name">Billing name<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="billingFullName"
+                                                    name="field_BillingFullName"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-name">Billing address<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="billingAddress"
+                                                    name="field_BillingAddress"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-name">Billing phone<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="billingPhone"
+                                                    name="field_BillingPhone"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                    dispatch(toggleChangeValue({key: 'province', value: e.target.value}))
+                                                    dispatch(fetchListDistrict());
+                                                }}>
+                                                    <option value="">- Select province/city -</option>
+                                                    {dataProvince ? dataProvince.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id} >{item?.name}</option>
+                                                    }) : ""}
+                                                </select>
+                                            </div>
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <select name="district" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                    dispatch(toggleChangeValue({key: "district", value: e.target.value}))
+                                                    dispatch(fetchListWard());
+                                                }}>
+                                                    <option value="">- Select district -</option>
+                                                    {dataDistrict ? dataDistrict.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
+                                                    }) : ""}
+                                                </select>
+                                            </div>
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <select name="ward" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                }}>
+                                                    <option value="">- Select ward -</option>
+                                                    {dataWard ? dataWard.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
+                                                    }) : ""}
+                                                </select>
+                                            </div>
+                                        </div>}
                                     </div>
 
-                                    <div className="checkout-customer__order-products">order products</div>
+                                    <div className="checkout-customer__order-products border-top border-bottom">
+                                        <div className="item-cart d-flex align-items-center">
+                                            <div className="item-cart__product-base d-flex">
+                                                <div className="image">
+                                                    <img src="https://picsum.photos/200/300" alt="" />
+                                                </div>
+                                                <div className="title">
+                                                    <p className="name-book">Blessing in Disguise: A Novel</p>
+                                                    <p className="vendor mb-0">
+                                                        <span>Vendor:</span> Bookstore
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <ul className="item-cart__exinfo d-flex">
+                                                <li className="exinfo-item exinfo-price">price</li>
+                                                <li className="exinfo-item exinfo-qty">qty</li>
+                                                <li className="exinfo-item exinfo-amount">amount</li>
+                                            </ul>
+                                            <div className="item-cart__exinfo-remove">remove</div>
+                                        </div>
+                                    </div>
                                     <div className="checkout-customer__address">address</div>
                                     <div className="checkout-customer__payment-method">payment method</div>
                                     <div className="checkout-customer__note">note</div>

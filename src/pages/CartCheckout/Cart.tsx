@@ -1,8 +1,10 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import "./style/Cart.scss";
 import { Link, useNavigate } from "react-router-dom";
+import { IoIosCloseCircle } from "react-icons/io";
 
+
+import "./style/Cart.scss";
 
 const Index = () => {
     const navigate = useNavigate()
@@ -43,7 +45,7 @@ const Index = () => {
                                         </div>
                                     </td>
                                     <td className="cart-table__description">
-                                        <Link to="">Born a Crime: Stories from a South African Childhood</Link>
+                                        <Link to="">Born a Crime: Stories from a South African Childhood  <span className="removeProduct"><IoIosCloseCircle/></span></Link>
                                     </td>
                                     <td className="cart-table__price">
                                         <span>Price</span>
@@ -71,7 +73,7 @@ const Index = () => {
                                         </div>
                                     </td>
                                     <td className="cart-table__description">
-                                        <Link to="">Born a Crime: Stories from a South African Childhood</Link>
+                                        <Link to="">Born a Crime: Stories from a South African Childhood <span className="removeProduct"><IoIosCloseCircle/></span></Link>
                                     </td>
                                     <td className="cart-table__price">
                                         <span>13.49$</span>
@@ -96,7 +98,7 @@ const Index = () => {
                                         </div>
                                     </td>
                                     <td className="cart-table__description">
-                                        <Link to="">Born a Crime: Stories from a South African Childhood</Link>
+                                        <Link to="">Born a Crime: Stories from a South African Childhood <span className="removeProduct"><IoIosCloseCircle/></span></Link>
                                     </td>
                                     <td className="cart-table__price">
                                         <span>13.49$</span>
