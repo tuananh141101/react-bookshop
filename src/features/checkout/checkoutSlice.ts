@@ -20,6 +20,16 @@ interface CheckoutState {
     dataWard: unknown[],
     loadingDataLocation: boolean;
     error: string
+    // Receiver
+    receiverFullName: string,
+    receiverPhone: number | null,
+    receiverAddress:string,
+    receiverProvince: string,
+    receiverDistrict: string,
+    receiverWard: string,
+    receiverTaxAddress: string,
+    receiverDataDistrict: unknown[],
+    receiverDataWard: unknown[]
 }
 
 const initialState: CheckoutState = {
@@ -32,7 +42,6 @@ const initialState: CheckoutState = {
     billingAddress: "",
     billingFullName: "",
     billingPhone: null,
-    
     // Location
     province: "",
     district: "",
@@ -41,7 +50,17 @@ const initialState: CheckoutState = {
     dataDistrict: [],
     dataWard: [],
     loadingDataLocation: false,
-    error: ""
+    error: "",
+    // Receiver
+    receiverFullName: "",
+    receiverAddress: "",
+    receiverPhone: null,
+    receiverProvince: "",
+    receiverDistrict: "",
+    receiverWard: "",
+    receiverTaxAddress: "",
+    receiverDataDistrict: [],
+    receiverDataWard: []
 }
 
 const checkoutSlice = createSlice({
@@ -76,8 +95,13 @@ const checkoutSlice = createSlice({
                 state.loadingDataLocation = true
             })
             .addCase(fetchListDistrict.fulfilled, (state,action) => {
-                state.dataDistrict = action.payload.data;
-                state.loadingDataLocation = false
+                const {data,form} = action.payload;
+                state.loadingDataLocation = false;
+                if (form === "form1") {
+                    state.dataDistrict = data.data
+                } else {
+                    state.receiverDataDistrict = data.data
+                }
             })
             .addCase(fetchListDistrict.rejected, (state) => {
                 state.loadingDataLocation = true
@@ -88,7 +112,12 @@ const checkoutSlice = createSlice({
             })
             .addCase(fetchListWard.fulfilled, (state,action) => {
                 state.loadingDataLocation = false;
-                state.dataWard = action.payload.data;
+                const {data,form} = action.payload;
+                if (form === "form1") {
+                    state.dataWard = data.data
+                } else {
+                    state.receiverDataWard = data.data
+                }
             })
             .addCase(fetchListWard.rejected, (state) => {
                 state.loadingDataLocation = true;

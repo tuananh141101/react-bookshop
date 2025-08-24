@@ -7,9 +7,13 @@ import { useDispatch } from "react-redux";
 import { toggleChangeValue } from "../../features/checkout/checkoutSlice";
 import { useCheckoutStore } from "../../common/hooks/useCustomHooks";
 import * as Yup from 'yup';
+import { IoIosCloseCircle } from "react-icons/io";
+import { FiEdit } from "react-icons/fi";
 import "./style/Checkout.scss";
 import { fetchListDistrict, fetchListProvince, fetchListWard } from "../../features/checkout/checkoutApi";
 import { AppDispatch } from "../../app/store";
+import { Link } from "react-router-dom";
+import { textarea } from "framer-motion/client";
 
 
 const Checkout = () => {
@@ -20,6 +24,7 @@ const Checkout = () => {
         phone,
         email,
         isDifferentBilling,
+        // Billing
         billingFullName,
         billingAddress,
         billingPhone,
@@ -28,7 +33,14 @@ const Checkout = () => {
         ward,
         dataProvince,
         dataDistrict,
-        dataWard
+        dataWard,
+        // Receiver
+        receiverDataDistrict,
+        receiverFullName,
+        receiverPhone,
+        receiverAddress,
+        receiverDataWard,
+        receiverTaxAddress
     } = useCheckoutStore();
 
     const SignupSchema = Yup.object({
@@ -41,7 +53,11 @@ const Checkout = () => {
         field_BillingPhone: yupFields.phone,
         field_Province: yupFields.name("Province"),
         field_District: yupFields.name("District"),
-        field_Ward: yupFields.name("Ward")
+        field_Ward: yupFields.name("Ward"),
+        field_receiverFullName: yupFields.name("Receiver full name"),
+        field_receiverAddress: yupFields.name("Receiver address"),
+        field_receiverPhone: yupFields.phone,
+        field_receiverTaxAddress: yupFields.name("Receiver taxaddress")
     });
 
     useEffect(() => {
@@ -163,7 +179,7 @@ const Checkout = () => {
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                     dispatch(toggleChangeValue({key: 'province', value: e.target.value}))
-                                                    dispatch(fetchListDistrict());
+                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form1" }));
                                                 }}>
                                                     <option value="">- Select province/city -</option>
                                                     {dataProvince ? dataProvince.map((item:any) => {
@@ -174,7 +190,7 @@ const Checkout = () => {
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <select name="district" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                     dispatch(toggleChangeValue({key: "district", value: e.target.value}))
-                                                    dispatch(fetchListWard());
+                                                    dispatch(fetchListWard({districtId: Number(e.target.value), form: "form1"}));
                                                 }}>
                                                     <option value="">- Select district -</option>
                                                     {dataDistrict ? dataDistrict.map((item:any) => {
@@ -195,7 +211,13 @@ const Checkout = () => {
                                     </div>
 
                                     <div className="checkout-customer__order-products border-top border-bottom">
-                                        <div className="item-cart d-flex align-items-center">
+                                        <div className="order-header d-flex align-items-center justify-content-between">
+                                            <p className="mb-0">Select Products</p>
+                                            <div className="icon">
+                                                <Link to="/cart" className="d-flex align-items-center"><FiEdit />Edit</Link>
+                                            </div>
+                                        </div>
+                                        <div className="item-cart d-flex align-items-start">
                                             <div className="item-cart__product-base d-flex">
                                                 <div className="image">
                                                     <img src="https://picsum.photos/200/300" alt="" />
@@ -207,17 +229,134 @@ const Checkout = () => {
                                                     </p>
                                                 </div>
                                             </div>
-                                            <ul className="item-cart__exinfo d-flex">
-                                                <li className="exinfo-item exinfo-price">price</li>
-                                                <li className="exinfo-item exinfo-qty">qty</li>
-                                                <li className="exinfo-item exinfo-amount">amount</li>
+                                            <ul className="item-cart__exinfo d-flex justify-content-around">
+                                                <li className="exinfo-item exinfo-price">
+                                                    <p className="title">Price</p>
+                                                    <p className="title-price mb-0">13.22$</p>
+                                                </li>
+                                                <li className="exinfo-item exinfo-qty">
+                                                    <p className="title">Quantity</p>
+                                                    <p className="title-qty">14.22$</p>
+                                                </li>
+                                                <li className="exinfo-item exinfo-amount">
+                                                    <p className="title">Amount</p>
+                                                    <p className="title-amount">14.22$</p>
+                                                </li>
                                             </ul>
-                                            <div className="item-cart__exinfo-remove">remove</div>
+                                            <div className="item-cart__exinfo-remove">
+                                                <span className="removeCart">
+                                                    <IoIosCloseCircle />
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="checkout-customer__address">address</div>
-                                    <div className="checkout-customer__payment-method">payment method</div>
-                                    <div className="checkout-customer__note">note</div>
+                                    <div className="checkout-customer__address border-bottom">
+                                        <p className="title d-flex align-items-center gap-3">
+                                            <span>2</span> Shipping Address
+                                        </p>
+                                        <div className="form-group">
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-name">Full name<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="receiverFullName"
+                                                    name="field_receiverFullName"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                            <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-name">Phone<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="receiverPhone"
+                                                    name="field_receiverPhone"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                            <div className="item-form receiver-pronvince d-flex align-items-left flex-column">
+                                                <label className="label-receiverProvince">Province<span style={{color:"red"}}>*</span></label>
+                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                    dispatch(toggleChangeValue({key: 'receiverProvince', value: e.target.value}))
+                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
+                                                }}>
+                                                    <option value="">- Select province/city -</option>
+                                                    {dataProvince ? dataProvince.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id} >{item?.name}</option>
+                                                    }) : ""}
+                                                </select>
+                                            </div>
+                                            <div className="item-form receiver-address d-flex align-items-left flex-column">
+                                                <label className="label-receiverAddress">Address<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="receiverAddress"
+                                                    name="field_receiverAddress"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="form-group2">
+                                            <div className="item-form receiver-district d-flex align-items-left flex-column">
+                                                <label className="label-receiverDistrict">Province<span style={{color:"red"}}>*</span></label>
+                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                    dispatch(toggleChangeValue({key: 'receiverDistrict', value: e.target.value}))
+                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
+                                                }}>
+                                                    <option value="">- Select district -</option>
+                                                    {dataProvince ? dataProvince.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id} >{item?.name}</option>
+                                                    }) : ""}
+                                                </select>
+                                            </div>
+                                            <div className="item-form receiver-ward d-flex align-items-left flex-column">
+                                                <label className="label-receiverWard">Province<span style={{color:"red"}}>*</span></label>
+                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                    dispatch(toggleChangeValue({key: 'receiverWard', value: e.target.value}))
+                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
+                                                }}>
+                                                    <option value="">- Select ward -</option>
+                                                    {dataProvince ? dataProvince.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id} >{item?.name}</option>
+                                                    }) : ""}
+                                                </select>
+                                            </div>
+                                            <div className="item-form receiver-taxaddress d-flex align-items-left flex-column">
+                                                <label className="label-receiverTaxAddress">Tex address<span style={{color:"red"}}>*</span></label>
+                                                <Field
+                                                    id="receiverTaxAddress"
+                                                    name="field_receiverTaxAddress"
+                                                    maxLength={100}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="checkout-customer__payment-method border-bottom">
+                                        <p className="title d-flex align-items-center gap-3">
+                                            <span>3</span> Payment Methods
+                                        </p>
+                                        <div className="payway-group">
+                                            <div className="item-paymenthod cash">
+                                                <div className="img-icon">
+                                                    <img src="/public/assets/Icons/cod-paymentmethod.png" alt="" />
+                                                </div>
+                                                <p className="mb-0">Cash on Delivery (COD)</p>
+                                            </div>
+                                            <div className="item-paymenthod momo">momo</div>
+                                            <div className="item-paymenthod zalopay">zalopay</div>
+                                            <div className="item-paymenthod shoppepay">shoppe pay</div>
+                                        </div>
+                                        <div className="warning">
+                                            <p className="mb-0">
+                                                Beware of Scams - Protect Your Personal Information!
+                                                We will never ask you to transfer money in advance to a personal bank account.
+                                                Please make your payment only through the method you selected when placing your order.
+                                                Thank you for trusting and supporting Phuong Nam Bookstore.
+                                            </p>
+                                            <br />
+                                            After completing your online payment, please wait a few seconds for the system to update the successful status. Thank you!
+                                        </div>
+                                    </div>
+                                    <div className="checkout-customer__note">
+                                        <p className="title">Notes</p>
+                                        <Field name="notes" placeholder="Notes" component={textarea} className="notes-field"/>
+                                    </div>
                                 </Col>
                                 <Col className="checkout-order sticky-top" md={4}>
                                     <div className="checkout-order__coupon d-flex flex-column">
@@ -273,6 +412,9 @@ const Checkout = () => {
                     
                 </Container>
             </section>
+        
+       
+
         </>
     )
 }

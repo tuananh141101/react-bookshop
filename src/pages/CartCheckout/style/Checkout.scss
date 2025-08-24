@@ -97,28 +97,159 @@
                 }
                 &__order-products {
                     padding: 20px 0;
+                    .order-header {
+                        padding: 12px 15px;
+                        margin-bottom: 16px;
+                        background-color: #F6F6F6;
+                        border-radius: 4px;
+                        p {
+                            font-size: $fontSize-Large;
+                            font-weight: bold;
+                        }
+                        .icon a {
+                            svg {
+                                padding-right: 6px;
+                                width: 20px;
+                                height: 20px;
+                            }
+                        }
+                    }
                     .item-cart {
                         gap: 12px;
                         &__product-base {
                             flex: 1;
+                            flex-basis: 25%;
+                            gap: 26px;
                             .image {
-                                flex-basis: 30%;
-                                height: 150px;
+                                width: 30%;
+                                height: 170px;
                                 img{width: 100%;height: 100%;object-fit: cover;}
                             }
                             .title {
-                                flex-grow: 1;
-                                padding-left: 10px;
+                                width: calc(70% - 26px);
+                                .name-book {font-size: $fontSize-Medium;}
+                                .vendor {
+                                    font-size: $fontSize-Light;
+                                    font-weight: bold;
+                                    span {color: #919191;font-weight: 400!important;}
+                                }
                             }
                         }
                         &__exinfo {
                             flex: 1;
                             margin-bottom: 0;
                             padding-left: 0;
+                            .exinfo-item {
+                                p {
+                                    &:first-child {
+                                        color: #919191;
+                                        font-size: $fontSize-Light;
+                                    }
+                                    &:last-child {
+                                        color: $Color-1;
+                                        font-size: $fontSize-Medium;
+                                        font-weight: bold;
+                                    }
+                                }
+                            }
                         }
                         &__exinfo-remove {
-                            flex:0 0 5%;
-                            background-color: green;
+                            flex:0 0 2%;
+                            span {
+                                cursor: pointer;
+                                svg {
+                                    width: 25px;
+                                    height: 25px;
+                                    fill: #BCBCBCE6;
+                                    stroke: #BCBCBCE6;
+                                }
+                            }
+                        }
+                    }
+                }
+                &__address {
+                    margin-top: 26px;
+                    padding-bottom: 26px;
+                    .title {
+                        width: 100%;
+                        font-size: $fontSize-Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                        span {
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #F6F6F6;
+                            font-size: $fontSize-Large
+                        }
+                    }
+                    .form-group,
+                    .form-group2 {
+                        display: grid;
+                        grid-template-rows: auto auto;
+                        gap: 10px;
+                        select {
+                            border: none;
+                            outline: none;
+                            border: 1px solid #BCBCBCE6;
+                            padding: 8px 12px;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            text-align: left;
+                            height: 41.25px;
+                        }
+                    }
+                    .form-group {
+                        grid-template-columns: repeat(3, 1fr);
+                        .receiver-address { grid-column: 1/span 3;}
+                    }
+                    .form-group2 {
+                        grid-template-columns: repeat(2, 1fr);
+                        .receiver-taxaddress {grid-column: 1/span 2;}
+                    }
+                }
+                &__payment-method {
+                    margin-top: 26px;
+                    padding-bottom: 26px;
+                    .title {
+                        width: 100%;
+                        font-size: $fontSize-Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                        span {
+                            width: 50px;
+                            height: 50px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #F6F6F6;
+                            font-size: $fontSize-Large
+                        }
+                    }
+                    .payway-group {}
+                }
+                &__note {
+                    margin-top: 26px;
+                    padding-bottom: 26px;
+                    .title {
+                        width: 100%;
+                        font-size: $fontSize-Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                    }
+                    .payway-group {
+                        .item-paymenthod {
+                            display: flex;
+                            align-items: center;
+                            .img-icon {
+                                width: 50px;
+                                height: 50px;
+                                img {width: 100%;height: 100%;object-fit: cover;}
+                            }
                         }
                     }
                 }
