@@ -331,16 +331,44 @@ const Checkout = () => {
                                         <p className="title d-flex align-items-center gap-3">
                                             <span>3</span> Payment Methods
                                         </p>
-                                        <div className="payway-group">
+                                        <div className="payway-group d-flex flex-column">
                                             <div className="item-paymenthod cash">
                                                 <div className="img-icon">
                                                     <img src="/public/assets/Icons/cod-paymentmethod.png" alt="" />
                                                 </div>
                                                 <p className="mb-0">Cash on Delivery (COD)</p>
+                                                <div className="checkbox d-flex align-items-center justify-content-center">
+                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="cash"/>
+                                                </div>
                                             </div>
-                                            <div className="item-paymenthod momo">momo</div>
-                                            <div className="item-paymenthod zalopay">zalopay</div>
-                                            <div className="item-paymenthod shoppepay">shoppe pay</div>
+                                            <div className="item-paymenthod momo">
+                                                <div className="img-icon">
+                                                    <img src="/public/assets/Icons/momo-paymentmethod.png" alt="" />
+                                                </div>
+                                                <p className="mb-0">Momo</p>
+                                                <div className="checkbox d-flex align-items-center justify-content-center">
+                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="momo"/>
+                                                </div>
+                                            </div>
+                                            <div className="item-paymenthod zalopay"
+>
+                                                <div className="img-icon">
+                                                    <img src="/public/assets/Icons/zalo-paymentmethod.jpg" alt="" />
+                                                </div>
+                                                <p className="mb-0">Bank Card, ZaloPay Wallet</p>
+                                                <div className="checkbox d-flex align-items-center justify-content-center">
+                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="zalopay"/>
+                                                </div>
+                                            </div>
+                                            <div className="item-paymenthod shoppepay">
+                                                <div className="img-icon">
+                                                    <img src="/public/assets/Icons/shoppepay-paymentmethod.jpg" alt="" />
+                                                </div>
+                                                <p className="mb-0">Shoppe pay</p>
+                                                <div className="checkbox d-flex align-items-center justify-content-center">
+                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="shoppepay"/>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="warning">
                                             <p className="mb-0">
