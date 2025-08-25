@@ -4,13 +4,13 @@ import { useInView, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 import "./style/Categories.scss";
-import { useCategoriesStore } from "../../../../common/hooks/useCustomHooks";
+import { useProductStore } from "../../../../common/hooks/useCustomHooks";
 import React from "react";
 
 const Categories = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
-    const { listCategories } = useCategoriesStore();
+    const { featCategories } = useProductStore();
 
     return (
         <>
@@ -45,31 +45,29 @@ const Categories = () => {
                                     transition: "1.5s opacity",
                                 }}
                             >
-                                {listCategories.map(
+                                {featCategories.map(
                                     (item: any) => {
                                         return (
-                                            <>
-                                                <li key={item.id}>
-                                                    <Link to="">
-                                                        <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
-                                                            <div className="product-cate__icon">
-                                                                <img
-                                                                    src={`https://websitebook-api.vercel.app/${item.image}`}
-                                                                    loading="lazy"
-                                                                />
-                                                            </div>
-                                                            <div className="product-cate__text d-flex align-items-center justify-center flex-column">
-                                                                <p className="mt-2 mb-0">
-                                                                    {item.name}
-                                                                </p>
-                                                                <span>
-                                                                    Shop Now
-                                                                </span>
-                                                            </div>
+                                            <li key={item.id}>
+                                                <Link to="">
+                                                    <div className="product-cate__inner d-flex justify-content-center align-items-center flex-column">
+                                                        <div className="product-cate__icon">
+                                                            <img
+                                                                src={`https://websitebook-api.vercel.app/${item.image}`}
+                                                                loading="lazy"
+                                                            />
                                                         </div>
-                                                    </Link>
-                                                </li>
-                                            </>
+                                                        <div className="product-cate__text d-flex align-items-center justify-center flex-column">
+                                                            <p className="mt-2 mb-0">
+                                                                {item.name}
+                                                            </p>
+                                                            <span>
+                                                                Shop Now
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            </li>
                                         );
                                     }
                                 )}

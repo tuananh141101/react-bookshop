@@ -9,8 +9,7 @@ import { useProductStore } from "../../../../common/hooks/useCustomHooks";
 
 const ProductItems = () => {
     // const ref = useRef<HTMLDivElement>(null);
-    const { listProductsBestSelling, listProductsLatest, listProductsSale } =
-        useProductStore();
+    const { listProductsBestSelling, listProductsLatest, listProductsSale } = useProductStore();
     // const isInView = useInView(ref, { once: true });
     const [activeTab, setActiveTab] = useState<number>(0);
     const groupDataProduct = [
@@ -76,23 +75,22 @@ const ProductItems = () => {
                             {groupDataProduct[activeTab].map(
                                 (item: typeProduct, index: number) => {
                                     return (
-                                        <>
-                                            <Col
-                                                className="custom-col mb-4"
-                                                xxl={3}
-                                                xl={3}
-                                                lg={3}
-                                                md={4}
-                                                sm={6}
-                                                xs={6}
-                                            >
-                                                <CartItem
-                                                    style={{ width: "100%" }}
-                                                    items={item}
-                                                    index={index}
-                                                />
-                                            </Col>
-                                        </>
+                                        <Col
+                                            className="custom-col mb-4"
+                                            xxl={3}
+                                            xl={3}
+                                            lg={3}
+                                            md={4}
+                                            sm={6}
+                                            xs={6}
+                                            key={index}
+                                        >
+                                            <CartItem
+                                                style={{ width: "100%" }}
+                                                items={item}
+                                                index={index}
+                                            />
+                                        </Col>
                                     );
                                 }
                             )}

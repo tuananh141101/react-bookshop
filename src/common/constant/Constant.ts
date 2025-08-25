@@ -1,11 +1,3 @@
-export default class Constants {
-    public static TOKEN_EXPIRE_DAYS: number = 7;
-    public static TOKEN_NAME: string = "x-iss-token";
-    public static REFRESH_TOKEN: string = "x-iss-refreshToken";
-    // public static API_URL: String = (window as any).API_DOMAIN;
-    public static COLOR_DEFAULT: "#0089D6";
-}
-
 // Animation Framer Motion Button
 export const btnAnimation = {
     hidden: {
@@ -33,6 +25,26 @@ export const btnAnimationBG = {
     show: {
         y: -5,
         background: "#161619",
+        transition: {
+            duration: 0.2,
+            ease: "easeInOut",
+        },
+    },
+    exit: {
+        y: 0,
+    },
+};
+export const btnAnimationBGBlacktoWhite = {
+    hidden: {
+        y: 0,
+        background: "#19110b",
+        color: "#FFFFFF",
+    },
+    show: {
+        y: -5,
+        background: "white",
+        border: "1px solid #19110b",
+        color: "#19110b",
         transition: {
             duration: 0.2,
             ease: "easeInOut",
@@ -82,6 +94,12 @@ export type typeProduct = {
     sale: boolean;
     quantity: number;
 };
+export type typePagination = {
+    currentPage: number;
+    limit: number;
+    totalPages: number;
+    totalItems: number;
+}
 export type typeBlog = {
     id: number;
     title: string;
@@ -122,5 +140,13 @@ export type typeCategories = {
     name: string;
     image: string;
 };
+export type typeListCategories = {
+    id:number;
+    name:string;
+}
+export type typeListAuthor = {
+    id: number;
+    name:string;
+}
 // Validate email
 export const valiEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

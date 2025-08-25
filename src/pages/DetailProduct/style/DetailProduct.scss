@@ -143,7 +143,7 @@
                             }
                         }
 
-                        :last-child {
+                        &:last-child {
                             padding-bottom: 18px;
                             margin-bottom: 0;
 
@@ -222,7 +222,6 @@
                     margin-right: 14px;
                     width: 143px;
                     text-transform: uppercase;
-
                     &:hover {
                         span {color: white;}
                     }

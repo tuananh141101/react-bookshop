@@ -6,47 +6,25 @@ import ProductItems from "./components/ProductItems/ProductItems";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store"; // Import AppDispatch
 import { useEffect } from "react";
-import { fetchProducts } from "../../features/products/productApi";
+import { fetchFeatCategories, fetchProducts, fetchShopCategories } from "../../features/products/productApi";
 import Bookselected from "./components/BookSelected/Bookselected";
 import Blogsection from "./components/BlogSection/Blogsection";
-import {
-    useBlogStore,
-    useCategoriesStore,
-    useCommentStore,
-    useProductStore,
-} from "../../common/hooks/useCustomHooks";
-import { fetchCategories } from "../../features/categories/categoriesApi";
+import { useBlogStore } from "../../common/hooks/useCustomHooks";
 import { fetchBlogs } from "../../features/blog/blogApi";
-import { fetchComments } from "../../features/comments/commentApi";
 import React from "react";
+import { changeLimitNum } from "../../features/products/productSlice";
 
 const Home = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { listProducts } = useProductStore();
     const { listBlogs } = useBlogStore();
-    const { listCategories } = useCategoriesStore();
-    const { listComments } = useCommentStore();
 
     useEffect(() => {
-        if (!listProducts.length) {
-            dispatch(fetchProducts());
-        }
-        if (!listCategories.length) {
-            dispatch(fetchCategories());
-        }
-        if (!listBlogs.length) {
-            dispatch(fetchBlogs());
-        }
-        if (!listComments.length) {
-            dispatch(fetchComments());
-        }
-    }, [
-        dispatch,
-        listProducts.length,
-        listCategories.length,
-        listBlogs.length,
-        listComments.length
-    ]);
+        dispatch(changeLimitNum(100));
+        dispatch(fetchProducts());
+        dispatch(fetchBlogs());
+        dispatch(fetchShopCategories());
+        dispatch(fetchFeatCategories());
+    },[dispatch])
 
     return (
         <>

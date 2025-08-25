@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import { LuMapPin } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
@@ -17,10 +17,22 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
-import InputForm from "../../components/InputForm/InputForm";
 import React from "react";
+import { useCartStore, useFilterStore } from "../../../common/hooks/useCustomHooks";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../app/store";
+import { changeLimitNum } from "../../../features/products/productSlice";
+// import { changeSearch } from "../../../features/filter/filterSlice";
+import { toastUtils } from "../../../common/utils/Toastutils";
+ import { Field, Form, Formik } from 'formik';
+ import * as Yup from "yup";
+import { changeSearch } from "../../../features/filter/filterSlice";
+import { fetchProducts } from "../../../features/products/productApi";
+import { yupFields } from "../../../common/utils/Utils";
+
 
 const Header = () => {
+    const dispatch = useDispatch<AppDispatch>()
     const [isMobile, setIsMobile] = useState<boolean>(
         window.innerWidth <= 1200
     );
@@ -28,7 +40,11 @@ const Header = () => {
     const [show, setShow] = useState<boolean>(false); // *offcanvas
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
-    const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
+    const { cart } = useCartStore();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
+    const { search } = useFilterStore();
+    const navigate = useNavigate();
 
     // Shortcut to focus input search
     useEffect(() => {
@@ -52,13 +68,11 @@ const Header = () => {
     // Offcanvas handlers
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     // Responsive handler
     const handleResize = () => {
         setIsMobile(window.innerWidth <= 1200);
         setContainerPadding(window.innerWidth <= 992 ? "py-3" : "py-custom");
     };
-
     useEffect(() => {
         window.addEventListener("resize", handleResize);
 
@@ -77,16 +91,8 @@ const Header = () => {
         };
     }, [isMobile]);
 
-    // Focus change color icon search
-    const handleFocus = () => {
-        setIsFocused(true);
-        const searchIcon = document.querySelector<HTMLDivElement>(
-            "#searchInputLi .icon-search .icon"
-        );
-        if (searchIcon) {
-            searchIcon.classList.add("focused-icon");
-        }
-    };
+    // Formik schema
+    const SigupSchema = Yup.object().shape({search: yupFields.search});
 
     return (
         <>
@@ -169,7 +175,7 @@ const Header = () => {
                                         <Link to="/">Home</Link>
                                     </li>
                                     <li className={isMobile ? "hidden" : ""}>
-                                        <span>
+                                        <span onClick={() => dispatch(changeLimitNum(10))}>
                                             <Link to="shop">Shop</Link>
                                         </span>
                                     </li>
@@ -221,16 +227,15 @@ const Header = () => {
                                     <li className="cart-icon">
                                         <Link to="cart">
                                             <FiShoppingCart className="icon" />
-                                            {/* ({totalQuantity}) */}
-                                            (0)
+                                            ({cart.length})
                                         </Link>
                                     </li>
                                     <li
                                         className={isMobile ? "hidden" : ""}
                                         id="searchInputLi"
-                                        onFocus={handleFocus}
+                                        // onFocus={handleFocus}
                                         onBlur={() => {
-                                            setIsFocused(false);
+                                            // setIsFocused(false);
                                             const searchIcon =
                                                 document.querySelector<HTMLDivElement>(
                                                     "#searchInputLi .icon-search .icon"
@@ -242,30 +247,52 @@ const Header = () => {
                                             }
                                         }}
                                     >
-                                        <Link to="">
+                                        {/* <Link to="#"> */}
                                             <div className="d-flex">
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />
+                                                    
                                                 </button>
-                                                <form
-                                                    action=""
-                                                    onSubmit={(e) => {
-                                                        e.preventDefault();
+                                               
+                                                <Formik
+                                                    initialValues={{
+                                                        search: search || '', // Đảm bảo giá trị mặc định
                                                     }}
-                                                >
-                                                    <InputForm
-                                                        value=""
-                                                        className={`input-search ${
-                                                            isFocused
-                                                                ? "focused-icon"
-                                                                : ""
-                                                        }`}
-                                                        placeholder="Search | Ctrl K"
-                                                        id="your-search-input-id2"
-                                                    />
-                                                </form>
+                                                    enableReinitialize
+                                                    validationSchema={SigupSchema}
+                                                    onSubmit={(value) => {
+                                                        if (!value.search.length) return;
+                                                        const searchParams = new URLSearchParams(location.search);
+                                                        dispatch(changeSearch(value.search.toString()));
+                                                        if (value.search.length > 0) {
+                                                            searchParams.set("search", value.search.toString());
+                                                        } else {
+                                                            searchParams.delete("search");
+                                                        }
+                                                        navigate(`/shop?search=${value.search}`)
+                                                        dispatch(fetchProducts());
+                                                    }}
+                                                    >
+                                                    {() => (
+                                                        <Form>
+                                                            <div className="item-form">
+                                                                <Field
+                                                                name="search"
+                                                                placeholder="Enter search"
+                                                                maxLength={201}
+                                                                onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                                    if (e.target.value.length > 200) toastUtils.warning('Please enter at least 200 words', '');
+                                                                }}
+                                                                />
+                                                            </div>
+                                                            <button type="submit" style={{ display: 'none' }}>
+                                                                Submit
+                                                            </button>
+                                                        </Form>
+                                                    )}
+                                                </Formik>
                                             </div>
-                                        </Link>
+                                        {/* </Link> */}
                                     </li>
                                     <li className="login">
                                         <Dropdown>
@@ -318,9 +345,9 @@ const Header = () => {
                                         className="mobile-icon"
                                         onClick={handleShow}
                                     >
-                                        <Link to="">
+                                        <span>
                                             <RiMenu3Fill className="icon" />
-                                        </Link>
+                                        </span>
                                     </li>
                                 </ul>
                             </Col>
@@ -367,7 +394,7 @@ const Header = () => {
                                 >
                                     Categories
                                 </span>
-                                <IoIosArrowDown />
+                                {/* <IoIosArrowDown />
 
                                 <Collapse in={categoriesOpen}>
                                     <div id="example-collapse-text">
@@ -407,7 +434,7 @@ const Header = () => {
                                             </li>
                                         </ul>
                                     </div>
-                                </Collapse>
+                                </Collapse> */}
                             </Link>
                         </li>
                         <li>

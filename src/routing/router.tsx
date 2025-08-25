@@ -9,6 +9,8 @@ import Contact from "../pages/Contact/Contact";
 import React from "react";
 import About from "../pages/About/About";
 import DetailProduct from "../pages/DetailProduct/DetailProduct";
+import Cart from "../pages/CartCheckout/Cart";
+import Checkout from "../pages/CartCheckout/Checkout";
 
 const router = () => {
     return (
@@ -26,6 +28,9 @@ const router = () => {
                         <Route path="contact" element={<Contact/>}/>
                         <Route path="about" element={<About/>}/>
                         <Route path="shop/product/:nameProduct/:idProduct" element={<DetailProduct/>}/>
+
+                        <Route path="cart" element={<Cart/>}/>
+                        <Route path="checkout" element={<Checkout/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

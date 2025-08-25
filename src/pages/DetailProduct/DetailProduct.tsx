@@ -24,7 +24,7 @@ const DetailProduct = () => {
 
     const shuffledProducts = useMemo(() => {
         return listProducts ? [...listProducts].sort(() => Math.random() - 0.5).slice(0, 4) : [];
-    }, [listProducts]); 
+    }, [idProduct, listProducts]); 
 
     useEffect(() => {
         window.scrollTo(0,0);
@@ -50,7 +50,8 @@ const DetailProduct = () => {
         if (!detailProducts || detailProducts[0]?.id !== Number(idProduct)) {
             dispatch(fetchDetailProduct(Number(idProduct)));
         }
-    }, [dispatch, idProduct]);
+    }, [dispatch, 1]);
+
 
     return (
         <>
