@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 class ToastUtils {
     public info(message: string,id?:string|null): void {
         toast.info(message, {
-            toastId: `${id}`,
+            toastId: id ? `${id}` : undefined,
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -15,9 +15,9 @@ class ToastUtils {
             transition: Bounce,
         });
     }
-    public success(message: string,id?:string|null): void {
+    public success(message: string): void {
         toast.success(message, {
-            toastId: `${id}`,
+            // toastId: `${id}`,
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,

@@ -18,7 +18,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
 import React from "react";
-import { useFilterStore } from "../../../common/hooks/useCustomHooks";
+import { useCartStore, useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { changeLimitNum } from "../../../features/products/productSlice";
@@ -28,6 +28,7 @@ import { toastUtils } from "../../../common/utils/Toastutils";
  import * as Yup from "yup";
 import { changeSearch } from "../../../features/filter/filterSlice";
 import { fetchProducts } from "../../../features/products/productApi";
+import { yupFields } from "../../../common/utils/Utils";
 
 
 const Header = () => {
@@ -39,6 +40,7 @@ const Header = () => {
     const [show, setShow] = useState<boolean>(false); // *offcanvas
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
+    const { cart } = useCartStore();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
@@ -89,32 +91,8 @@ const Header = () => {
         };
     }, [isMobile]);
 
-    // Focus change color icon search
-    // const handleFocus = () => {
-    //     setIsFocused(true);
-    //     const searchIcon = document.querySelector<HTMLDivElement>(
-    //         "#searchInputLi .icon-search .icon"
-    //     );
-    //     if (searchIcon) {
-    //         searchIcon.classList.add("focused-icon");
-    //     }
-    // };
-
     // Formik schema
-    const SigupSchema = Yup.object().shape({
-        search: Yup.string()
-            .max(100, "Max length")
-            .required("Search field is required")
-            .matches(
-                /^[^<>(){}[\]`\/!@#$%^&*~"'.,:?|\\]+$/,
-                "Không chứa kí tự"
-            )
-            .test(
-                "No only spaces",
-                'The search keyword cannot contain only whitespace',
-                (value:any) => value && value.trim().length > 0
-            )
-    });
+    const SigupSchema = Yup.object().shape({search: yupFields.search});
 
     return (
         <>
@@ -249,8 +227,7 @@ const Header = () => {
                                     <li className="cart-icon">
                                         <Link to="cart">
                                             <FiShoppingCart className="icon" />
-                                            {/* ({totalQuantity}) */}
-                                            (0)
+                                            ({cart.length})
                                         </Link>
                                     </li>
                                     <li
@@ -274,41 +251,9 @@ const Header = () => {
                                             <div className="d-flex">
                                                 <button className="icon-search">
                                                     <FiSearch className="icon" />
+                                                    
                                                 </button>
-                                                {/* <form
-                                                    action=""
-                                                    onSubmit={(e) => {
-                                                        e.preventDefault();
-                                                        dispatch(changeLimitNum(100));
-                                                        const searchParams = new URLSearchParams(location.search);
-                                                        if (search.length > 0) {
-                                                            searchParams.set("search", search.toString());
-                                                        } else {
-                                                            searchParams.delete("search");
-                                                        }
-                                                        navigate({search: searchParams.toString()}, {replace: true});
-                                                        // dispatch(fetchProducts());                                         
-                                                    }}
-                                                >
-                                                    <InputForm
-                                                        value={search}
-                                                        className={`input-search ${
-                                                            isFocused
-                                                                ? "focused-icon"
-                                                                : ""
-                                                        }`}
-                                                        placeholder="Search | Ctrl K"
-                                                        id="your-search-input-id2"
-                                                        onChange={(e:any) => {
-                                                            e.preventDefault();
-                                                            if (e.target.value.length > 100) {
-                                                                toastUtils.warning("Maximum 100 characters", "");
-                                                                return;
-                                                            }
-                                                            dispatch(changeSearch(e.target.value));
-                                                        }}
-                                                    />
-                                                </form> */}
+                                               
                                                 <Formik
                                                     initialValues={{
                                                         search: search || '', // Đảm bảo giá trị mặc định

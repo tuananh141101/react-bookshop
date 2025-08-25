@@ -4,6 +4,8 @@ import productSlice from "../features/products/productSlice";
 import blogSlice from "../features/blog/blogSlice";
 import commemtSlice from "../features/comments/commentSlice";
 import filterSlice  from "../features/filter/filterSlice";
+import cartSlice from "../features/cart/cartSlice";
+import checkoutSlice from "../features/checkout/checkoutSlice";
 
 import {
     persistStore,
@@ -20,14 +22,16 @@ const persistConfig = {
     key: "root",
     version: 1,
     storage,
-    whitelist: ["carts", "auths"],
+    whitelist: ["cartStore"],
 };
 
 const rootReducer = combineReducers({
     productStore: productSlice,
     blogStore: blogSlice,
     commentStore: commemtSlice,
-    filterStore: filterSlice
+    filterStore: filterSlice,
+    cartStore: cartSlice,
+    checkoutStore: checkoutSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -54,3 +58,4 @@ export const persistor = persistStore(store);
 export type AppDispatch = typeof store.dispatch;
 // Lấy kiểu RootState từ store
 export type RootState = ReturnType<typeof store.getState>;
+

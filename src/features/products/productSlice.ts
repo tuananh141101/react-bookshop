@@ -89,16 +89,6 @@ const productSlice = createSlice({
         setActiveElem: (state,action: PayloadAction<number>) => {
             state.activeElem = action.payload;
         },
-        // updatePriceRange: (state, action:PayloadAction<{ type: 'min' | 'max'; value: number }>) => {
-        //     const newPriceRange = [...state.filter.priceRange];
-        //     if (action.payload.type === 'min') {
-        //         newPriceRange[0] = action.payload.value;
-        //     } else {
-        //         newPriceRange[1] = action.payload.value;
-        //     }
-        //     state.filter.priceRange[0] = newPriceRange[0];
-        //     state.filter.priceRange[1] = newPriceRange[1];
-        // },
         // sortProductList: (state, action:PayloadAction<string>) => {
         //     state.filter.sortBy = action.payload.toString();
         //     state.openModalSort = false;
