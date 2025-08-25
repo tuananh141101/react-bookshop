@@ -10,6 +10,7 @@ import { fetchShopCategories, fetchListAuthors, fetchProducts } from "../../feat
 import { changeLimitNum, setPage } from "../../features/products/productSlice";
 import { useLocation } from "react-router-dom";
 import { authorChecked, cateChecked, changePrice, changeSearch } from "../../features/filter/filterSlice";
+import StorageService from "../../common/utils/storageService";
 
 const Shop = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -61,7 +62,10 @@ const Shop = () => {
             dispatch(changeLimitNum(10));
         }
     }, []);
-   
+
+    const dataLocal = StorageService.getArrayFromLS("persist:root");
+    const dataCartParse =  JSON.parse(dataLocal.cartStore);
+
     return (
         <>
             <section className="shop">

@@ -79,7 +79,7 @@ const checkoutSlice = createSlice({
             }>
         ) => {
             const {key,value} = action.payload;
-            state[key] = value
+            (state as any)[key] = value
         }
     },
     extraReducers: (builder) => {

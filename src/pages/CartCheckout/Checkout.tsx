@@ -36,11 +36,11 @@ const Checkout = () => {
         dataWard,
         // Receiver
         receiverDataDistrict,
-        receiverFullName,
-        receiverPhone,
-        receiverAddress,
+        // receiverFullName,
+        // receiverPhone,
+        // receiverAddress,
         receiverDataWard,
-        receiverTaxAddress,
+        // receiverTaxAddress,
         isPaymentCheck
     } = useCheckoutStore();
 
@@ -204,8 +204,7 @@ const Checkout = () => {
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-ward">Ward</label>
-                                                <select name="ward" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                                }}>
+                                                <select name="ward">
                                                     <option value="">- Select ward -</option>
                                                     {dataWard ? dataWard.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id}>{item?.name}</option>
