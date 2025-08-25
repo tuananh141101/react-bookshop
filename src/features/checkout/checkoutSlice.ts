@@ -29,7 +29,9 @@ interface CheckoutState {
     receiverWard: string,
     receiverTaxAddress: string,
     receiverDataDistrict: unknown[],
-    receiverDataWard: unknown[]
+    receiverDataWard: unknown[],
+    // Checked
+    isPaymentCheck: string
 }
 
 const initialState: CheckoutState = {
@@ -60,7 +62,9 @@ const initialState: CheckoutState = {
     receiverWard: "",
     receiverTaxAddress: "",
     receiverDataDistrict: [],
-    receiverDataWard: []
+    receiverDataWard: [],
+    // Checked
+    isPaymentCheck: ""
 }
 
 const checkoutSlice = createSlice({

@@ -40,7 +40,8 @@ const Checkout = () => {
         receiverPhone,
         receiverAddress,
         receiverDataWard,
-        receiverTaxAddress
+        receiverTaxAddress,
+        isPaymentCheck
     } = useCheckoutStore();
 
     const SignupSchema = Yup.object({
@@ -63,6 +64,7 @@ const Checkout = () => {
     useEffect(() => {
         dispatch(fetchListProvince())
     },[])
+
 
     return (
         <>
@@ -150,7 +152,7 @@ const Checkout = () => {
                                             />
                                             <label htmlFor="checkbox">The payment details are different from the shipping details</label>
                                         </div>
-                                        {!isDifferentBilling && 
+                                        {isDifferentBilling && 
                                         <div className="billing">
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Billing name<span style={{color:"red"}}>*</span></label>
@@ -177,6 +179,7 @@ const Checkout = () => {
                                                 />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-province">Province</label>
                                                 <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                     dispatch(toggleChangeValue({key: 'province', value: e.target.value}))
                                                     dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form1" }));
@@ -188,6 +191,7 @@ const Checkout = () => {
                                                 </select>
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-district">Distict</label>
                                                 <select name="district" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                     dispatch(toggleChangeValue({key: "district", value: e.target.value}))
                                                     dispatch(fetchListWard({districtId: Number(e.target.value), form: "form1"}));
@@ -199,6 +203,7 @@ const Checkout = () => {
                                                 </select>
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
+                                                <label className="label-ward">Ward</label>
                                                 <select name="ward" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                 }}>
                                                     <option value="">- Select ward -</option>
@@ -209,7 +214,6 @@ const Checkout = () => {
                                             </div>
                                         </div>}
                                     </div>
-
                                     <div className="checkout-customer__order-products border-top border-bottom">
                                         <div className="order-header d-flex align-items-center justify-content-between">
                                             <p className="mb-0">Select Products</p>
@@ -251,9 +255,7 @@ const Checkout = () => {
                                         </div>
                                     </div>
                                     <div className="checkout-customer__address border-bottom">
-                                        <p className="title d-flex align-items-center gap-3">
-                                            <span>2</span> Shipping Address
-                                        </p>
+                                        <p className="title d-flex align-items-center gap-3"><span>2</span> Shipping Address</p>
                                         <div className="form-group">
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Full name<span style={{color:"red"}}>*</span></label>
@@ -294,25 +296,24 @@ const Checkout = () => {
                                         </div>
                                         <div className="form-group2">
                                             <div className="item-form receiver-district d-flex align-items-left flex-column">
-                                                <label className="label-receiverDistrict">Province<span style={{color:"red"}}>*</span></label>
+                                                <label className="label-receiverDistrict">District<span style={{color:"red"}}>*</span></label>
                                                 <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                     dispatch(toggleChangeValue({key: 'receiverDistrict', value: e.target.value}))
-                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
+                                                    dispatch(fetchListWard({districtId: Number(e.target.value), form: "form2" }));
                                                 }}>
                                                     <option value="">- Select district -</option>
-                                                    {dataProvince ? dataProvince.map((item:any) => {
+                                                    {receiverDataDistrict ? receiverDataDistrict.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id} >{item?.name}</option>
                                                     }) : ""}
                                                 </select>
                                             </div>
                                             <div className="item-form receiver-ward d-flex align-items-left flex-column">
-                                                <label className="label-receiverWard">Province<span style={{color:"red"}}>*</span></label>
+                                                <label className="label-receiverWard">Ward<span style={{color:"red"}}>*</span></label>
                                                 <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                     dispatch(toggleChangeValue({key: 'receiverWard', value: e.target.value}))
-                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
                                                 }}>
                                                     <option value="">- Select ward -</option>
-                                                    {dataProvince ? dataProvince.map((item:any) => {
+                                                    {receiverDataWard ? receiverDataWard.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id} >{item?.name}</option>
                                                     }) : ""}
                                                 </select>
@@ -332,43 +333,50 @@ const Checkout = () => {
                                             <span>3</span> Payment Methods
                                         </p>
                                         <div className="payway-group d-flex flex-column">
-                                            <div className="item-paymenthod cash">
-                                                <div className="img-icon">
-                                                    <img src="/public/assets/Icons/cod-paymentmethod.png" alt="" />
+                                            <label htmlFor="checkPayCash">
+                                                <div className={`item-paymenthod cash ${isPaymentCheck === "cash" ? "inputCheckedBorder" : ""}`}>
+                                                    <div className="img-icon">
+                                                        <img src="/public/assets/Icons/cod-paymentmethod.png" alt="" />
+                                                    </div>
+                                                    <p className="mb-0">Cash on Delivery (COD)</p>
+                                                    <div className="checkbox d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="checkBoxPayment" id="checkPayCash" value="cash" onChange={(e:React.ChangeEvent<HTMLInputElement>) => dispatch(toggleChangeValue({key: 'isPaymentCheck', value: e.target.value}))}/>
+                                                    </div>
                                                 </div>
-                                                <p className="mb-0">Cash on Delivery (COD)</p>
-                                                <div className="checkbox d-flex align-items-center justify-content-center">
-                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="cash"/>
+                                            </label>
+                                            <label htmlFor="checkPayMomo">
+                                                <div className={`item-paymenthod momo ${isPaymentCheck === "momo" ? "inputCheckedBorder" : ""}`}>
+                                                    <div className="img-icon">
+                                                        <img src="/public/assets/Icons/momo-paymentmethod.png" alt="" />
+                                                    </div>
+                                                    <p className="mb-0">Momo</p>
+                                                    <div className="checkbox d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="checkBoxPayment" id="checkPayMomo" value="momo" onChange={(e:React.ChangeEvent<HTMLInputElement>) => dispatch(toggleChangeValue({key: 'isPaymentCheck', value: e.target.value}))}/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="item-paymenthod momo">
-                                                <div className="img-icon">
-                                                    <img src="/public/assets/Icons/momo-paymentmethod.png" alt="" />
+                                            </label>
+                                            <label htmlFor="checkPayZalopay">
+                                                <div className={`item-paymenthod zalopay ${isPaymentCheck === "zalopay" ? "inputCheckedBorder" : ""}`}>
+                                                    <div className="img-icon">
+                                                        <img src="/public/assets/Icons/zalo-paymentmethod.jpg" alt="" />
+                                                    </div>
+                                                    <p className="mb-0">Bank Card, ZaloPay Wallet</p>
+                                                    <div className="checkbox d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="checkBoxPayment" id="checkPayZalopay" value="zalopay" onChange={(e:React.ChangeEvent<HTMLInputElement>) => dispatch(toggleChangeValue({key: 'isPaymentCheck', value: e.target.value}))}/>
+                                                    </div>
                                                 </div>
-                                                <p className="mb-0">Momo</p>
-                                                <div className="checkbox d-flex align-items-center justify-content-center">
-                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="momo"/>
+                                            </label>
+                                            <label htmlFor="checkPayShoppepay">
+                                                <div className={`item-paymenthod shoppepay ${isPaymentCheck === "shoppepay" ? "inputCheckedBorder" : ""}`}>
+                                                    <div className="img-icon">
+                                                        <img src="/public/assets/Icons/shoppepay-paymentmethod.jpg" alt="" />
+                                                    </div>
+                                                    <p className="mb-0">Shoppe pay</p>
+                                                    <div className="checkbox d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="checkBoxPayment" id="checkPayShoppepay" value="shoppepay" onChange={(e:React.ChangeEvent<HTMLInputElement>) => dispatch(toggleChangeValue({key: 'isPaymentCheck', value: e.target.value}))}/>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="item-paymenthod zalopay"
->
-                                                <div className="img-icon">
-                                                    <img src="/public/assets/Icons/zalo-paymentmethod.jpg" alt="" />
-                                                </div>
-                                                <p className="mb-0">Bank Card, ZaloPay Wallet</p>
-                                                <div className="checkbox d-flex align-items-center justify-content-center">
-                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="zalopay"/>
-                                                </div>
-                                            </div>
-                                            <div className="item-paymenthod shoppepay">
-                                                <div className="img-icon">
-                                                    <img src="/public/assets/Icons/shoppepay-paymentmethod.jpg" alt="" />
-                                                </div>
-                                                <p className="mb-0">Shoppe pay</p>
-                                                <div className="checkbox d-flex align-items-center justify-content-center">
-                                                    <input type="radio" name="checkBoxPayment" id="checkBoxPayCash" value="shoppepay"/>
-                                                </div>
-                                            </div>
+                                            </label>
                                         </div>
                                         <div className="warning">
                                             <p className="mb-0">
@@ -386,7 +394,7 @@ const Checkout = () => {
                                         <Field name="notes" placeholder="Notes" component={textarea} className="notes-field"/>
                                     </div>
                                 </Col>
-                                <Col className="checkout-order sticky-top" md={4}>
+                                <Col className="checkout-order" md={4}>
                                     <div className="checkout-order__coupon d-flex flex-column">
                                         <p className="coupon-title">Coupon</p>
                                         <div className="coupon-input">
