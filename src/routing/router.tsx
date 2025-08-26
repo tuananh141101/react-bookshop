@@ -11,6 +11,8 @@ import About from "../pages/About/About";
 import DetailProduct from "../pages/DetailProduct/DetailProduct";
 import Cart from "../pages/CartCheckout/Cart";
 import Checkout from "../pages/CartCheckout/Checkout";
+import Auth from "../pages/Auth/Auth";
+
 
 const router = () => {
     return (
@@ -31,6 +33,9 @@ const router = () => {
 
                         <Route path="cart" element={<Cart/>}/>
                         <Route path="checkout" element={<Checkout/>}/>
+
+                        <Route path="login" element={<Auth/>}/>
+                        <Route path="register" element={<Auth/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>
