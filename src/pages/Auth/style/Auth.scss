@@ -22,8 +22,12 @@
                     width: 100%;
                     .item-form {
                         width: 100%;
-                        margin-bottom: 12px;
-                        input,label {width: 100%;}
+                        margin-bottom: 20px;
+                        span,input,label {width: 100%;}
+                        span {
+                            color: $Color-5;
+                            font-size: $fontSize-Light;
+                        }
                     }
                     .createAcc,
                     .btnSubmit {

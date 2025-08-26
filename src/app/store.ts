@@ -6,6 +6,7 @@ import commemtSlice from "../features/comments/commentSlice";
 import filterSlice  from "../features/filter/filterSlice";
 import cartSlice from "../features/cart/cartSlice";
 import checkoutSlice from "../features/checkout/checkoutSlice";
+import authSLice from "../features/auth/authSlice";
 
 import {
     persistStore,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
     commentStore: commemtSlice,
     filterStore: filterSlice,
     cartStore: cartSlice,
-    checkoutStore: checkoutSlice
+    checkoutStore: checkoutSlice,
+    authStore: authSLice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

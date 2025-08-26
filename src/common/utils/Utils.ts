@@ -62,14 +62,14 @@ export const yupFields = {
         .min(2, `${fieldName} is too short!`)
         .max(50, `${fieldName} is too long!`)
         .matches(noSpecialCharsRegex, `${fieldName} cannot contain special characters`)
-         .test(
+        .test(
             "no-only-spaces",
             `${fieldName} cannot contain only whitespace`,
             noOnlySpacesTest
         )
         .required(`${fieldName} is required`),
     password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
+        .min(5, 'Password must be at least 5 characters')
         .required('Password is required'),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), undefined ], 'Passwords must match')
