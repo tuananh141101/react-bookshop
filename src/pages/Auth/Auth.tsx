@@ -7,19 +7,23 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import "./style/Auth.scss";
 import { useAuthStore } from "../../common/hooks/useCustomHooks";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../app/store";
+import { fetchLogin, fetchRegister } from "../../features/auth/authApi";
 
 
 const Auth = () => {
     const isLogin = location.pathname === "/login";
     const isRegister = location.pathname === "/register";
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const {id,email,username,password,wishlist,cart} = useAuthStore();
+    const {id,email,username,password,wishlist,cart,loadingAuth} = useAuthStore();
     const SignupSchema = Yup.object({
         field_email: yupFields.email,
         field_passWord: yupFields.password,
-        // field_registerEmail: yupFields.email,
-        // field_registerUserName: yupFields.name("Username"),
-        // field_registerPassword: yupFields.name("Password"),
+        field_registerEmail: yupFields.email,
+        field_registerUserName: yupFields.name("Username"),
+        field_registerPassword: yupFields.password,
     });
     
     return (
@@ -44,7 +48,7 @@ const Auth = () => {
                                         }}
                                         validationSchema={SignupSchema}
                                         onSubmit={(value: any, { resetForm }: any) => {
-                                            console.log("check value submit", value);
+                                            dispatch(fetchLogin({email: value.field_email, password: value.field_passWord}));
                                             // resetForm();
                                         }}
                                     >
@@ -72,7 +76,10 @@ const Auth = () => {
                                                 <input type="checkbox" name="" id="checkSaveInfo" />
                                                 <label htmlFor="checkSaveInfo">Remember me</label>
                                             </div> */}
-                                            <button className="btnSubmit" type="submit">Log in</button>
+                                            <button className="btnSubmit" 
+                                                type="submit"
+                                                disabled={loadingAuth}
+                                            >{loadingAuth ? "Loading..." : "Login"}</button>
                                             <button className="createAcc"
                                                 onClick={() => navigate("/register")}
                                             >Create an account?</button>
@@ -89,7 +96,23 @@ const Auth = () => {
                                     <p className="mb-0 heading-description">Create account to manage your orders</p>
                                 </div>
                                 <div className="form d-flex flex-column">
-                                    <Formik enableReinitialize onSubmit={() => {}}>
+                                    <Formik 
+                                        enableReinitialize 
+                                        onSubmit={(value: any, { resetForm }: any) => {
+                                            dispatch(fetchRegister({
+                                                email: value.field_registerEmail,
+                                                password: value.field_registerPassword,
+                                                cart: [],
+                                                wishlist: [],
+                                                username: value.field_registerUserName 
+                                            }))
+                                        }}
+                                        initialValues={{
+                                            field_registerEmail: email,
+                                            field_registerUserName: username,
+                                            field_registerPassword: password
+                                        }}
+                                    >
                                         <Form>
                                             <div className="item-form d-flex align-items-center flex-column">
                                                 <label htmlFor="">Enter your email <span style={{color:"red"}}>*</span></label>
@@ -115,7 +138,9 @@ const Auth = () => {
                                                     maxLength={100}
                                                 />
                                             </div>
-                                            <button className="btnSubmit">Register</button>
+                                            <button className="btnSubmit"
+                                                disabled={loadingAuth}
+                                            >{loadingAuth ? "Loading..." : "Register"}</button>
                                             <div className="backtoLogin d-flex align-items-center"
                                                 onClick={() => navigate("/login")}
                                             >

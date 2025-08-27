@@ -1,7 +1,9 @@
-import { createSlice,PayloadAction } from "@reduxjs/toolkit";
-import { fetchLogin } from "./authApi";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
+import { fetchLogin, fetchRegister } from "./authApi";
+import { toastUtils } from "../../common/utils/Toastutils";
 
-interface AuthSlice {
+interface AuthState {
     id: number | null,
     email: string,
     username: string,
@@ -11,7 +13,7 @@ interface AuthSlice {
     loadingAuth: boolean
 }
 
-const initialState: AuthSlice = {
+const initialState: AuthState = {
     id: null, 
     email: "",
     username: "",
@@ -28,6 +30,16 @@ const authSLice = createSlice({
         clearEmailPass: (state) => {
             state.email = "";
             state.password = "";
+        },
+        toggleChangeValue: <K extends keyof AuthState>(
+            state: Draft<AuthState>,
+            action: PayloadAction<{
+                key: keyof AuthState;
+                value: AuthState[k]
+            }>
+        ) => {
+            const {key,value} = action.payload;
+            (state as any)[key] = value;
         }
     },
     extraReducers: (builder) => {
@@ -37,14 +49,27 @@ const authSLice = createSlice({
             })
             .addCase(fetchLogin.fulfilled, (state,action) => {
                 state.loadingAuth = false;
-                console.log("check actionpayload login",action.payload)
             })
-            .addCase(fetchLogin.rejected, (state) => {
-                state.loadingAuth = true
+            .addCase(fetchLogin.rejected, (state,action) => {
+                state.loadingAuth = false;
+                const actionPayLoad = action.payload as any;
+                toastUtils.error(`${actionPayLoad.data}`, "");
+            })
+        builder
+            .addCase(fetchRegister.pending, (state) => {
+                state.loadingAuth = true;
+            })
+            .addCase(fetchRegister.fulfilled, (state,action) => {
+                state.loadingAuth = false;
+            })
+            .addCase(fetchRegister.rejected, (state,action) => {
+                state.loadingAuth = false;
+                const actionPayLoad = action.payload as any;
+                toastUtils.error(`${actionPayLoad.data}`, "");
             })
     }
 })
 
 
-export const {clearEmailPass} = authSLice.actions;
+export const {clearEmailPass, toggleChangeValue} = authSLice.actions;
 export default authSLice.reducer;
