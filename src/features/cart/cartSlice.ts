@@ -30,7 +30,7 @@ const cartSlice = createSlice({
             }
         },
         removeCart: (state,action:PayloadAction<typeProduct>) => {
-            state.cart.filter((item) => item.id !== action.payload.id)
+            state.cart = state.cart.filter((item) => item.id !== action.payload.id)
         },
         increaseItemQuantity: (state, action:PayloadAction<typeProduct>) => {
             state.cart = state.cart.map((item) => {
@@ -47,6 +47,7 @@ const cartSlice = createSlice({
                 }
                 return item
             })
+            .filter((item) => item.quantity > 0); //Remove product qty = 0
         }
     }
 })
