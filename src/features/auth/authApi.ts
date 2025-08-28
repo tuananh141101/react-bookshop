@@ -3,9 +3,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 
-export const fetchLogin = createAsyncThunk("auth/login", async (body: { email: string; password: string }, { rejectWithValue }) => {
+export const fetchLogin = createAsyncThunk("auth/login", async (
+    { body, callback }: { body: { email: string; password: string }; callback?: () => void },
+    { rejectWithValue }
+) => {
     try {
         const res = await axios.post(`${API_URL}/login`, body);
+        if (callback) callback();
         return {
             data: res.data,
             status: res.status,
@@ -26,8 +30,8 @@ export const fetchRegister = createAsyncThunk("auth/register" , async (
     body: {
         email: string;
         password: string;
-        cart: any[];
-        wishlist: any[];
+        // cart: any[];
+        // wishlist: any[];
         username: string
     },
     {rejectWithValue}

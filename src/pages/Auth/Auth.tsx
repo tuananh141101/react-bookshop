@@ -17,14 +17,16 @@ const Auth = () => {
     const isRegister = location.pathname === "/register";
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const {id,email,username,password,wishlist,cart,loadingAuth} = useAuthStore();
-    const SignupSchema = Yup.object({
+    const {id,email,username,password,loadingAuth} = useAuthStore();
+    const SignupSchemaLogin = Yup.object({
         field_email: yupFields.email,
         field_passWord: yupFields.password,
+    });
+    const SignupSchemaRegister = Yup.object({
         field_registerEmail: yupFields.email,
         field_registerUserName: yupFields.name("Username"),
         field_registerPassword: yupFields.password,
-    });
+    })
     
     return (
         <>
@@ -46,10 +48,17 @@ const Auth = () => {
                                             field_email: email,
                                             field_passWord: password,
                                         }}
-                                        validationSchema={SignupSchema}
+                                        validationSchema={SignupSchemaLogin}
                                         onSubmit={(value: any, { resetForm }: any) => {
-                                            dispatch(fetchLogin({email: value.field_email, password: value.field_passWord}));
-                                            // resetForm();
+                                            dispatch(fetchLogin({
+                                                body: { 
+                                                email: value.field_email, 
+                                                password: value.field_passWord 
+                                            }
+                                            })).unwrap().then(() => {
+                                                
+                                                resetForm();
+                                            });
                                         }}
                                     >
                                         <Form>
@@ -98,12 +107,11 @@ const Auth = () => {
                                 <div className="form d-flex flex-column">
                                     <Formik 
                                         enableReinitialize 
+                                        validationSchema={SignupSchemaRegister}
                                         onSubmit={(value: any, { resetForm }: any) => {
                                             dispatch(fetchRegister({
                                                 email: value.field_registerEmail,
                                                 password: value.field_registerPassword,
-                                                cart: [],
-                                                wishlist: [],
                                                 username: value.field_registerUserName 
                                             }))
                                         }}

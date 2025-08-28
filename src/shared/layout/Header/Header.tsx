@@ -300,7 +300,7 @@ const Header = () => {
                                                 id="dropdown-basic"
                                                 variant="link"
                                             >
-                                                <Link to="">
+                                                <Link to="#">
                                                     <FaRegUser className="icon" />
                                                 </Link>
                                             </Dropdown.Toggle>
@@ -334,7 +334,7 @@ const Header = () => {
                                                 ) : (
                                                 )} */}
                                                 <Dropdown.Item>
-                                                    <Link to="login">
+                                                    <Link to="/login">
                                                         Login
                                                     </Link>
                                                 </Dropdown.Item>

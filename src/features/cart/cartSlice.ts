@@ -52,6 +52,7 @@ const cartSlice = createSlice({
     }
 })
 
+
 export const {
     addToCart,
     removeCart,

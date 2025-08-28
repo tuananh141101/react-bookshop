@@ -8,8 +8,6 @@ interface AuthState {
     email: string,
     username: string,
     password: string,
-    wishlist: unknown[],
-    cart: unknown[],
     loadingAuth: boolean
 }
 
@@ -18,8 +16,6 @@ const initialState: AuthState = {
     email: "",
     username: "",
     password: "",
-    wishlist: [],
-    cart: [],
     loadingAuth: false
 }
 
@@ -49,6 +45,7 @@ const authSLice = createSlice({
             })
             .addCase(fetchLogin.fulfilled, (state,action) => {
                 state.loadingAuth = false;
+                toastUtils.success(`Login success`);
             })
             .addCase(fetchLogin.rejected, (state,action) => {
                 state.loadingAuth = false;
@@ -61,6 +58,7 @@ const authSLice = createSlice({
             })
             .addCase(fetchRegister.fulfilled, (state,action) => {
                 state.loadingAuth = false;
+                toastUtils.success(`Login success`);
             })
             .addCase(fetchRegister.rejected, (state,action) => {
                 state.loadingAuth = false;
