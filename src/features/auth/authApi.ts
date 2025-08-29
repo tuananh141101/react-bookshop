@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
+const API_URL = "http://localhost:3000";
 
 export const fetchLogin = createAsyncThunk("auth/login", async (
     { body, callback }: { body: { email: string; password: string }; callback?: () => void },
@@ -13,7 +13,7 @@ export const fetchLogin = createAsyncThunk("auth/login", async (
         return {
             data: res.data,
             status: res.status,
-            headers: res.headers,
+            headers:  { ...res.headers },
         }
     } catch(error:any) {
         if (error.response) {
@@ -30,9 +30,8 @@ export const fetchRegister = createAsyncThunk("auth/register" , async (
     body: {
         email: string;
         password: string;
-        // cart: any[];
-        // wishlist: any[];
-        username: string
+        username: string;
+        role: "user"
     },
     {rejectWithValue}
 ) => {
@@ -41,7 +40,7 @@ export const fetchRegister = createAsyncThunk("auth/register" , async (
         return {
             data: res.data,
             status: res.status,
-            headers: res.headers,
+            headers:  { ...res.headers },
         }
     } catch (error: any) {
         if (error.response) {

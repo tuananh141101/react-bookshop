@@ -24,11 +24,12 @@ import { AppDispatch } from "../../../app/store";
 import { changeLimitNum } from "../../../features/products/productSlice";
 // import { changeSearch } from "../../../features/filter/filterSlice";
 import { toastUtils } from "../../../common/utils/Toastutils";
- import { Field, Form, Formik } from 'formik';
- import * as Yup from "yup";
+import { Field, Form, Formik } from 'formik';
+import * as Yup from "yup";
 import { changeSearch } from "../../../features/filter/filterSlice";
 import { fetchProducts } from "../../../features/products/productApi";
 import { yupFields } from "../../../common/utils/Utils";
+import StorageService from "../../../common/utils/storageService";
 
 
 const Header = () => {
@@ -41,6 +42,9 @@ const Header = () => {
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
     const { cart } = useCartStore();
+    const roleUser = StorageService.getLocalStore("role");
+    const isToken = StorageService.getToken();
+    console.log("isToken", isToken);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
@@ -48,7 +52,7 @@ const Header = () => {
 
     // Shortcut to focus input search
     useEffect(() => {
-        const handleKeyPress = (event: KeyboardEvent) => {
+        const handleKeyPress = (event: KeyboardEvent) => {1
             if (event.ctrlKey && event.key === "k") {
                 event.preventDefault();
                 const searchInput =
@@ -306,38 +310,33 @@ const Header = () => {
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu className="custom-dropdown-menu">
-                                                {/* {admin ? (
+                                                {isToken ? (
                                                     <>
-                                                        <Dropdown.Item>
-                                                            <Link to="">
-                                                                Hi, Admin
-                                                                BookStore
-                                                            </Link>
+                                                        <Dropdown.Item as={Link} to="#">
+                                                            Hi
                                                         </Dropdown.Item>
-                                                        <Dropdown.Item>
-                                                            <Link to="dashboard">
-                                                                Admin Page
-                                                            </Link>
+                                                        {roleUser === "admin" && (
+                                                            <Dropdown.Item as={Link} to="#">
+                                                                Admin Dashboard
+                                                            </Dropdown.Item>
+                                                        )}
+                                                        <Dropdown.Item as={Link} to="#">
+                                                            Settings
                                                         </Dropdown.Item>
-                                                        <Dropdown.Item
-                                                            onClick={() =>
-                                                                dispatch(
-                                                                    clearUser()
-                                                                )
-                                                            }
+                                                        <Dropdown.Item as={Link} to="/login"
+                                                            onClick={() => {
+                                                                StorageService.removeToken();
+                                                                StorageService.removeLocalStore("role");
+                                                            }}
                                                         >
-                                                            <Link to="">
-                                                                Logout
-                                                            </Link>
+                                                            Logout
                                                         </Dropdown.Item>
                                                     </>
                                                 ) : (
-                                                )} */}
-                                                <Dropdown.Item>
-                                                    <Link to="/login">
+                                                    <Dropdown.Item as={Link} to="/login">
                                                         Login
-                                                    </Link>
-                                                </Dropdown.Item>
+                                                    </Dropdown.Item>
+                                                )}
                                             </Dropdown.Menu>
                                         </Dropdown>
                                     </li>

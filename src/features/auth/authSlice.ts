@@ -2,6 +2,7 @@
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
 import { fetchLogin, fetchRegister } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
+import StorageService from "../../common/utils/storageService";
 
 interface AuthState {
     id: number | null,
@@ -31,7 +32,7 @@ const authSLice = createSlice({
             state: Draft<AuthState>,
             action: PayloadAction<{
                 key: keyof AuthState;
-                value: AuthState[k]
+                value: AuthState[K]
             }>
         ) => {
             const {key,value} = action.payload;
@@ -43,8 +44,10 @@ const authSLice = createSlice({
             .addCase(fetchLogin.pending, (state) => {
                 state.loadingAuth = true
             })
-            .addCase(fetchLogin.fulfilled, (state,action) => {
+            .addCase(fetchLogin.fulfilled, (state,action ) => {
                 state.loadingAuth = false;
+                StorageService.setToken(`${action.payload.data?.accessToken}`);
+                StorageService.setLocalStore(`role`, action.payload.data?.user.role);
                 toastUtils.success(`Login success`);
             })
             .addCase(fetchLogin.rejected, (state,action) => {

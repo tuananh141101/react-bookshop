@@ -1,8 +1,11 @@
+import Constants from "../constant/Constant";
+import { eraseCookie, getCookie, setCookie } from "./Utils";
+
 export default class StorageService {
     public setIdTenant(domain: string) {
         localStorage.setItem("domainName", `${domain}`);
     }
-    public setIdDomain(idDomain: string) {
+    public setDataLocal(idDomain: string) {
         localStorage.setItem("idDomain", `${idDomain}`);
     }
     public setNameUser(name: string) {
@@ -59,26 +62,20 @@ export default class StorageService {
         localStorage.removeItem(key);
     };
 
-    // public static setToken(token: any) {
-    //     setCookie(Constants.TOKEN_NAME, token, Constants.TOKEN_EXPIRE_DAYS);
+    public static setToken(token: string) {
+        setCookie(Constants.TOKEN_NAME, token, {days : Constants.TOKEN_EXPIRE_DAYS});
+    }
+    // public static setTokenS(token:string) {
+    //     setCookie(Constants.TOKEN_NAME, token, {seconds : 7});
     // }
-    // public static getToken(){
-    //     return getCookie(Constants.TOKEN_NAME);
-    // }
-    // public static removeToken() {
-    //     eraseCookie(Constants.TOKEN_NAME);
-    // }
-    // public static setRefreshToken(token: String) {
-    //     setCookie(Constants.REFRESH_TOKEN, token, Constants.TOKEN_EXPIRE_DAYS);
-    // }
-    // public static getRefreshToken(): string | null{
-    //     return getCookie(Constants.REFRESH_TOKEN);
-    // }
-    // public static removeRefreshToken() {
-    //     eraseCookie(Constants.REFRESH_TOKEN);
-    // }
-    // public static isTokenExits() {
-    //     return StorageService.getToken() !== null;
-    // }
+    public static getToken(){
+        return getCookie(Constants.TOKEN_NAME);
+    }
+    public static removeToken() {
+        eraseCookie(Constants.TOKEN_NAME);
+    }
+    public static isTokenExits() {
+        return StorageService.getToken() !== null;
+    }
 
 }

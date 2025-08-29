@@ -1,3 +1,8 @@
+export default class Constants {
+    public static TOKEN_EXPIRE_DAYS: number =  7;
+    public static TOKEN_NAME: string = "bookshop-eco-token";
+    public static REFRESH_TOKEN: string = "bookshop-eco-token";
+}
 // Animation Framer Motion Button
 export const btnAnimation = {
     hidden: {

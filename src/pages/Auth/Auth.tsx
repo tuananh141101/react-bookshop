@@ -56,7 +56,7 @@ const Auth = () => {
                                                 password: value.field_passWord 
                                             }
                                             })).unwrap().then(() => {
-                                                
+                                                navigate("/")
                                                 resetForm();
                                             });
                                         }}
