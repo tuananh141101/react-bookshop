@@ -12,6 +12,7 @@ import DetailProduct from "../pages/DetailProduct/DetailProduct";
 import Cart from "../pages/CartCheckout/Cart";
 import Checkout from "../pages/CartCheckout/Checkout";
 import Auth from "../pages/Auth/Auth";
+import Settings from "../pages/Settings/Settings";
 
 
 const router = () => {
@@ -35,7 +36,9 @@ const router = () => {
                         <Route path="checkout" element={<Checkout/>}/>
 
                         <Route path="login" element={<Auth/>}/>
-                        <Route path="register" element={<Auth/>}/>
+                        <Route path="register" element={<Auth/>}/
+                        >
+                        <Route path="settings" element={<Settings/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

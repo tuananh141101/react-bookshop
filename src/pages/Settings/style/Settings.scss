@@ -1,0 +1,38 @@
+@import "/public/assets/styles/common";
+
+.settings {
+    margin-top: 48px;
+    margin-bottom: 48px;
+    .container {
+        .row {
+            .col-dashboard {
+                .nav-pills {gap: 8px;}
+                .nav-pills .nav-item {
+                    a {
+                        gap: 12px;
+                        font-size: $fontSize-Medium;
+                        padding: 8px 12px;
+                        border-radius: 3px;
+                        cursor: pointer;
+                        &:focus,
+                        &:hover {
+                            background-color: #F6F6F6!important;
+                        }
+                        svg {
+                            stroke: $Color-1;
+                            width: 22px;
+                            height: 22px;
+                        }
+                        color: $Color-1;
+                        &:focus,
+                        &:hover {background-color: none;}
+                    }
+                    a.active {
+                        background-color: #F6F6F6!important;
+                    }
+                }
+            }
+            // .col-main {}
+        }
+    }
+}
