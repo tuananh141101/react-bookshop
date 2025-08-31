@@ -320,7 +320,7 @@ const Header = () => {
                                                                 Admin Dashboard
                                                             </Dropdown.Item>
                                                         )}
-                                                        <Dropdown.Item as={Link} to="#">
+                                                        <Dropdown.Item as={Link} to="/settings">
                                                             Settings
                                                         </Dropdown.Item>
                                                         <Dropdown.Item as={Link} to="/login"
