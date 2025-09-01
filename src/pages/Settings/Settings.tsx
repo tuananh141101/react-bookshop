@@ -5,6 +5,8 @@ import { LuCircleUser } from "react-icons/lu";
 import { LuLogOut } from "react-icons/lu";
 
 import "./style/Settings.scss"; 
+import AccountTab from "./components/AccountTab";
+import AddressTab from "./components/AddressTab";
 
 const Settings = () => {
     return (
@@ -37,9 +39,13 @@ const Settings = () => {
 
                         <Col className="col-main" sm={12} xl={9}>
                             <Tab.Content>
-                                <Tab.Pane eventKey="first" className="account">First tab content</Tab.Pane>
-                                <Tab.Pane eventKey="second" className="address">Second tab content</Tab.Pane>
-                                <Tab.Pane eventKey="third" className="logout">Third tab content</Tab.Pane>
+                                <Tab.Pane eventKey="first" className="account">
+                                    <AccountTab/>
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="second" className="address">
+                                    <AddressTab/>
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="third" className="logout">Logout</Tab.Pane>
                             </Tab.Content>
                         </Col>
                     </Row>
