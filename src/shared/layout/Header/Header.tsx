@@ -44,7 +44,6 @@ const Header = () => {
     const { cart } = useCartStore();
     const roleUser = StorageService.getLocalStore("role");
     const isToken = StorageService.getToken();
-    console.log("isToken", isToken);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     // const [isFocused, setIsFocused] = useState<boolean>(false); // *Focus -> change color icon search
     const { search } = useFilterStore();
