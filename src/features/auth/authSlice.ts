@@ -9,7 +9,8 @@ interface AuthState {
     email: string,
     username: string,
     password: string,
-    loadingAuth: boolean
+    loadingAuth: boolean,
+    newPass: string,
 }
 
 const initialState: AuthState = {
@@ -17,7 +18,8 @@ const initialState: AuthState = {
     email: "",
     username: "",
     password: "",
-    loadingAuth: false
+    loadingAuth: false,
+    newPass: ""
 }
 
 const authSLice = createSlice({

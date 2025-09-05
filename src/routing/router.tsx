@@ -36,8 +36,8 @@ const router = () => {
                         <Route path="checkout" element={<Checkout/>}/>
 
                         <Route path="login" element={<Auth/>}/>
-                        <Route path="register" element={<Auth/>}/
-                        >
+                        <Route path="register" element={<Auth/>}/>
+
                         <Route path="settings" element={<Settings/>}/>
                     </Route>
                 </Routes>

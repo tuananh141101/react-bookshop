@@ -32,7 +32,46 @@
                     }
                 }
             }
-            // .col-main {}
+            .col-main {
+                .tab-content .account-heading {
+                    p {
+                        font-size: 29px;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                        margin-bottom: 6px;
+                    }
+                    margin-bottom: 28px;
+                }
+                .tab-content .account-form .password-wrapper {
+                    border-radius: 4px;
+                    padding: 20px;
+                    background-color: #F6F5F3;
+                    .heading {
+                        font-size: $fontSize-Large;
+                        font-weight: bold;
+                    }
+                    .item-form .label-name {color: $Color-1;margin-bottom: 4px;}
+                    .item-form {margin-bottom: 10px;}
+                }
+                .tab-content .account-form button {
+                    border: none;
+                    outline: none;
+                    border-radius: 3px;
+                    padding: 6px 12px;
+                    background-color: rgba(25, 17, 11, .9);
+                    color: white;
+                    width: 135.88px;
+                    font-weight: bold;
+                    &:hover {background-color: rgba(25, 17, 11, 1)}
+                }
+                .tab-content .account-form form {gap: 24px;}
+            }
+            @media screen and (max-width: $breakpointExtraLarge) {
+                .col-dashboard {margin-bottom: 24px;}
+            }
+            @media screen and (max-width: $breakpointMedium) {
+                .col-main .tab-content .account-form form {gap: 14px;}
+            }
         }
     }
 }

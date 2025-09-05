@@ -112,7 +112,8 @@ const Auth = () => {
                                             dispatch(fetchRegister({
                                                 email: value.field_registerEmail,
                                                 password: value.field_registerPassword,
-                                                username: value.field_registerUserName 
+                                                username: value.field_registerUserName,
+                                                role: "user"
                                             }))
                                         }}
                                         initialValues={{
