@@ -10,6 +10,8 @@ import { useAuthStore } from "../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
 import { fetchLogin, fetchRegister } from "../../features/auth/authApi";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 
 
 const Auth = () => {
@@ -71,7 +73,7 @@ const Auth = () => {
                                                 />
                                                  <ErrorMessage component="span" name="field_email" />
                                             </div>
-                                            <div className="item-form d-flex align-items-center flex-column">
+                                            <div className="item-form item-form-pass d-flex align-items-center flex-column">
                                                 <label htmlFor="">Password <span style={{color:"red"}}>*</span></label>
                                                 <Field
                                                     id="password"
@@ -79,7 +81,11 @@ const Auth = () => {
                                                     name="field_passWord"
                                                     maxLength={100}
                                                 />
-                                                 <ErrorMessage component="span" name="field_passWord" />
+                                                <span className="icon-eye">
+                                                    <FaRegEye className="eye-open"/>
+                                                    <FaRegEyeSlash className="eye-close"/>
+                                                </span>
+                                                <ErrorMessage component="span" name="field_passWord" />
                                             </div>
                                             {/* <div className="remembermeChecked d-flex align-items-center">
                                                 <input type="checkbox" name="" id="checkSaveInfo" />

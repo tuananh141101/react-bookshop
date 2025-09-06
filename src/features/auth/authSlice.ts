@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchLogin, fetchRegister } from "./authApi";
+import { fetchGetDataUser, fetchLogin, fetchRegister } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
 interface AuthState {
-    id: number | null,
+    id: string | null,
     email: string,
     username: string,
     password: string,
     loadingAuth: boolean,
+    loadingGetData: boolean,
     newPass: string,
 }
 
@@ -19,6 +20,7 @@ const initialState: AuthState = {
     username: "",
     password: "",
     loadingAuth: false,
+    loadingGetData: false,
     newPass: ""
 }
 
@@ -50,7 +52,7 @@ const authSLice = createSlice({
                 state.loadingAuth = false;
                 state.username = action.payload.data?.username;
                 state.email = action.payload.data?.email;
-                StorageService.setToken({token: `${action.payload.data?.id}`})
+                StorageService.setToken({nameToken: "idUser" ,token: `${action.payload.data.user.id}`});
                 StorageService.setToken({token: `${action.payload.data?.accessToken}`});
                 StorageService.setLocalStore(`role`, action.payload.data?.user.role);
                 toastUtils.success(`Login success`);
@@ -72,6 +74,18 @@ const authSLice = createSlice({
                 state.loadingAuth = false;
                 const actionPayLoad = action.payload as any;
                 toastUtils.error(`${actionPayLoad.data}`, "");
+            })
+        builder 
+            .addCase(fetchGetDataUser.pending, (state) => {
+                state.loadingGetData = true
+            })
+            .addCase(fetchGetDataUser.fulfilled, (state,action) => {
+                state.loadingGetData = false;
+                state.email = action.payload?.data.email;
+                state.username = action.payload?.data.username;
+            })
+            .addCase(fetchGetDataUser.rejected, (state) => {
+                state.loadingGetData = true;
             })
     }
 })

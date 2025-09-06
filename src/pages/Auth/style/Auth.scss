@@ -1,5 +1,6 @@
 @import "/public/assets/styles/common";
 
+
 .auth {
     .container {
         .row {
@@ -71,6 +72,26 @@
                             height: 20px;
                         }
                         span {font-weight: bold;}
+                    }
+                    .item-form-pass {
+                        position: relative;
+                        .icon-eye {
+                            position: absolute;
+                            left: 94%;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                            svg {width: 18px;height: 18px;}
+                            display: none;
+                        }
+                        .icon-eye-slash {
+                            position: absolute;
+                            left: 94%;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                            svg {width: 18px;height: 18px;}
+                        }
                     }
                 }
             }

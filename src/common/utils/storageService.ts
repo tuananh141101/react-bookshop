@@ -72,6 +72,9 @@ export default class StorageService {
     public static getToken(){
         return getCookie(Constants.TOKEN_NAME);
     }
+    public static getTokenByName(name: string) {
+        return getCookie(name);
+    }
     public static removeToken() {
         eraseCookie(Constants.TOKEN_NAME);
     }

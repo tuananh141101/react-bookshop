@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Nav, Row, Tab  } from "react-bootstrap";
 import { LuMapPin } from "react-icons/lu";
 import { LuCircleUser } from "react-icons/lu";
@@ -7,8 +7,21 @@ import { LuLogOut } from "react-icons/lu";
 import "./style/Settings.scss"; 
 import AccountTab from "./components/AccountTab";
 import AddressTab from "./components/AddressTab";
+import { useAuthStore } from "../../common/hooks/useCustomHooks";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../app/store";
+import { fetchGetDataUser } from "../../features/auth/authApi";
+import { getCookie } from "../../common/utils/Utils";
 
 const Settings = () => {
+    const { email,username } = useAuthStore();
+    const dispatch = useDispatch<AppDispatch>();
+    const getNameIdCookie = getCookie("idUser");
+
+    useEffect(() => {
+        dispatch(fetchGetDataUser(getNameIdCookie));
+    },[dispatch, email, username]);
+
     return (
         <section className="settings">
             <Container>

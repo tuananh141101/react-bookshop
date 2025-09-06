@@ -28,7 +28,7 @@ import { Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { changeSearch } from "../../../features/filter/filterSlice";
 import { fetchProducts } from "../../../features/products/productApi";
-import { yupFields } from "../../../common/utils/Utils";
+import { eraseCookie, yupFields } from "../../../common/utils/Utils";
 import StorageService from "../../../common/utils/storageService";
 
 
@@ -326,6 +326,7 @@ const Header = () => {
                                                             onClick={() => {
                                                                 StorageService.removeToken();
                                                                 StorageService.removeLocalStore("role");
+                                                                eraseCookie("idUser");
                                                             }}
                                                         >
                                                             Logout

@@ -53,4 +53,17 @@ export const fetchRegister = createAsyncThunk("auth/register" , async (
     }
 })
 
+export const fetchGetDataUser = createAsyncThunk("auth/getDataUser", async (id:string | null) => {
+    try {
+        const res = await axios.get(`${API_URL}/users/${id}`);
+        return {
+            data: res.data,
+            status: res.status,
+            headers:  { ...res.headers },
+        }
+    } catch(error:any) {
+        console.log("data error", error)
+    }
+})
+
 
