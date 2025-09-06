@@ -1,7 +1,19 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
+import { useAuthStore } from "../../../common/hooks/useCustomHooks";
+import { yupFields } from "../../../common/utils/Utils";
+import * as Yup from 'yup';
 
 const AccountTab = () => {
+    const { id,email,username,password,newPass } = useAuthStore();
+    const SignUpSchema = Yup.object({
+        field_UserName: yupFields.name("user name"),
+        field_Email: yupFields.email,
+        field_CurrentPass: yupFields.password,
+        field_NewPass: yupFields.password,
+        field_ConfirmPass: yupFields.confirmPassword
+    });
+
     return (
         <>
             <div className="account-heading">
@@ -10,9 +22,14 @@ const AccountTab = () => {
             </div>
             <div className="account-form">
                 <Formik
-                    // initialValues={}
+                    initialValues={{
+                        field_UserName: username,
+                        field_Email: email,
+                        field_CurrentPass: password,
+                        field_NewPass: newPass,
+                    }}
                     enableReinitialize
-                    // validationSchema={SigupSchema}
+                    validationSchema={SignUpSchema}
                     onSubmit={(value, {resetForm}) => {
                         console.log("check", value);
                     }}
@@ -22,7 +39,7 @@ const AccountTab = () => {
                             <label className="label-name">User name</label>
                             <Field
                                 id="username"
-                                name="field_Username"
+                                name="field_UserName"
                                 maxLength={200}
                             />
                         </div>

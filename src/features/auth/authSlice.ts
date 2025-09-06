@@ -48,7 +48,10 @@ const authSLice = createSlice({
             })
             .addCase(fetchLogin.fulfilled, (state,action ) => {
                 state.loadingAuth = false;
-                StorageService.setToken(`${action.payload.data?.accessToken}`);
+                state.username = action.payload.data?.username;
+                state.email = action.payload.data?.email;
+                StorageService.setToken({token: `${action.payload.data?.id}`})
+                StorageService.setToken({token: `${action.payload.data?.accessToken}`});
                 StorageService.setLocalStore(`role`, action.payload.data?.user.role);
                 toastUtils.success(`Login success`);
             })

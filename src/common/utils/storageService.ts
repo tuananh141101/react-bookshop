@@ -62,8 +62,9 @@ export default class StorageService {
         localStorage.removeItem(key);
     };
 
-    public static setToken(token: string) {
-        setCookie(Constants.TOKEN_NAME, token, {days : Constants.TOKEN_EXPIRE_DAYS});
+    public static setToken(options: { nameToken?: string; token: string }) {
+        const { nameToken, token } = options;
+        setCookie(nameToken ? nameToken : Constants.TOKEN_NAME, token, { days: Constants.TOKEN_EXPIRE_DAYS });
     }
     // public static setTokenS(token:string) {
     //     setCookie(Constants.TOKEN_NAME, token, {seconds : 7});
