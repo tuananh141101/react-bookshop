@@ -19,7 +19,7 @@ const Auth = () => {
     const isRegister = location.pathname === "/register";
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
-    const {id,email,username,password,loadingAuth} = useAuthStore();
+    const { email,username,password,loadingAuth } = useAuthStore();
     const SignupSchemaLogin = Yup.object({
         field_email: yupFields.email,
         field_passWord: yupFields.password,

@@ -18,7 +18,7 @@ import Collapse from "react-bootstrap/Collapse";
 import { IoIosArrowDown } from "react-icons/io";
 import "./styles/header.scss";
 import React from "react";
-import { useCartStore, useFilterStore } from "../../../common/hooks/useCustomHooks";
+import { useAuthStore, useCartStore, useFilterStore } from "../../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { changeLimitNum } from "../../../features/products/productSlice";
@@ -42,6 +42,7 @@ const Header = () => {
     const [categoriesOpen, setCategoriesOpen] = useState<boolean>(false);
     const [otherOpen, setOtherOpen] = useState<boolean>(false);
     const { cart } = useCartStore();
+    const { username } = useAuthStore();
     const roleUser = StorageService.getLocalStore("role");
     const isToken = StorageService.getToken();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -312,7 +313,7 @@ const Header = () => {
                                                 {isToken ? (
                                                     <>
                                                         <Dropdown.Item as={Link} to="#">
-                                                            Hi
+                                                            Hi <span style={{textDecoration: "underline"}}>{username}</span>
                                                         </Dropdown.Item>
                                                         {roleUser === "admin" && (
                                                             <Dropdown.Item as={Link} to="#">

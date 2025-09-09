@@ -25,7 +25,7 @@ const Settings = () => {
     return (
         <section className="settings">
             <Container>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="first">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="second">
                     <Row>
                         <Col className="col-dashboard" sm={12} xl={3}>
                             <Nav variant="pills" className="d-flex flex-column">
