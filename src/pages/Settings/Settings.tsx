@@ -10,17 +10,16 @@ import AddressTab from "./components/AddressTab";
 import { useAuthStore } from "../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { fetchGetDataUser } from "../../features/auth/authApi";
+import { fetchGetDataUser, fetchListProvinceData } from "../../features/auth/authApi";
 import { getCookie } from "../../common/utils/Utils";
 
 const Settings = () => {
-    const { email,username } = useAuthStore();
+    const { email,username,listProvice } = useAuthStore();
     const dispatch = useDispatch<AppDispatch>();
     const getNameIdCookie = getCookie("idUser");
 
-    useEffect(() => {
-        dispatch(fetchGetDataUser(getNameIdCookie));
-    },[dispatch, email, username]);
+    useEffect(() => {dispatch(fetchGetDataUser(getNameIdCookie));},[dispatch, email, username]);
+    useEffect(() => {dispatch(fetchListProvinceData());},[])
 
     return (
         <section className="settings">

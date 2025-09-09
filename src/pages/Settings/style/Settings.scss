@@ -40,7 +40,7 @@
                         font-weight: bold;
                         margin-bottom: 6px;
                     }
-                    margin-bottom: 28px;
+                    margin-bottom: 48px;
                 }
                 .tab-content .account-form .password-wrapper {
                     border-radius: 4px;
@@ -72,7 +72,7 @@
                         font-weight: bold;
                         margin-bottom: 6px;
                     }
-                    margin-bottom: 28px;
+                    margin-bottom: 48px;
                 }
                 .tab-content .address-form {
                     p {
@@ -97,6 +97,30 @@
                     }
                     .shippingAddress {
                         .item-form {margin-bottom: 8px;}
+                        .form-wrapper {
+                            display: grid;
+                            grid-template-columns: repeat(2,1fr);
+                            grid-template-rows: auto auto;
+                            gap: 8px;
+                            margin-bottom: 8px;
+                            .item-form {&:last-child {grid-column: 1/ span 2;}}
+                        }
+                        .farm-wrapper-2 {
+                            display: grid;
+                            grid-template-columns: repeat(3, 1fr);
+                            grid-template-rows: auto auto;
+                            gap: 8px;
+                            .item-form > select {
+                                border: none;
+                                outline: none;
+                                border: 1px solid #BCBCBCE6;
+                                padding: 8px 12px;
+                                border-radius: 4px;
+                                cursor: pointer;
+                                text-align: left;
+                                height: 41.25px;
+                            }
+                        }
                     }
                 }
             }

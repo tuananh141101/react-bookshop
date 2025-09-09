@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchGetDataUser, fetchLogin, fetchRegister } from "./authApi";
+import { fetchGetDataUser, fetchListProvinceData, fetchLogin, fetchRegister } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
@@ -11,7 +11,11 @@ interface AuthState {
     password: string,
     loadingAuth: boolean,
     loadingGetData: boolean,
+    loadingDataProvince: boolean,
     newPass: string,
+    shippingAddress: unknown[],
+    billingAddress: unknown[],
+    listProvice: unknown[]
 }
 
 const initialState: AuthState = {
@@ -21,7 +25,11 @@ const initialState: AuthState = {
     password: "",
     loadingAuth: false,
     loadingGetData: false,
-    newPass: ""
+    loadingDataProvince: false,
+    newPass: "",
+    shippingAddress: [],
+    billingAddress: [],
+    listProvice: []
 }
 
 const authSLice = createSlice({
@@ -41,6 +49,9 @@ const authSLice = createSlice({
         ) => {
             const {key,value} = action.payload;
             (state as any)[key] = value;
+        },
+        getUserData: (state,action) => {
+            state.listProvice = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -83,13 +94,26 @@ const authSLice = createSlice({
                 state.loadingGetData = false;
                 state.email = action.payload?.data.email;
                 state.username = action.payload?.data.username;
+                state.billingAddress = action.payload?.data.billingAddress;
+                state.shippingAddress = action.payload?.data.shippingAddress;
             })
             .addCase(fetchGetDataUser.rejected, (state) => {
                 state.loadingGetData = true;
+            })
+        builder
+            .addCase(fetchListProvinceData.pending, (state) => {
+                state.loadingDataProvince = true
+            })
+            .addCase(fetchListProvinceData.fulfilled, (state,action) => {
+                state.loadingDataProvince = false;
+                state.listProvice = action.payload.data;
+            })
+            .addCase(fetchListProvinceData.rejected, (state) => {
+                state.loadingDataProvince = true;
             })
     }
 })
 
 
-export const {clearEmailPass, toggleChangeValue} = authSLice.actions;
+export const {clearEmailPass, toggleChangeValue,getUserData} = authSLice.actions;
 export default authSLice.reducer;

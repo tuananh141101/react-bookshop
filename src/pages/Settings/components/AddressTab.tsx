@@ -1,9 +1,14 @@
 import { Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../app/store";
+import { useAuthStore } from "../../../common/hooks/useCustomHooks";
+import { option } from "framer-motion/client";
 
 const AddressTab = () => {
     const SignUpSchema = {};
-
+    const dispatch = useDispatch<AppDispatch>();
+    const { shippingAddress,billingAddress,listProvice } = useAuthStore();
     return (
         <>
             <div className="address-heading">
@@ -64,7 +69,7 @@ const AddressTab = () => {
                         <div className="shippingAddress">
                             <p>Shipping address</p>
 
-                            <div className="form-wrapper">
+                            <div className="form-wrapper form-wrapper-1">
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-name">Shipping full name<span style={{color:"red"}}>*</span></label>
                                     <Field
@@ -89,6 +94,84 @@ const AddressTab = () => {
                                         maxLength={100}
                                     />
                                 </div>
+                            </div>
+                            <div className="farm-wrapper farm-wrapper-2">
+                                <div className="item-form d-flex align-items-left flex-column">
+                                    <label className="label-province">Province</label>
+                                    <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                        console.log("check e", e.target.value);
+                                        // dispatch(toggleChangeValue({key: 'province', value: e.target.value}))
+                                        // dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form1" }));
+                                    }}>
+                                        {shippingAddress?.proviceId ?
+                                            listProvice
+                                                ?.filter((item: any) => Number(item.id) === Number(shippingAddress.proviceId))
+                                                .map((item: any) => (
+                                                <option value={item.id} key={item.id}>
+                                                    {item.name}
+                                                </option>
+                                                )) :
+                                            (
+                                                <>                                                
+                                                    <option value="">- Select province/city -</option>
+                                                    {listProvice && listProvice.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
+                                                    })}
+                                                </>
+                                            )
+                                        }
+                                    </select>
+                                </div>
+                                <div className="item-form d-flex align-items-left flex-column">
+                                    <label className="label-district">District</label>
+                                    <select name="district" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                        console.log("check e", e.target.value);
+                                    }}>
+                                        {shippingAddress?.districtId ?
+                                            listProvice
+                                                ?.filter((item: any) => Number(item.id) === Number(shippingAddress.districtId))
+                                                .map((item: any) => (
+                                                <option value={item.id} key={item.id}>
+                                                    {item.name}
+                                                </option>
+                                                )) :
+                                            (
+                                                <>                                                
+                                                    <option value="">- Select province/city -</option>
+                                                    {listProvice && listProvice.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
+                                                    })}
+                                                </>
+                                            )
+                                        }
+                                    </select>
+                                </div>
+                                <div className="item-form d-flex align-items-left flex-column">
+                                    <label className="label-ward">Ward</label>
+                                    <select name="ward" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                        console.log("check e", e.target.value);
+                                    }}>
+                                        {shippingAddress?.wardId ?
+                                            listProvice
+                                                ?.filter((item: any) => Number(item.id) === Number(shippingAddress.wardId))
+                                                .map((item: any) => (
+                                                <option value={item.id} key={item.id}>
+                                                    {item.name}
+                                                </option>
+                                                )) :
+                                            (
+                                                <>                                                
+                                                    <option value="">- Select province/city -</option>
+                                                    {listProvice && listProvice.map((item:any) => {
+                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
+                                                    })}
+                                                </>
+                                            )
+                                        }
+                                    </select>
+                                </div>
+
+                                
                             </div>
                         </div>
                     </Form>
