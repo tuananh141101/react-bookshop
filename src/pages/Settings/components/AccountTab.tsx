@@ -13,7 +13,6 @@ const AccountTab = () => {
         field_NewPass: yupFields.password,
         field_ConfirmPass: yupFields.confirmPassword
     });
-
     return (
         <>
             <div className="account-heading">
@@ -29,7 +28,7 @@ const AccountTab = () => {
                         field_NewPass: newPass,
                     }}
                     enableReinitialize
-                    validationSchema={SignUpSchema}
+                    validationSchema={SignUpSchema as any}
                     onSubmit={(value) => {
                         console.log("check", value);
                     }}
