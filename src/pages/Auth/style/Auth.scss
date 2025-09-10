@@ -1,0 +1,100 @@
+@use "/public/assets/styles/common" as *;
+
+
+.auth {
+    .container {
+        .row {
+            .auth-item {
+                margin: 78px 0;
+                .register-wrapper,
+                .login-wrapper {
+                    width: 426px;
+                    .heading {
+                        width: 100%;
+                        margin-bottom: 38px;
+                        .heading-title {
+                            font-size: $fontSize-X_Large;
+                            font-family: "Victormono";
+                            font-weight: bold;
+                        }
+                    }
+                }
+                .form {
+                    width: 100%;
+                    .item-form {
+                        width: 100%;
+                        margin-bottom: 20px;
+                        span,input,label {width: 100%;}
+                        span {
+                            color: $Color-5;
+                            font-size: $fontSize-Light;
+                        }
+                    }
+                    .createAcc,
+                    .btnSubmit {
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        margin-top: 12px;
+                        height: 41.25px;
+                        line-height: 41.25px;
+                        border-radius: 3px;
+                    }
+                    .btnSubmit {
+                        margin-bottom: 12px;
+                        color: white;
+                        background: rgba(25, 17, 11, .9);
+                        &:hover {
+                            background: rgba(25, 17, 11, 1);
+                        }
+                    }
+                    .createAcc {
+                        &:hover {
+                            background-color: $Color-1;
+                            color: white;
+                        }
+                    }
+                    .remembermeChecked {
+                        gap: 8px;
+                        input {
+                            width: 18px;
+                            height: 18px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                        }
+                        label{cursor: pointer;}
+                    }
+                    .backtoLogin {
+                        gap: 8px;
+                        cursor: pointer;
+                        svg {
+                            width: 20px;
+                            height: 20px;
+                        }
+                        span {font-weight: bold;}
+                    }
+                    .item-form-pass {
+                        position: relative;
+                        .icon-eye {
+                            position: absolute;
+                            left: 94%;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                            svg {width: 18px;height: 18px;}
+                            display: none;
+                        }
+                        .icon-eye-slash {
+                            position: absolute;
+                            left: 94%;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            cursor: pointer;
+                            svg {width: 18px;height: 18px;}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

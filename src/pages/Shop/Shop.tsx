@@ -63,9 +63,6 @@ const Shop = () => {
         }
     }, []);
 
-    // const dataLocal = StorageService.getArrayFromLS("persist:root");
-    // const dataCartParse =  JSON.parse(dataLocal.cartStore);
-
     return (
         <>
             <section className="shop">

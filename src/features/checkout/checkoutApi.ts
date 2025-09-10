@@ -1,7 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-
 const API_URL = "https://open.oapi.vn/location";
 
 export const fetchListProvince = createAsyncThunk("location/fetchListProvinces", async () => {

@@ -62,14 +62,14 @@ export const yupFields = {
         .min(2, `${fieldName} is too short!`)
         .max(50, `${fieldName} is too long!`)
         .matches(noSpecialCharsRegex, `${fieldName} cannot contain special characters`)
-         .test(
+        .test(
             "no-only-spaces",
             `${fieldName} cannot contain only whitespace`,
             noOnlySpacesTest
         )
         .required(`${fieldName} is required`),
     password: Yup.string()
-        .min(8, 'Password must be at least 8 characters')
+        .min(5, 'Password must be at least 5 characters')
         .required('Password is required'),
     confirmPassword: Yup.string()
         .oneOf([Yup.ref('password'), undefined ], 'Passwords must match')
@@ -82,4 +82,31 @@ export const yupFields = {
         .min(9,"Must be at least 9")
         .max(11, "Must be less than 11 numbers")
         .required("Phone is required!")
+}
+
+export function setCookie(name: string, value: any, { days, seconds }: { days?: number; seconds?: number }) {
+    let expires = "";
+    if (days !== undefined) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    } else if (seconds !== undefined) {
+        const date = new Date();
+        date.setTime(date.getTime() + seconds * 1000);
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+export function getCookie(name: string) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+export function eraseCookie(name: string) {
+    setCookie(name, "", { days: -1 });
 }

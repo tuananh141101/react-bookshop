@@ -19,6 +19,8 @@ export const useCartStore = () =>
     useSelector((state:RootState) => state.cartStore);
 export const useCheckoutStore = () => 
     useSelector((state:RootState) =>state.checkoutStore);
+export const useAuthStore = () => 
+    useSelector((state:RootState) => state.authStore);
 
 export const useDebounce = (value:any, delay:number) => {
     const [debounceValue,setDebouncedValue] = useState(value);

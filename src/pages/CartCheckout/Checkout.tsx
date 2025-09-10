@@ -157,7 +157,7 @@ const Checkout = () => {
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Billing name<span style={{color:"red"}}>*</span></label>
                                                 <Field
-                                                    id="billingFullName"
+                                                id="billingFullName"
                                                     name="field_BillingFullName"
                                                     maxLength={100}
                                                 />
