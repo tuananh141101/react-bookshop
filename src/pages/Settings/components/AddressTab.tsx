@@ -36,7 +36,7 @@ const AddressTab = () => {
                         field_BillingPhone: billingAddress.phone
                     }}
                     enableReinitialize
-                    validationSchema={SignupSchema}
+                    validationSchema={SignupSchema as any}
                     onSubmit={(value) => {
                         console.log("value", value)
                     }}
