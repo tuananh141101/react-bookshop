@@ -14,7 +14,7 @@ import { fetchGetDataUser, fetchListProvinceData } from "../../features/auth/aut
 import { getCookie } from "../../common/utils/Utils";
 
 const Settings = () => {
-    const { email,username,listProvice } = useAuthStore();
+    const { email,username } = useAuthStore();
     const dispatch = useDispatch<AppDispatch>();
     const getNameIdCookie = getCookie("idUser");
 

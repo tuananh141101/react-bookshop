@@ -1,16 +1,25 @@
 import { Field, Form, Formik } from "formik";
-import React, { useEffect } from "react";
+import * as Yup from 'yup';
+import React from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
-import { option } from "framer-motion/client";
 import { toggleChangeValue } from "../../../features/auth/authSlice";
 import { fetchListDistrictData, fetchListWard } from "../../../features/auth/authApi";
+import { yupFields } from "../../../common/utils/Utils";
 
 const AddressTab = () => {
     const SignUpSchema = {};
     const dispatch = useDispatch<AppDispatch>();
-    const { shippingAddress,billingAddress,listProvice, listDistrict, listWard } = useAuthStore();
+    const { shippingAddress,listProvice, listDistrict, billingAddress } = useAuthStore();
+    const SignupSchema = Yup.object({
+        field_BillingFullName: yupFields.name("Full name"),
+        field_BillingEmail: yupFields.email,
+        field_BillingAddress: yupFields.name("Address"),
+        field_BillingPhone: yupFields.phone,
+    });
+
+
     return (
         <>
             <div className="address-heading">
@@ -21,10 +30,15 @@ const AddressTab = () => {
             </div>
             <div className="address-form">
                 <Formik
-                    // initialValues={}
+                    initialValues={{
+                        field_BillingFullName: billingAddress.fullname,
+                        field_BillingEmail: billingAddress.email,
+                        field_BillingAddress: billingAddress.address,
+                        field_BillingPhone: billingAddress.phone
+                    }}
                     enableReinitialize
-                    validationSchema={SignUpSchema}
-                    onSubmit={(value, {resetForm}) => {
+                    validationSchema={SignupSchema}
+                    onSubmit={(value) => {
                         console.log("value", value)
                     }}
                 >

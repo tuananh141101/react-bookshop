@@ -16,8 +16,23 @@ interface AuthState {
     provinceId: string,
     districtId: string,
     wardId: string,
-    shippingAddress: unknown[],
-    billingAddress: unknown[],
+    shippingAddress: {
+        type: string,
+        fullname: string,
+        address: string,
+        phone: string,
+        email: string,
+        proviceId: string,
+        districtId: string,
+        wardId: string
+    },
+    billingAddress: {
+        type: string,
+        fullname: string,
+        address: string,
+        phone: string,
+        email:string
+    },
     listProvice: unknown[]
     listDistrict: unknown[],
     listWard: unknown[]
@@ -35,8 +50,23 @@ const initialState: AuthState = {
     provinceId: "",
     districtId: "",
     wardId: "",
-    shippingAddress: [],
-    billingAddress: [],
+    shippingAddress: {
+        type: "shipping",
+        fullname: "",
+        address: "",
+        phone: "",
+        email: "",
+        proviceId: "",
+        districtId: "",
+        wardId: ""
+    },
+    billingAddress: {
+        type:"billing",
+        fullname: "",
+        address: "",
+        phone: "",
+        email: "",
+    },
     listProvice: [],
     listDistrict: [],
     listWard: []
@@ -87,7 +117,7 @@ const authSLice = createSlice({
             .addCase(fetchRegister.pending, (state) => {
                 state.loadingAuth = true;
             })
-            .addCase(fetchRegister.fulfilled, (state,action) => {
+            .addCase(fetchRegister.fulfilled, (state) => {
                 state.loadingAuth = false;
                 toastUtils.success(`Login success`);
             })

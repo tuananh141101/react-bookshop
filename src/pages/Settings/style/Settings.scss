@@ -122,6 +122,18 @@
                             }
                         }
                     }
+                    .btnSubmit {
+                        outline: none;
+                        border: none;
+                        border-radius: 3px;
+                        height: 52px;
+                        width: 100%;
+                        background-color: rgba(25, 17, 11, 0.9);
+                        color: white;
+                        transition: 0.2s ease-in-out;
+                        border: 1px solid rgba(25, 17, 11, 0.9);
+                        &:hover {background-color: rgba(25, 17, 11, 1);}
+                    }
                 }
             }
             @media screen and (max-width: $breakpointExtraLarge) {

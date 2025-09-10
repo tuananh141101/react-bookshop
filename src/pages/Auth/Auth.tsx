@@ -114,7 +114,7 @@ const Auth = () => {
                                     <Formik 
                                         enableReinitialize 
                                         validationSchema={SignupSchemaRegister}
-                                        onSubmit={(value: any, { resetForm }: any) => {
+                                        onSubmit={(value: any) => {
                                             dispatch(fetchRegister({
                                                 email: value.field_registerEmail,
                                                 password: value.field_registerPassword,

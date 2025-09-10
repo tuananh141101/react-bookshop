@@ -108,5 +108,5 @@ export function getCookie(name: string) {
     return null;
 }
 export function eraseCookie(name: string) {
-    setCookie(name, "", -1);
+    setCookie(name, "", { days: -1 });
 }
