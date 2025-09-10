@@ -9,7 +9,6 @@ import { fetchListDistrictData, fetchListWard } from "../../../features/auth/aut
 import { yupFields } from "../../../common/utils/Utils";
 
 const AddressTab = () => {
-    const SignUpSchema = {};
     const dispatch = useDispatch<AppDispatch>();
     const { shippingAddress,listProvice, listDistrict, billingAddress } = useAuthStore();
     const SignupSchema = Yup.object({
