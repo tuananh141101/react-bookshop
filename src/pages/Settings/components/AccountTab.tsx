@@ -5,7 +5,7 @@ import { yupFields } from "../../../common/utils/Utils";
 import * as Yup from 'yup';
 
 const AccountTab = () => {
-    const { id,email,username,password,newPass } = useAuthStore();
+    const { email,username,password,newPass } = useAuthStore();
     const SignUpSchema = Yup.object({
         field_UserName: yupFields.name("user name"),
         field_Email: yupFields.email,
@@ -30,7 +30,7 @@ const AccountTab = () => {
                     }}
                     enableReinitialize
                     validationSchema={SignUpSchema}
-                    onSubmit={(value, {resetForm}) => {
+                    onSubmit={(value) => {
                         console.log("check", value);
                     }}
                 >
