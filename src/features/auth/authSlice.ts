@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchGetDataUser, fetchListProvinceData, fetchLogin, fetchRegister } from "./authApi";
+import { fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchLogin, fetchRegister } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
@@ -13,9 +13,14 @@ interface AuthState {
     loadingGetData: boolean,
     loadingDataProvince: boolean,
     newPass: string,
+    provinceId: string,
+    districtId: string,
+    wardId: string,
     shippingAddress: unknown[],
     billingAddress: unknown[],
     listProvice: unknown[]
+    listDistrict: unknown[],
+    listWard: unknown[]
 }
 
 const initialState: AuthState = {
@@ -27,9 +32,14 @@ const initialState: AuthState = {
     loadingGetData: false,
     loadingDataProvince: false,
     newPass: "",
+    provinceId: "",
+    districtId: "",
+    wardId: "",
     shippingAddress: [],
     billingAddress: [],
-    listProvice: []
+    listProvice: [],
+    listDistrict: [],
+    listWard: []
 }
 
 const authSLice = createSlice({
@@ -110,6 +120,17 @@ const authSLice = createSlice({
             })
             .addCase(fetchListProvinceData.rejected, (state) => {
                 state.loadingDataProvince = true;
+            })
+        builder
+            .addCase(fetchListDistrictData.pending, (state) => {
+                state.loadingGetData = true;
+            })
+            .addCase(fetchListDistrictData.fulfilled, (state,action) => {
+                state.loadingGetData = false;
+                state.listDistrict = action.payload.data;
+            })
+            .addCase(fetchListDistrictData.rejected, (state) => {
+                state.loadingGetData = true;
             })
     }
 })

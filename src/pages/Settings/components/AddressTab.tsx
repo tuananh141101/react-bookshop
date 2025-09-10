@@ -4,11 +4,13 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
 import { option } from "framer-motion/client";
+import { toggleChangeValue } from "../../../features/auth/authSlice";
+import { fetchListDistrictData, fetchListWard } from "../../../features/auth/authApi";
 
 const AddressTab = () => {
     const SignUpSchema = {};
     const dispatch = useDispatch<AppDispatch>();
-    const { shippingAddress,billingAddress,listProvice } = useAuthStore();
+    const { shippingAddress,billingAddress,listProvice, listDistrict, listWard } = useAuthStore();
     return (
         <>
             <div className="address-heading">
@@ -26,13 +28,12 @@ const AddressTab = () => {
                         console.log("value", value)
                     }}
                 >
-                    <Form>
+                    <Form className="d-flex flex-column">
                         <div className="billingAddress">
                             <p>Billing address:</p>
-
                             <div className="form-wrapper">
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Billing full name<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Billing full name </label>
                                     <Field
                                         id="billingFullName"
                                         name="field_BillingFullName"
@@ -40,7 +41,7 @@ const AddressTab = () => {
                                     />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Billing phone<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Billing phone </label>
                                     <Field
                                         id="billingPhone"
                                         name="field_BillingPhone"
@@ -48,7 +49,7 @@ const AddressTab = () => {
                                     />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Billing address<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Billing address </label>
                                     <Field
                                         id="billingAddress"
                                         name="field_BillingAddress"
@@ -56,7 +57,7 @@ const AddressTab = () => {
                                     />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Billing email<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Billing email </label>
                                     <Field
                                         id="billingEmail"
                                         name="field_BillingEmail"
@@ -64,14 +65,13 @@ const AddressTab = () => {
                                     />
                                 </div>    
                             </div>
-                            
                         </div>
                         <div className="shippingAddress">
                             <p>Shipping address</p>
 
                             <div className="form-wrapper form-wrapper-1">
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Shipping full name<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Shipping full name </label>
                                     <Field
                                         id="shippingFullName"
                                         name="field_ShippingFullName"
@@ -79,7 +79,7 @@ const AddressTab = () => {
                                     />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Shipping phone<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Shipping phone </label>
                                     <Field
                                         id="shippingPhone"
                                         name="field_ShippingPhone"
@@ -87,7 +87,7 @@ const AddressTab = () => {
                                     />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
-                                    <label className="label-name">Shipping address<span style={{color:"red"}}>*</span></label>
+                                    <label className="label-name">Shipping address </label>
                                     <Field
                                         id="shippingAddress"
                                         name="field_ShippingAddress"
@@ -99,9 +99,8 @@ const AddressTab = () => {
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-province">Province</label>
                                     <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                        console.log("check e", e.target.value);
-                                        // dispatch(toggleChangeValue({key: 'province', value: e.target.value}))
-                                        // dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form1" }));
+                                        dispatch(toggleChangeValue({key: 'provinceId', value: e.target.value}));
+                                        dispatch(fetchListDistrictData(e.target.value.toString()));
                                     }}>
                                         {shippingAddress?.proviceId ?
                                             listProvice
@@ -125,10 +124,11 @@ const AddressTab = () => {
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-district">District</label>
                                     <select name="district" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                        console.log("check e", e.target.value);
+                                        dispatch(toggleChangeValue({key: "districtId", value: e.target.value}));
+                                        dispatch(fetchListWard(e.target.value.toString()));
                                     }}>
                                         {shippingAddress?.districtId ?
-                                            listProvice
+                                            listDistrict
                                                 ?.filter((item: any) => Number(item.id) === Number(shippingAddress.districtId))
                                                 .map((item: any) => (
                                                 <option value={item.id} key={item.id}>
@@ -138,7 +138,7 @@ const AddressTab = () => {
                                             (
                                                 <>                                                
                                                     <option value="">- Select province/city -</option>
-                                                    {listProvice && listProvice.map((item:any) => {
+                                                    {listDistrict && listDistrict.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id}>{item?.name}</option>
                                                     })}
                                                 </>
@@ -149,7 +149,7 @@ const AddressTab = () => {
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-ward">Ward</label>
                                     <select name="ward" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                        console.log("check e", e.target.value);
+                                        dispatch(toggleChangeValue({key: "wardId", value: e.target.value}));
                                     }}>
                                         {shippingAddress?.wardId ?
                                             listProvice
@@ -174,6 +174,8 @@ const AddressTab = () => {
                                 
                             </div>
                         </div>
+
+                        <button className="btnSubmit" type="submit">Save address</button>
                     </Form>
                 </Formik>
             </div>
