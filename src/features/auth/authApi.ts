@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "@reduxjs/toolkit/query";
 
 const API_URL = "http://localhost:3000";
 const API_URL_LOCATION = "https://open.oapi.vn/location";
@@ -41,12 +42,11 @@ export const fetchLogin = createAsyncThunk("auth/login", async (
             return rejectWithValue({
             status: error.response.status,
             data: error.response.data,
-            });
+            })
         }
         return rejectWithValue({ status: 500, data: "Server error" });
     }
 })
-
 export const fetchRegister = createAsyncThunk("auth/register" , async (
     body: {
         email: string;
@@ -73,7 +73,6 @@ export const fetchRegister = createAsyncThunk("auth/register" , async (
         return rejectWithValue({status: 500, data: "Server error"});
     }
 })
-
 export const fetchGetDataUser = createAsyncThunk("auth/getDataUser", async (id:string | null) => {
     try {
         const res = await axios.get(`${API_URL}/users/${id}`);
@@ -86,5 +85,45 @@ export const fetchGetDataUser = createAsyncThunk("auth/getDataUser", async (id:s
         console.log("data error", error)
     }
 })
+export const fetchChangeAddress = createAsyncThunk<
+  any,
+  {
+        billingAddress: {
+            fullname: string;
+            address: string;
+            phone: string;
+            email: string;
+        };
+        shippingAddress: {
+            type: string;
+            fullname: string;
+            address: string;
+            phone: string;
+            proviceId: string;
+            districtId: string;
+            wardId: string;
+        };
+    },
+  { state: RootState }
+>(
+    "settings/changeDataAddress",
+    async (payload, { getState }) => {
+    try {
+            const { id } = getState().authStore;
 
+            const res = await axios.patch(`${API_URL}/users/${id}`, {
+                billingAddress: payload.billingAddress,
+                shippingAddress: payload.shippingAddress,
+            });
 
+            return {
+                data: res.data,
+                status: res.status,
+                headers: { ...res.headers },
+            };
+        } catch (error) {
+            console.log("Error change address", error);
+            throw error;
+        }
+    }
+);

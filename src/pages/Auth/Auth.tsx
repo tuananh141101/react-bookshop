@@ -71,7 +71,7 @@ const Auth = () => {
                                                     name="field_email"
                                                     maxLength={100}
                                                 />
-                                                 <ErrorMessage component="span" name="field_email" />
+                                                <ErrorMessage component="span" name="field_email" />
                                             </div>
                                             <div className="item-form item-form-pass d-flex align-items-center flex-column">
                                                 <label htmlFor="">Password <span style={{color:"red"}}>*</span></label>

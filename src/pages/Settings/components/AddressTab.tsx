@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -6,16 +6,18 @@ import { AppDispatch } from "../../../app/store";
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
 import { toggleChangeValue } from "../../../features/auth/authSlice";
 import { fetchListDistrictData, fetchListWard } from "../../../features/auth/authApi";
-import { yupFields } from "../../../common/utils/Utils";
 
 const AddressTab = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { shippingAddress,listProvice, listDistrict, billingAddress } = useAuthStore();
+    const { shippingAddress,listProvice, listDistrict, billingAddress, listWard } = useAuthStore();
     const SignupSchema = Yup.object({
-        field_BillingFullName: yupFields.name("Full name"),
-        field_BillingEmail: yupFields.email,
-        field_BillingAddress: yupFields.name("Address"),
-        field_BillingPhone: yupFields.phone,
+        // field_BillingFullName: yupFields.name("Billing fullname"),
+        // field_BillingEmail: yupFields.email,
+        // field_BillingAddress: yupFields.name("Billing address"),
+        // field_BillingPhone: yupFields.phone,
+        // field_ShippingFullName: yupFields.name("Shipping fullname"),
+        // field_ShippingPhone: yupFields.phone,
+        // field_ShippingAddress: yupFields.name("Shipping address")
     });
 
 
@@ -30,17 +32,22 @@ const AddressTab = () => {
             <div className="address-form">
                 <Formik
                     initialValues={{
-                        field_BillingFullName: billingAddress.fullname,
-                        field_BillingEmail: billingAddress.email,
-                        field_BillingAddress: billingAddress.address,
-                        field_BillingPhone: billingAddress.phone
+                        field_BillingFullName: billingAddress?.fullname,
+                        field_BillingEmail: billingAddress?.email,
+                        field_BillingAddress: billingAddress?.address,
+                        field_BillingPhone: billingAddress?.phone,
+                        field_ShippingFullName: shippingAddress?.fullname,
+                        field_ShippingPhone: shippingAddress?.phone,
+                        field_ShippingAddress: shippingAddress?.address,
                     }}
                     enableReinitialize
-                    validationSchema={SignupSchema as any}
-                    onSubmit={(value) => {
-                        console.log("value", value)
+                    validationSchema={SignupSchema}
+                    onSubmit={(values, {setSubmitting }) => {
+                        console.log("values", values);
+                        setSubmitting(false);
                     }}
                 >
+                    {() => (
                     <Form className="d-flex flex-column">
                         <div className="billingAddress">
                             <p>Billing address:</p>
@@ -52,6 +59,7 @@ const AddressTab = () => {
                                         name="field_BillingFullName"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_BillingFullName" />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-name">Billing phone </label>
@@ -60,6 +68,7 @@ const AddressTab = () => {
                                         name="field_BillingPhone"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_BillingPhone" />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-name">Billing address </label>
@@ -68,6 +77,7 @@ const AddressTab = () => {
                                         name="field_BillingAddress"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_BillingAddress" />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-name">Billing email </label>
@@ -76,6 +86,7 @@ const AddressTab = () => {
                                         name="field_BillingEmail"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_BillingEmail" />
                                 </div>    
                             </div>
                         </div>
@@ -90,6 +101,7 @@ const AddressTab = () => {
                                         name="field_ShippingFullName"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_ShippingFullName" />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-name">Shipping phone </label>
@@ -98,6 +110,7 @@ const AddressTab = () => {
                                         name="field_ShippingPhone"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_ShippingPhone" />
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-name">Shipping address </label>
@@ -106,6 +119,7 @@ const AddressTab = () => {
                                         name="field_ShippingAddress"
                                         maxLength={100}
                                     />
+                                    <ErrorMessage component="span" name="field_ShippingAddress" />
                                 </div>
                             </div>
                             <div className="farm-wrapper farm-wrapper-2">
@@ -165,7 +179,7 @@ const AddressTab = () => {
                                         dispatch(toggleChangeValue({key: "wardId", value: e.target.value}));
                                     }}>
                                         {shippingAddress?.wardId ?
-                                            listProvice
+                                            listWard
                                                 ?.filter((item: any) => Number(item.id) === Number(shippingAddress.wardId))
                                                 .map((item: any) => (
                                                 <option value={item.id} key={item.id}>
@@ -175,7 +189,7 @@ const AddressTab = () => {
                                             (
                                                 <>                                                
                                                     <option value="">- Select province/city -</option>
-                                                    {listProvice && listProvice.map((item:any) => {
+                                                    {listWard && listWard.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id}>{item?.name}</option>
                                                     })}
                                                 </>
@@ -184,12 +198,11 @@ const AddressTab = () => {
                                     </select>
                                 </div>
 
-                                
                             </div>
                         </div>
-
                         <button className="btnSubmit" type="submit">Save address</button>
                     </Form>
+                    )}
                 </Formik>
             </div>
         </>

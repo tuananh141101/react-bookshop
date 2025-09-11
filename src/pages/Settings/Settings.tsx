@@ -18,8 +18,12 @@ const Settings = () => {
     const dispatch = useDispatch<AppDispatch>();
     const getNameIdCookie = getCookie("idUser");
 
-    useEffect(() => {dispatch(fetchGetDataUser(getNameIdCookie));},[dispatch, email, username]);
-    useEffect(() => {dispatch(fetchListProvinceData());},[])
+    useEffect(() => {
+        if (getNameIdCookie) dispatch(fetchGetDataUser(getNameIdCookie));
+    },[dispatch, email, username]);
+    useEffect(() => {
+        dispatch(fetchListProvinceData());
+    },[])
 
     return (
         <section className="settings">
