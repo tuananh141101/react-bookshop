@@ -127,3 +127,31 @@ export const fetchChangeAddress = createAsyncThunk<
         }
     }
 );
+
+export const fetchChangeDataUser = createAsyncThunk<
+    any, 
+    {
+        username: string,
+        email: string
+    },
+    {state: RootState}
+>("settings/changeDataUser", async (payload, {getState}) => {
+    try {
+        const { id } = getState().authStore;
+        const res = await axios.put(`${API_URL}/users/${id}}`,
+            {
+                username: payload.username,
+                email: payload.email
+            }
+        );
+        return {
+            data:res.data,
+            status: res.status,
+            headers: {...res.headers}
+        }
+
+    } catch (error) {
+        console.log("Error change data account", error);
+        throw error
+    }
+})

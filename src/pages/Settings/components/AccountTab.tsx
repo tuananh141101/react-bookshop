@@ -9,9 +9,9 @@ const AccountTab = () => {
     const SignUpSchema = Yup.object({
         field_UserName: yupFields.name("user name"),
         field_Email: yupFields.email,
-        field_CurrentPass: yupFields.password,
-        field_NewPass: yupFields.password,
-        field_ConfirmPass: yupFields.confirmPassword
+        // field_CurrentPass: yupFields.password,
+        // field_NewPass: yupFields.password,
+        // field_ConfirmPass: yupFields.confirmPassword
     });
     return (
         <>
