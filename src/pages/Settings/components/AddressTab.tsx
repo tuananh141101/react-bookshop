@@ -1,15 +1,16 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
 import { toggleChangeValue } from "../../../features/auth/authSlice";
-import { fetchListDistrictData, fetchListWard } from "../../../features/auth/authApi";
+import { fetchChangeAddress, fetchListDistrictData, fetchListWard } from "../../../features/auth/authApi";
+import { toastUtils } from "../../../common/utils/Toastutils";
 
 const AddressTab = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { shippingAddress,listProvice, listDistrict, billingAddress, listWard } = useAuthStore();
+    const { shippingAddress,listProvice, listDistrict, billingAddress, listWard, provinceId, districtId, wardId } = useAuthStore();
     const SignupSchema = Yup.object({
         // field_BillingFullName: yupFields.name("Billing fullname"),
         // field_BillingEmail: yupFields.email,
@@ -19,6 +20,13 @@ const AddressTab = () => {
         // field_ShippingPhone: yupFields.phone,
         // field_ShippingAddress: yupFields.name("Shipping address")
     });
+
+    useEffect(() => {
+        if (shippingAddress.proviceId) dispatch(fetchListDistrictData(shippingAddress.proviceId));
+    }, [dispatch, shippingAddress.proviceId]);
+    useEffect(() => {
+        if (shippingAddress.districtId) dispatch(fetchListWard(shippingAddress.districtId));
+    }, [dispatch, shippingAddress.districtId]);
 
 
     return (
@@ -44,6 +52,24 @@ const AddressTab = () => {
                     validationSchema={SignupSchema}
                     onSubmit={(values, {setSubmitting }) => {
                         console.log("values", values);
+                        dispatch(fetchChangeAddress({
+                            billingAddress: {
+                                type: "billing",
+                                fullname: values.field_BillingFullName,
+                                address: values.field_BillingAddress,
+                                phone: values.field_BillingPhone,
+                                email: values.field_BillingEmail
+                            },
+                            shippingAddress: {
+                                type: "shipping",
+                                fullname: values.field_ShippingFullName,
+                                address: values.field_ShippingAddress,
+                                phone: values.field_ShippingPhone,
+                                proviceId: provinceId,
+                                districtId: districtId,
+                                wardId: wardId
+                            }
+                        }))
                         setSubmitting(false);
                     }}
                 >
@@ -125,76 +151,55 @@ const AddressTab = () => {
                             <div className="farm-wrapper farm-wrapper-2">
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-province">Province</label>
-                                    <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                        dispatch(toggleChangeValue({key: 'provinceId', value: e.target.value}));
-                                        dispatch(fetchListDistrictData(e.target.value.toString()));
-                                    }}>
-                                        {shippingAddress?.proviceId ?
-                                            listProvice
-                                                ?.filter((item: any) => Number(item.id) === Number(shippingAddress.proviceId))
-                                                .map((item: any) => (
-                                                <option value={item.id} key={item.id}>
-                                                    {item.name}
-                                                </option>
-                                                )) :
-                                            (
-                                                <>                                                
-                                                    <option value="">- Select province/city -</option>
-                                                    {listProvice && listProvice.map((item:any) => {
-                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
-                                                    })}
-                                                </>
-                                            )
-                                        }
+                                    <select name="province" 
+                                        onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                            dispatch(toggleChangeValue({key: 'provinceId', value: e.target.value}));
+                                            dispatch(fetchListDistrictData(e.target.value.toString()));
+                                        }}
+                                        value={shippingAddress.proviceId || provinceId}
+                                    >
+                                        <option value="">- Select province/city -</option>
+                                        {listProvice &&
+                                            listProvice.map((item: any) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-district">District</label>
-                                    <select name="district" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                        dispatch(toggleChangeValue({key: "districtId", value: e.target.value}));
-                                        dispatch(fetchListWard(e.target.value.toString()));
-                                    }}>
-                                        {shippingAddress?.districtId ?
-                                            listDistrict
-                                                ?.filter((item: any) => Number(item.id) === Number(shippingAddress.districtId))
-                                                .map((item: any) => (
-                                                <option value={item.id} key={item.id}>
-                                                    {item.name}
-                                                </option>
-                                                )) :
-                                            (
-                                                <>                                                
-                                                    <option value="">- Select province/city -</option>
-                                                    {listDistrict && listDistrict.map((item:any) => {
-                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
-                                                    })}
-                                                </>
-                                            )
-                                        }
+                                    <select name="district" 
+                                        onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                            dispatch(toggleChangeValue({key: "districtId", value: e.target.value}));
+                                            dispatch(fetchListWard(e.target.value.toString()));
+                                        }}
+                                        value={shippingAddress.districtId || districtId}
+                                    >
+                                        <option value="">- Select district -</option>
+                                        {listDistrict &&
+                                            listDistrict.map((item:any) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
                                 <div className="item-form d-flex align-items-left flex-column">
                                     <label className="label-ward">Ward</label>
-                                    <select name="ward" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                        dispatch(toggleChangeValue({key: "wardId", value: e.target.value}));
-                                    }}>
-                                        {shippingAddress?.wardId ?
-                                            listWard
-                                                ?.filter((item: any) => Number(item.id) === Number(shippingAddress.wardId))
-                                                .map((item: any) => (
-                                                <option value={item.id} key={item.id}>
-                                                    {item.name}
-                                                </option>
-                                                )) :
-                                            (
-                                                <>                                                
-                                                    <option value="">- Select province/city -</option>
-                                                    {listWard && listWard.map((item:any) => {
-                                                        return <option key={item?.id} value={item?.id}>{item?.name}</option>
-                                                    })}
-                                                </>
-                                            )
-                                        }
+                                    <select name="ward" 
+                                        onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                            dispatch(toggleChangeValue({key: "wardId", value: e.target.value}));
+                                        }}
+                                        value={shippingAddress.wardId || wardId}
+                                    >
+                                        <option value="">- Select ward -</option>
+                                        {listWard &&
+                                            listWard.map((item:any) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
                                     </select>
                                 </div>
 

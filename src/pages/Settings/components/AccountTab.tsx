@@ -1,11 +1,15 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React from "react";
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
 import { yupFields } from "../../../common/utils/Utils";
 import * as Yup from 'yup';
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../app/store";
+import { fetchChangeDataUser } from "../../../features/auth/authApi";
 
 const AccountTab = () => {
     const { email,username,password,newPass } = useAuthStore();
+    const dispatch = useDispatch<AppDispatch>();
     const SignUpSchema = Yup.object({
         field_UserName: yupFields.name("user name"),
         field_Email: yupFields.email,
@@ -31,6 +35,13 @@ const AccountTab = () => {
                     validationSchema={SignUpSchema as any}
                     onSubmit={(value) => {
                         console.log("check", value);
+                        if (value.field_UserName !== username || value.field_Email !== email) {
+                            console.log("diff data");
+                            dispatch(fetchChangeDataUser({
+                                username: value.field_UserName,
+                                email: value.field_Email
+                            }))
+                        }
                     }}
                 >
                     <Form className="d-flex flex-column">
@@ -41,6 +52,7 @@ const AccountTab = () => {
                                 name="field_UserName"
                                 maxLength={200}
                             />
+                            <ErrorMessage component="span" name="field_UserName" className="span-error-message"/>
                         </div>
                         <div className="item-form d-flex align-items-left flex-column">
                             <label className="label-name">Email</label>
@@ -49,6 +61,7 @@ const AccountTab = () => {
                                 name="field_Email"
                                 maxLength={200}
                             />
+                            <ErrorMessage component="span" name="field_Email" className="span-error-message"/>
                         </div>
                         <div className="password-wrapper">
                             <p className="heading">Password change</p>

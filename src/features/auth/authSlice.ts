@@ -1,6 +1,7 @@
+import { fetchListWard } from './../checkout/checkoutApi';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchLogin, fetchRegister } from "./authApi";
+import { fetchChangeAddress, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
@@ -12,6 +13,7 @@ interface AuthState {
     loadingAuth: boolean,
     loadingGetData: boolean,
     loadingDataProvince: boolean,
+    loadingChangeAddress: boolean,
     newPass: string,
     provinceId: string,
     districtId: string,
@@ -46,6 +48,7 @@ const initialState: AuthState = {
     loadingAuth: false,
     loadingGetData: false,
     loadingDataProvince: false,
+    loadingChangeAddress: false,
     newPass: "",
     provinceId: "",
     districtId: "",
@@ -131,6 +134,7 @@ const authSLice = createSlice({
                 state.loadingGetData = true
             })
             .addCase(fetchGetDataUser.fulfilled, (state,action) => {
+                state.id = action.payload?.data.id;
                 state.loadingGetData = false;
                 state.email = action.payload?.data.email;
                 state.username = action.payload?.data.username;
@@ -139,6 +143,12 @@ const authSLice = createSlice({
             })
             .addCase(fetchGetDataUser.rejected, (state) => {
                 state.loadingGetData = true;
+            })
+        builder
+            .addCase(fetchChangeAddress.pending, (state) => {state.loadingChangeAddress = true})
+            .addCase(fetchChangeAddress.fulfilled, (state,action) => {
+                state.loadingChangeAddress = false;
+                toastUtils.success("Update seccess!")
             })
         builder
             .addCase(fetchListProvinceData.pending, (state) => {
@@ -160,6 +170,17 @@ const authSLice = createSlice({
                 state.listDistrict = action.payload.data;
             })
             .addCase(fetchListDistrictData.rejected, (state) => {
+                state.loadingGetData = true;
+            })
+        builder
+            .addCase(fetchListWard.pending, (state) => {
+                state.loadingGetData = true;
+            })
+            .addCase(fetchListWard.fulfilled, (state,action) => {
+                state.loadingGetData = false;
+                state.listWard = action.payload.data;
+            })
+            .addCase(fetchListWard.rejected, (state) => {
                 state.loadingGetData = true;
             })
     }
