@@ -2,7 +2,8 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@reduxjs/toolkit/query";
 
-const API_URL = "http://localhost:3000";
+// const API_URL = "http://localhost:3000"
+const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 const API_URL_LOCATION = "https://open.oapi.vn/location";
 
 export const fetchListProvinceData = createAsyncThunk("location/fetchListProvinces", async () => {
@@ -131,7 +132,6 @@ export const fetchChangeAddress = createAsyncThunk<
 export const fetchChangeDataUser = createAsyncThunk<
     any, 
     {
-        callback: any;
         username: string,
         email: string
     },

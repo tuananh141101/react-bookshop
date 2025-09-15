@@ -1,4 +1,3 @@
-import { fetchListWard } from './../checkout/checkoutApi';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
 import { fetchChangeAddress, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister } from "./authApi";
@@ -146,9 +145,9 @@ const authSLice = createSlice({
             })
         builder
             .addCase(fetchChangeAddress.pending, (state) => {state.loadingChangeAddress = true})
-            .addCase(fetchChangeAddress.fulfilled, (state,action) => {
+            .addCase(fetchChangeAddress.fulfilled, (state) => {
                 state.loadingChangeAddress = false;
-                toastUtils.success("Update seccess!")
+                toastUtils.success("Update seccess!");
             })
         builder
             .addCase(fetchListProvinceData.pending, (state) => {

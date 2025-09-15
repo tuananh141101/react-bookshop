@@ -6,7 +6,6 @@ import { AppDispatch } from "../../../app/store";
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
 import { toggleChangeValue } from "../../../features/auth/authSlice";
 import { fetchChangeAddress, fetchListDistrictData, fetchListWard } from "../../../features/auth/authApi";
-import { toastUtils } from "../../../common/utils/Toastutils";
 
 const AddressTab = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -23,10 +22,10 @@ const AddressTab = () => {
 
     useEffect(() => {
         if (shippingAddress.proviceId) dispatch(fetchListDistrictData(shippingAddress.proviceId));
-    }, [dispatch, shippingAddress.proviceId]);
+    }, [dispatch, shippingAddress?.proviceId]);
     useEffect(() => {
         if (shippingAddress.districtId) dispatch(fetchListWard(shippingAddress.districtId));
-    }, [dispatch, shippingAddress.districtId]);
+    }, [dispatch, shippingAddress?.districtId]);
 
 
     return (
