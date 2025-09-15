@@ -1,5 +1,6 @@
 @use "/public/assets/styles/common" as *;
 
+.span-error-message {color: $Color-5!important;}
 .settings {
     margin-top: 48px;
     margin-bottom: 48px;
@@ -136,12 +137,11 @@
                     }
                 }
             }
-            @media screen and (max-width: $breakpointExtraLarge) {
-                .col-dashboard {margin-bottom: 24px;}
-            }
-            @media screen and (max-width: $breakpointMedium) {
-                .col-main .tab-content .account-form form {gap: 14px;}
-            }
+            @media screen and (max-width: $breakpointExtraLarge) {.col-dashboard {margin-bottom: 24px;}}
+            @media screen and (max-width: $breakpointMedium) {.col-main .tab-content .account-form form {gap: 14px;}}
+            @media screen and (max-width: $breakpointLarge) {.col-main .tab-content .address-form form .shippingAddress .farm-wrapper-2 {
+                grid-template-columns: repeat(1,1fr);
+            }}
         }
     }
 }

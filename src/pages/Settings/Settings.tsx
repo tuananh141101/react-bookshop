@@ -18,13 +18,17 @@ const Settings = () => {
     const dispatch = useDispatch<AppDispatch>();
     const getNameIdCookie = getCookie("idUser");
 
-    useEffect(() => {dispatch(fetchGetDataUser(getNameIdCookie));},[dispatch, email, username]);
-    useEffect(() => {dispatch(fetchListProvinceData());},[])
+    useEffect(() => {
+        if (getNameIdCookie) dispatch(fetchGetDataUser(getNameIdCookie));
+    },[dispatch, email, username]);
+    useEffect(() => {
+        dispatch(fetchListProvinceData());
+    },[])
 
     return (
         <section className="settings">
             <Container>
-                <Tab.Container id="left-tabs-example" defaultActiveKey="second">
+                <Tab.Container id="left-tabs-example" defaultActiveKey="first">
                     <Row>
                         <Col className="col-dashboard" sm={12} xl={3}>
                             <Nav variant="pills" className="d-flex flex-column">
