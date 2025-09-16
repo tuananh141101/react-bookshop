@@ -222,7 +222,7 @@ const ListProduct = () => {
                             {
                                 listProducts.map((item:typeProduct) => {
                                     return (
-                                        <CartItem key={item.id} items={item} index={item.r}/>
+                                        <CartItem key={item.id} items={item} index={item.id}/>
                                     )
                                 })
                             }
