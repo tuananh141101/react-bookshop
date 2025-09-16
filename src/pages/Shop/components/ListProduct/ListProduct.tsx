@@ -88,7 +88,6 @@ const ListProduct = () => {
            Range {minPrice}$ - {maxPrice}$
         </li>
     }
-
     // const updateURLParams = (isSearch:boolean) => {
     //     const searchParams = new URLSearchParams();
     //     const params = {
@@ -223,7 +222,7 @@ const ListProduct = () => {
                             {
                                 listProducts.map((item:typeProduct) => {
                                     return (
-                                        <CartItem key={item.id} items={item} index={item.id}/>
+                                        <CartItem key={item.id} items={item} index={item.r}/>
                                     )
                                 })
                             }

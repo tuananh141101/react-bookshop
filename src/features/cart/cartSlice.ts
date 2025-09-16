@@ -1,8 +1,9 @@
-import { typeProduct } from './../../common/constant/Constant';
+import { toastUtils } from '../../common/utils/Toastutils';
+import { typeProductInCart } from './../../common/constant/Constant';
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CartState {
-    cart: typeProduct[],
+    cart: typeProductInCart[],
     totalPrice: number | null,
     totalQuantity: number | null,
     isCheckOut: boolean,
@@ -21,18 +22,22 @@ const cartSlice = createSlice({
     name: "carts",
     initialState,
     reducers: {
-        addToCart: (state,action:PayloadAction<typeProduct>) => {
+        addToCart: (state,action:PayloadAction<typeProductInCart>) => {
             const find = state.cart.findIndex((item) => Number(item.id) === Number(action.payload.id));
             if (find >= 0) {
                 state.cart[find].quantity += 1
             } else {
                 state.cart.push(action.payload);
             }
+            toastUtils.success(`Add book:${action.payload.name} to cart`);
         },
-        removeCart: (state,action:PayloadAction<typeProduct>) => {
-            state.cart = state.cart.filter((item) => item.id !== action.payload.id)
+        removeCart: (state,action:PayloadAction<typeProductInCart>) => {
+            state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+            toastUtils.success(`Renove book:${action.payload.name}`);
+
         },
-        increaseItemQuantity: (state, action:PayloadAction<typeProduct>) => {
+        removeAllCart: (state) => {state.cart = [] },
+        increaseItemQuantity: (state, action:PayloadAction<typeProductInCart>) => {
             state.cart = state.cart.map((item) => {
                 if (item.id === action.payload.id) {
                     return {...item, quantity: item.quantity + 1};
@@ -40,7 +45,7 @@ const cartSlice = createSlice({
                 return item
             })
         },
-        decreaseItemQuantity: (state,action:PayloadAction<typeProduct>) => {
+        decreaseItemQuantity: (state,action:PayloadAction<typeProductInCart>) => {
             state.cart = state.cart.map((item) => {
                 if (item.id === action.payload.id) {
                     return {...item, quantity: item.quantity - 1};
@@ -57,6 +62,7 @@ export const {
     addToCart,
     removeCart,
     increaseItemQuantity,
-    decreaseItemQuantity
+    decreaseItemQuantity,
+    removeAllCart
 } = cartSlice.actions
 export default cartSlice.reducer;

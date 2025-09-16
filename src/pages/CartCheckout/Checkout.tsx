@@ -5,7 +5,7 @@ import { Field, Form, Formik } from "formik";
 import { yupFields } from "../../common/utils/Utils";
 import { useDispatch } from "react-redux";
 import { toggleChangeValue } from "../../features/checkout/checkoutSlice";
-import { useCheckoutStore } from "../../common/hooks/useCustomHooks";
+import { useCartStore, useCheckoutStore } from "../../common/hooks/useCustomHooks";
 import * as Yup from 'yup';
 import { IoIosCloseCircle } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
@@ -14,6 +14,8 @@ import { fetchListDistrict, fetchListProvince, fetchListWard } from "../../featu
 import { AppDispatch } from "../../app/store";
 import { Link } from "react-router-dom";
 import { textarea } from "framer-motion/client";
+import { typeProductInCart } from "../../common/constant/Constant";
+import { removeCart } from "../../features/cart/cartSlice";
 
 
 const Checkout = () => {
@@ -43,6 +45,7 @@ const Checkout = () => {
         // receiverTaxAddress,
         isPaymentCheck
     } = useCheckoutStore();
+    const {cart} = useCartStore();
 
     const SignupSchema = Yup.object({
         field_FullName: yupFields.name("Full name"),
@@ -220,38 +223,46 @@ const Checkout = () => {
                                                 <Link to="/cart" className="d-flex align-items-center"><FiEdit />Edit</Link>
                                             </div>
                                         </div>
-                                        <div className="item-cart d-flex align-items-start">
-                                            <div className="item-cart__product-base d-flex">
-                                                <div className="image">
-                                                    <img src="https://picsum.photos/200/300" alt="" />
+                                        
+                                        {cart.map((items:typeProductInCart) => (
+                                            <div className="item-cart d-flex align-items-start">
+                                                <div className="item-cart__product-base d-flex">
+                                                    <div className="image">
+                                                        <img src={`https://websitebook-api.vercel.app${items.image}`} alt="" />
+                                                    </div>
+                                                    <div className="title">
+                                                        <p className="name-book">{items.name}l</p>
+                                                        <p className="vendor mb-0">
+                                                            <span>Vendor:</span> Bookstore
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div className="title">
-                                                    <p className="name-book">Blessing in Disguise: A Novel</p>
-                                                    <p className="vendor mb-0">
-                                                        <span>Vendor:</span> Bookstore
-                                                    </p>
+                                                <ul className="item-cart__exinfo d-flex justify-content-around">
+                                                    <li className="exinfo-item exinfo-price">
+                                                        <p className="title">Price</p>
+                                                        <p className="title-price mb-0">{items.price}$</p>
+                                                    </li>
+                                                    <li className="exinfo-item exinfo-qty">
+                                                        <p className="title">Quantity</p>
+                                                        <p className="title-qty"
+                                                            style={{textAlign: "center"}}
+                                                        >{items.quantity}</p>
+                                                    </li>
+                                                    <li className="exinfo-item exinfo-amount">
+                                                        <p className="title">Amount</p>
+                                                        <p className="title-amount">{Number(items.price) * Number(items.quantity)}$</p>
+                                                    </li>
+                                                </ul>
+                                                <div className="item-cart__exinfo-remove"
+                                                    onClick={() => dispatch(removeCart(items))}
+                                                >
+                                                    <span className="removeCart">
+                                                        <IoIosCloseCircle />
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <ul className="item-cart__exinfo d-flex justify-content-around">
-                                                <li className="exinfo-item exinfo-price">
-                                                    <p className="title">Price</p>
-                                                    <p className="title-price mb-0">13.22$</p>
-                                                </li>
-                                                <li className="exinfo-item exinfo-qty">
-                                                    <p className="title">Quantity</p>
-                                                    <p className="title-qty">14.22$</p>
-                                                </li>
-                                                <li className="exinfo-item exinfo-amount">
-                                                    <p className="title">Amount</p>
-                                                    <p className="title-amount">14.22$</p>
-                                                </li>
-                                            </ul>
-                                            <div className="item-cart__exinfo-remove">
-                                                <span className="removeCart">
-                                                    <IoIosCloseCircle />
-                                                </span>
-                                            </div>
-                                        </div>
+                                        ))}
+
                                     </div>
                                     <div className="checkout-customer__address border-bottom">
                                         <p className="title d-flex align-items-center gap-3"><span>2</span> Shipping Address</p>
