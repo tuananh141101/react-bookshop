@@ -113,7 +113,7 @@ export const fetchChangeAddress = createAsyncThunk<
     try {
             const { id } = getState().authStore;
 
-            const res = await axios.patch(`${API_URL}/users/${id}`, {
+            const res = await axios.patch(`http://localhost:3000/users/${id}`, {
                 billingAddress: payload.billingAddress,
                 shippingAddress: payload.shippingAddress,
             });

@@ -14,25 +14,7 @@
         padding: 8px 12px;
     }
 }
-.inputCheckedBorder {border: 1px solid $Color-1!important}
 
-.litecheckout-header {
-    .container {
-        .row {
-            .col {
-                height: 94px;
-                .logo {
-                    font-size: $fontSize-X-Large;
-                    font-family: "Victormono";
-                    text-transform: uppercase;
-                }
-                .contact {
-                    .number {margin-left: 6px;font-weight: bold;}
-                }
-            }
-        }
-    }
-}
 .checkout {
     .checkout-header {
         width: 100%;

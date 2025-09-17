@@ -21,7 +21,6 @@ import {
 } from "../../../features/products/productSlice";
 import { useProductStore } from "../../../common/hooks/useCustomHooks";
 import { addToCart } from "../../../features/cart/cartSlice";
-import { toastUtils } from "../../../common/utils/Toastutils";
 
 
 type ChildProps = {
@@ -108,7 +107,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                             <li
                                 onClick={() => {
                                         dispatch(addToCart(items));
-                                        toastUtils.success(`Added ${items?.name} to cart.`);
+                                        console.log("click btn add cart")
                                     }  
                                 }
                             >

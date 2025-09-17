@@ -4,13 +4,12 @@ import Footer from "./Footer/Footer";
 import React from "react";
 
 const Layout = () => {
-    const hideLayout = location.pathname === "/checkout";
     return (
         <>
             {/* if the pathname = /checkout, hide header & footer.  */}
-            {!hideLayout && <Header/>}
+            <Header/>
             <Outlet />
-            {!hideLayout && <Footer/>}
+            <Footer/>
         </>
     );
 };

@@ -77,10 +77,10 @@ export const yupFields = {
     email: Yup.string()
         .email("Invalid email format")
         .required("Email is required"),
-    phone: Yup.number()
-        .typeError("Age must be a number!")
+    phone: Yup.string()
+        .matches(/^[0-9]+$/, "Phone must be only digits")
         .min(9,"Must be at least 9")
-        .max(11, "Must be less than 11 numbers")
+        .max(12, "Must be less than 11 numbers")
         .required("Phone is required!")
 }
 
