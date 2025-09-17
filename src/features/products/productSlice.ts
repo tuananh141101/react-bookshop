@@ -33,6 +33,7 @@ interface ProductState {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     loadingDetailData: boolean;
     loadingData: boolean;
+    loadingPreview: boolean;
     openModalSort: boolean;
     loadingShopCategories: boolean;
     loadingFeatCategories: boolean;
@@ -63,6 +64,7 @@ const initialState: ProductState = {
     error: null,
     errorDetail: null,
     loadingDetailData: false,
+    loadingPreview: false,
     loadingData: false,
     status: "idle",
     openModalSort: false,
@@ -78,7 +80,7 @@ const productSlice = createSlice({
     initialState,
     reducers: {
         setLoadingCartItem: (state, action: PayloadAction<boolean>) => {
-            state.loadingData = action.payload;
+            state.loadingPreview = action.payload;
         },
         incrementQuantityProduct: (state) => {
             state.quantityProduct = state.quantityProduct + 1;

@@ -21,7 +21,6 @@ import {
 } from "../../../features/products/productSlice";
 import { useProductStore } from "../../../common/hooks/useCustomHooks";
 import { addToCart } from "../../../features/cart/cartSlice";
-import { toastUtils } from "../../../common/utils/Toastutils";
 
 
 type ChildProps = {
@@ -35,7 +34,7 @@ type ChildProps = {
 const CartItem: React.FC<ChildProps> = React.memo(
     ({ items, style, className, index }) => {
         const [show, setShow] = useState<boolean>(false);
-        const { loadingData, quantityProduct } = useProductStore();
+        const { loadingPreview, quantityProduct } = useProductStore();
         const handleClose = () => setShow(false);
         const dispatch = useDispatch<AppDispatch>();
         const navigate = useNavigate()
@@ -108,7 +107,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                             <li
                                 onClick={() => {
                                         dispatch(addToCart(items));
-                                        toastUtils.success(`Added ${items?.name} to cart.`);
+                                        console.log("click btn add cart")
                                     }  
                                 }
                             >
@@ -132,7 +131,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                         <div className="preview-item">
                             <Row>
                                 <Col className="d-flex align-items-center justify-content-center">
-                                    {loadingData ? (
+                                    {loadingPreview ? (
                                         <Skeleton className="loadingske-img" />
                                     ) : (
                                         <img
@@ -145,7 +144,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                 <Col className="d-flex align-items-start flex-column custom-col">
                                     <Link to="">
                                         <p className="mb-0">
-                                            {loadingData ? (
+                                            {loadingPreview ? (
                                                 <Skeleton className="loadingske-name" />
                                             ) : (
                                                 `${items.name}`
@@ -155,7 +154,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                     <ul className="preview-item__detail mb-0">
                                         <li>
                                             <span>
-                                                {loadingData ? (
+                                                {loadingPreview ? (
                                                     <Skeleton className="loadingske-price" />
                                                 ) : (
                                                     `${items.price}$`
@@ -165,7 +164,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                         <li>
                                             <span>Publisher: </span>
                                             <span>
-                                                {loadingData ? (
+                                                {loadingPreview ? (
                                                     <Skeleton className="loadingske-pub" />
                                                 ) : (
                                                     `${items.author}`
@@ -175,7 +174,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                         <li>
                                             <span>Categories: </span>
                                             <span>
-                                                {loadingData ? (
+                                                {loadingPreview ? (
                                                     <Skeleton className="loadingske-cate" />
                                                 ) : (
                                                    `${items?.categories?.join(", ")}`
@@ -186,8 +185,8 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                     <section className="d-flex align-items-center">
                                         <form>
                                             <button
-                                                className={`${loadingData ? "loadingData" : ""}`}
-                                                disabled={loadingData ? true : false}
+                                                className={`${loadingPreview ? "loadingPreview" : ""}`}
+                                                disabled={loadingPreview ? true : false}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     dispatch(
@@ -203,7 +202,7 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                                 readOnly
                                             />
                                             <button
-                                                disabled={loadingData ? true : false}
+                                                disabled={loadingPreview ? true : false}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     if (quantityProduct > 1) {
@@ -223,30 +222,30 @@ const CartItem: React.FC<ChildProps> = React.memo(
                                             </button>
                                         </form>
                                         <motion.button
-                                            className={`icon add-to-cart d-flex align-items-center justify-content-center ${loadingData ? 'loadingData' : ''}`}
-                                            variants={loadingData ? {} : btnAnimationBG}
+                                            className={`icon add-to-cart d-flex align-items-center justify-content-center ${loadingPreview ? 'loadingPreview' : ''}`}
+                                            variants={loadingPreview ? {} : btnAnimationBG}
                                             initial="hidden"
                                             whileHover="show"
-                                            disabled={loadingData ? true : false}
+                                            disabled={loadingPreview ? true : false}
                                             onClick={() =>
-                                                {
-                                                    console.log("add to cart")
-                                                }
+                                                dispatch(addToCart({
+                                                    id: items.id,
+                                                    name: items.name,
+                                                    price: items.price,
+                                                    image: items.image,
+                                                    quantity: quantityProduct
+                                                }))
                                             }
                                         >
                                             <span>Add To Cart</span>
                                         </motion.button>
                                         <motion.button
-                                            className={`icon add-to-fav d-flex align-items-center justify-content-center ${loadingData ? 'loadingData' : ''}`}
-                                            variants={loadingData ? {} : btnAnimationBG}
+                                            className={`icon add-to-fav d-flex align-items-center justify-content-center ${loadingPreview ? 'loadingPreview' : ''}`}
+                                            variants={loadingPreview ? {} : btnAnimationBG}
                                             initial="hidden"
                                             whileHover="show"
-                                            disabled={loadingData ? true : false}
-                                            onClick={() =>
-                                                {
-                                                    console.log("add to fav")
-                                                }
-                                            }
+                                            disabled={loadingPreview ? true : false}
+                                            onClick={() =>{console.log("add to fav")}}
                                         >
                                             <FaRegHeart />
                                         </motion.button>

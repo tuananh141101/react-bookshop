@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { FaPhoneVolume } from "react-icons/fa6";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { yupFields } from "../../common/utils/Utils";
 import { useDispatch } from "react-redux";
 import { toggleChangeValue } from "../../features/checkout/checkoutSlice";
-import { useCheckoutStore } from "../../common/hooks/useCustomHooks";
+import { useCartStore, useCheckoutStore } from "../../common/hooks/useCustomHooks";
 import * as Yup from 'yup';
 import { IoIosCloseCircle } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import "./style/Checkout.scss";
-import { fetchListDistrict, fetchListProvince, fetchListWard } from "../../features/checkout/checkoutApi";
+import { fetchGetDataAddress, fetchListDistrict, fetchListProvince, fetchListWard } from "../../features/checkout/checkoutApi";
 import { AppDispatch } from "../../app/store";
 import { Link } from "react-router-dom";
 import { textarea } from "framer-motion/client";
+import { typeProductInCart } from "../../common/constant/Constant";
+import { removeCart } from "../../features/cart/cartSlice";
+import StorageService from "../../common/utils/storageService";
 
 
 const Checkout = () => {
@@ -23,64 +25,49 @@ const Checkout = () => {
         address,
         phone,
         email,
-        isDifferentBilling,
-        // Billing
-        billingFullName,
-        billingAddress,
-        billingPhone,
         province,
         district,
         ward,
         dataProvince,
         dataDistrict,
         dataWard,
-        // Receiver
-        receiverDataDistrict,
-        // receiverFullName,
-        // receiverPhone,
-        // receiverAddress,
-        receiverDataWard,
-        // receiverTaxAddress,
+        receiverProvince,
+        receiverDistrict,
+        receiverWard,
+        receiverFullName,
+        receiverAddress,
+        receiverPhone,
         isPaymentCheck
     } = useCheckoutStore();
-
+    const {cart} = useCartStore();
     const SignupSchema = Yup.object({
         field_FullName: yupFields.name("Full name"),
         field_Email: yupFields.email,
         field_Address: yupFields.name("Address"),
         field_Phone: yupFields.phone,
-        field_BillingFullName: yupFields.name("Billing full name"),
-        field_BillingAddress: yupFields.name("Billing address"),
-        field_BillingPhone: yupFields.phone,
-        field_Province: yupFields.name("Province"),
-        field_District: yupFields.name("District"),
-        field_Ward: yupFields.name("Ward"),
         field_receiverFullName: yupFields.name("Receiver full name"),
         field_receiverAddress: yupFields.name("Receiver address"),
         field_receiverPhone: yupFields.phone,
-        field_receiverTaxAddress: yupFields.name("Receiver taxaddress")
     });
+    const getUserId = StorageService.getTokenByName("idUser");
 
     useEffect(() => {
         dispatch(fetchListProvince())
+       dispatch(fetchGetDataAddress(getUserId)) 
+
     },[])
+
+    useEffect(() => {
+        if (receiverProvince) dispatch(fetchListDistrict(receiverProvince))
+    }, [dispatch, receiverProvince]);
+    useEffect(() => {
+        if (receiverDistrict) dispatch(fetchListWard(receiverDistrict));
+    }, [dispatch, receiverDistrict]);
+
 
 
     return (
         <>
-            <div className="litecheckout-header border-bottom">
-                <Container>
-                    <Row>
-                        <Col className="d-flex align-items-center justify-content-between">
-                            <p className="logo mb-0">bookstore</p>
-                            <div className="contact">
-                                <span className="icon"><FaPhoneVolume/></span>
-                                <span className="number">1900 4040</span>
-                            </div>
-                        </Col>
-                    </Row>
-                </Container>
-            </div>
             <section className="checkout">
                 <Container>
                     <Formik
@@ -90,18 +77,16 @@ const Checkout = () => {
                             field_Address: address,
                             field_Phone: phone,
                             field_Email: email,
-                            field_DiffirentBilling: isDifferentBilling,
-                            field_BillingFullName: billingFullName,
-                            field_BillingAddress: billingAddress,
-                            field_BillingPhone: billingPhone,
-                            field_Province: province,
-                            field_District: district,
-                            field_Ward: ward
+                            field_receiverFullName: receiverFullName,
+                            field_receiverPhone: receiverPhone,
+                            field_receiverAddress: receiverAddress
                         }}
                         validationSchema={SignupSchema}
+                        validateOnBlur={true}
+                        validateOnChange={true}
                         onSubmit={(value: any, { resetForm }: any) => {
                             console.log("check value submit", value);
-                            resetForm()
+                            resetForm();
                         }}
                     >
                         <Form>
@@ -119,6 +104,12 @@ const Checkout = () => {
                                                     name="field_FullName"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_FullName"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Address<span style={{color:"red"}}>*</span></label>
@@ -126,6 +117,12 @@ const Checkout = () => {
                                                     id="address"
                                                     name="field_Address"
                                                     maxLength={100}
+                                                />
+                                                <ErrorMessage
+                                                    name="field_Address"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
                                                 />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
@@ -135,6 +132,12 @@ const Checkout = () => {
                                                     name="field_Phone"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_Phone"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Email<span style={{color:"red"}}>*</span></label>
@@ -143,16 +146,22 @@ const Checkout = () => {
                                                     name="field_Email"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_Email"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                         </div>
-                                        <div className="checkbox d-flex align-items-center gap-1">
+                                        {/* <div className="checkbox d-flex align-items-center gap-1">
                                             <input type="checkbox" name="checkbox" id="checkbox" 
                                                 onClick={(e:React.MouseEvent<HTMLInputElement>) => 
                                                 dispatch(toggleChangeValue({key: 'isDifferentBilling', value: (e.target as HTMLInputElement).checked}))}
                                             />
                                             <label htmlFor="checkbox">The payment details are different from the shipping details</label>
-                                        </div>
-                                        {isDifferentBilling && 
+                                        </div> */}
+                                        {/* {isDifferentBilling && 
                                         <div className="billing">
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Billing name<span style={{color:"red"}}>*</span></label>
@@ -160,6 +169,12 @@ const Checkout = () => {
                                                 id="billingFullName"
                                                     name="field_BillingFullName"
                                                     maxLength={100}
+                                                />
+                                                <ErrorMessage
+                                                    name="field_BillingFullName"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
                                                 />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
@@ -169,6 +184,12 @@ const Checkout = () => {
                                                     name="field_BillingAddress"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_BillingAddress"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Billing phone<span style={{color:"red"}}>*</span></label>
@@ -176,6 +197,12 @@ const Checkout = () => {
                                                     id="billingPhone"
                                                     name="field_BillingPhone"
                                                     maxLength={100}
+                                                />
+                                                <ErrorMessage
+                                                    name="field_BillingPhone"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
                                                 />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
@@ -211,7 +238,7 @@ const Checkout = () => {
                                                     }) : ""}
                                                 </select>
                                             </div>
-                                        </div>}
+                                        </div>} */}
                                     </div>
                                     <div className="checkout-customer__order-products border-top border-bottom">
                                         <div className="order-header d-flex align-items-center justify-content-between">
@@ -220,38 +247,46 @@ const Checkout = () => {
                                                 <Link to="/cart" className="d-flex align-items-center"><FiEdit />Edit</Link>
                                             </div>
                                         </div>
-                                        <div className="item-cart d-flex align-items-start">
-                                            <div className="item-cart__product-base d-flex">
-                                                <div className="image">
-                                                    <img src="https://picsum.photos/200/300" alt="" />
+                                        
+                                        {cart.map((items:typeProductInCart) => (
+                                            <div className="item-cart d-flex align-items-start" key={items.id}>
+                                                <div className="item-cart__product-base d-flex">
+                                                    <div className="image">
+                                                        <img src={`https://websitebook-api.vercel.app${items.image}`} alt="" />
+                                                    </div>
+                                                    <div className="title">
+                                                        <p className="name-book">{items.name}l</p>
+                                                        <p className="vendor mb-0">
+                                                            <span>Vendor:</span> Bookstore
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                                <div className="title">
-                                                    <p className="name-book">Blessing in Disguise: A Novel</p>
-                                                    <p className="vendor mb-0">
-                                                        <span>Vendor:</span> Bookstore
-                                                    </p>
+                                                <ul className="item-cart__exinfo d-flex justify-content-around">
+                                                    <li className="exinfo-item exinfo-price">
+                                                        <p className="title">Price</p>
+                                                        <p className="title-price mb-0">{items.price}$</p>
+                                                    </li>
+                                                    <li className="exinfo-item exinfo-qty">
+                                                        <p className="title">Quantity</p>
+                                                        <p className="title-qty"
+                                                            style={{textAlign: "center"}}
+                                                        >{items.quantity}</p>
+                                                    </li>
+                                                    <li className="exinfo-item exinfo-amount">
+                                                        <p className="title">Amount</p>
+                                                        <p className="title-amount">{Number(items.price) * Number(items.quantity)}$</p>
+                                                    </li>
+                                                </ul>
+                                                <div className="item-cart__exinfo-remove"
+                                                    onClick={() => dispatch(removeCart(items))}
+                                                >
+                                                    <span className="removeCart">
+                                                        <IoIosCloseCircle />
+                                                    </span>
                                                 </div>
                                             </div>
-                                            <ul className="item-cart__exinfo d-flex justify-content-around">
-                                                <li className="exinfo-item exinfo-price">
-                                                    <p className="title">Price</p>
-                                                    <p className="title-price mb-0">13.22$</p>
-                                                </li>
-                                                <li className="exinfo-item exinfo-qty">
-                                                    <p className="title">Quantity</p>
-                                                    <p className="title-qty">14.22$</p>
-                                                </li>
-                                                <li className="exinfo-item exinfo-amount">
-                                                    <p className="title">Amount</p>
-                                                    <p className="title-amount">14.22$</p>
-                                                </li>
-                                            </ul>
-                                            <div className="item-cart__exinfo-remove">
-                                                <span className="removeCart">
-                                                    <IoIosCloseCircle />
-                                                </span>
-                                            </div>
-                                        </div>
+                                        ))}
+
                                     </div>
                                     <div className="checkout-customer__address border-bottom">
                                         <p className="title d-flex align-items-center gap-3"><span>2</span> Shipping Address</p>
@@ -263,6 +298,12 @@ const Checkout = () => {
                                                     name="field_receiverFullName"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_receiverFullName"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                             <div className="item-form d-flex align-items-left flex-column">
                                                 <label className="label-name">Phone<span style={{color:"red"}}>*</span></label>
@@ -271,13 +312,22 @@ const Checkout = () => {
                                                     name="field_receiverPhone"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_receiverPhone"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                             <div className="item-form receiver-pronvince d-flex align-items-left flex-column">
                                                 <label className="label-receiverProvince">Province<span style={{color:"red"}}>*</span></label>
-                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                                    dispatch(toggleChangeValue({key: 'receiverProvince', value: e.target.value}))
-                                                    dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
-                                                }}>
+                                                <select name="province" 
+                                                    onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                        dispatch(toggleChangeValue({key: 'receiverProvince', value: e.target.value}))
+                                                        dispatch(fetchListDistrict(e.target.value));
+                                                    }}
+                                                    value={receiverProvince || province}
+                                                >
                                                     <option value="">- Select province/city -</option>
                                                     {dataProvince ? dataProvince.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id} >{item?.name}</option>
@@ -291,39 +341,43 @@ const Checkout = () => {
                                                     name="field_receiverAddress"
                                                     maxLength={100}
                                                 />
+                                                <ErrorMessage
+                                                    name="field_receiverAddress"
+                                                    render={msg => (
+                                                        <span style={{ color: "red", fontSize: "14px" }}>{msg}</span>
+                                                    )}
+                                                />
                                             </div>
                                         </div>
                                         <div className="form-group2">
                                             <div className="item-form receiver-district d-flex align-items-left flex-column">
                                                 <label className="label-receiverDistrict">District<span style={{color:"red"}}>*</span></label>
-                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                                    dispatch(toggleChangeValue({key: 'receiverDistrict', value: e.target.value}))
-                                                    dispatch(fetchListWard({districtId: Number(e.target.value), form: "form2" }));
-                                                }}>
+                                                <select name="province" 
+                                                    onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                        dispatch(toggleChangeValue({key: 'receiverDistrict', value: e.target.value}))
+                                                        dispatch(fetchListWard(e.target.value));
+                                                    }}
+                                                    value={receiverDistrict || district}
+                                                >
                                                     <option value="">- Select district -</option>
-                                                    {receiverDataDistrict ? receiverDataDistrict.map((item:any) => {
+                                                    {dataDistrict ? dataDistrict.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id} >{item?.name}</option>
                                                     }) : ""}
                                                 </select>
                                             </div>
                                             <div className="item-form receiver-ward d-flex align-items-left flex-column">
                                                 <label className="label-receiverWard">Ward<span style={{color:"red"}}>*</span></label>
-                                                <select name="province" onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
-                                                    dispatch(toggleChangeValue({key: 'receiverWard', value: e.target.value}))
-                                                }}>
+                                                <select name="province" 
+                                                    onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
+                                                        dispatch(toggleChangeValue({key: 'receiverWard', value: e.target.value}))
+                                                    }}
+                                                    value={receiverWard || ward}
+                                                >
                                                     <option value="">- Select ward -</option>
-                                                    {receiverDataWard ? receiverDataWard.map((item:any) => {
+                                                    {dataWard ? dataWard.map((item:any) => {
                                                         return <option key={item?.id} value={item?.id} >{item?.name}</option>
                                                     }) : ""}
                                                 </select>
-                                            </div>
-                                            <div className="item-form receiver-taxaddress d-flex align-items-left flex-column">
-                                                <label className="label-receiverTaxAddress">Tex address<span style={{color:"red"}}>*</span></label>
-                                                <Field
-                                                    id="receiverTaxAddress"
-                                                    name="field_receiverTaxAddress"
-                                                    maxLength={100}
-                                                />
                                             </div>
                                         </div>
                                     </div>

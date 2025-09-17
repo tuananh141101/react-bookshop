@@ -66,9 +66,6 @@ export default class StorageService {
         const { nameToken, token } = options;
         setCookie(nameToken ? nameToken : Constants.TOKEN_NAME, token, { days: Constants.TOKEN_EXPIRE_DAYS });
     }
-    // public static setTokenS(token:string) {
-    //     setCookie(Constants.TOKEN_NAME, token, {seconds : 7});
-    // }
     public static getToken(){
         return getCookie(Constants.TOKEN_NAME);
     }

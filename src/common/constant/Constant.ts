@@ -99,6 +99,14 @@ export type typeProduct = {
     sale: boolean;
     quantity: number;
 };
+export type typeProductInCart = {
+    id: number;
+    name: string;
+    price: string;
+    image: string;
+    quantity: number;
+
+}
 export type typePagination = {
     currentPage: number;
     limit: number;

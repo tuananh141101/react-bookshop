@@ -88,7 +88,6 @@ const ListProduct = () => {
            Range {minPrice}$ - {maxPrice}$
         </li>
     }
-
     // const updateURLParams = (isSearch:boolean) => {
     //     const searchParams = new URLSearchParams();
     //     const params = {

@@ -1,5 +1,10 @@
 @use "../../../../public/assets/styles/common" as *;
 
+button {
+    border: none;
+    outline: none;
+}
+
 .cart {
     .container .row {
         .cart-content-btn {
@@ -20,8 +25,6 @@
                 background-color: $backGround-input;
                 border-radius: 4px;
                 button {
-                    border: none;
-                    outline: none;
                     border-radius: 3px;
                     height: 40px;
                     padding: 0 12px;
@@ -162,6 +165,24 @@
                         }
 
                     }
+                }
+            }
+            .noItemInCart {
+                margin: 38px 0;
+                gap: 12px;
+                button {
+                    border-radius: 3px;
+                    height: 38px;
+                    padding: 0 12px;
+                    background-color: rgba(255,255,255);
+                    border: 1px solid $Color-1;
+                    color: $Color-1;
+                    transition: .2s ease-in-out;
+                }
+                .title {font-size: $fontSize-Medium;margin-bottom: 0;}
+                .iconEmptyCart svg {
+                    width: 38px;
+                    height: 38px;
                 }
             }
         }

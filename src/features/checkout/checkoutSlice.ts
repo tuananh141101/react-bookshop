@@ -1,5 +1,5 @@
 import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
-import { fetchListDistrict, fetchListProvince, fetchListWard } from "./checkoutApi";
+import { fetchGetDataAddress, fetchListDistrict, fetchListProvince, fetchListWard } from "./checkoutApi";
 
 interface CheckoutState {
     fullName: string,
@@ -19,6 +19,7 @@ interface CheckoutState {
     dataDistrict: unknown[],
     dataWard: unknown[],
     loadingDataLocation: boolean;
+    loadingDataAddress: boolean;
     error: string
     // Receiver
     receiverFullName: string,
@@ -27,7 +28,6 @@ interface CheckoutState {
     receiverProvince: string,
     receiverDistrict: string,
     receiverWard: string,
-    receiverTaxAddress: string,
     receiverDataDistrict: unknown[],
     receiverDataWard: unknown[],
     // Checked
@@ -52,6 +52,7 @@ const initialState: CheckoutState = {
     dataDistrict: [],
     dataWard: [],
     loadingDataLocation: false,
+    loadingDataAddress: false,
     error: "",
     // Receiver
     receiverFullName: "",
@@ -60,7 +61,6 @@ const initialState: CheckoutState = {
     receiverProvince: "",
     receiverDistrict: "",
     receiverWard: "",
-    receiverTaxAddress: "",
     receiverDataDistrict: [],
     receiverDataWard: [],
     // Checked
@@ -99,13 +99,8 @@ const checkoutSlice = createSlice({
                 state.loadingDataLocation = true
             })
             .addCase(fetchListDistrict.fulfilled, (state,action) => {
-                const {data,form} = action.payload;
                 state.loadingDataLocation = false;
-                if (form === "form1") {
-                    state.dataDistrict = data.data
-                } else {
-                    state.receiverDataDistrict = data.data
-                }
+                state.dataDistrict = action.payload?.data.data
             })
             .addCase(fetchListDistrict.rejected, (state) => {
                 state.loadingDataLocation = true
@@ -116,15 +111,28 @@ const checkoutSlice = createSlice({
             })
             .addCase(fetchListWard.fulfilled, (state,action) => {
                 state.loadingDataLocation = false;
-                const {data,form} = action.payload;
-                if (form === "form1") {
-                    state.dataWard = data.data
-                } else {
-                    state.receiverDataWard = data.data
-                }
+                state.dataWard = action.payload?.data.data
+                
             })
             .addCase(fetchListWard.rejected, (state) => {
                 state.loadingDataLocation = true;
+            })
+        builder
+            .addCase(fetchGetDataAddress.pending, (state) => {
+                state.loadingDataAddress = true
+            })
+            .addCase(fetchGetDataAddress.fulfilled, (state,action) => {
+                state.loadingDataAddress = false;
+                state.fullName= action.payload?.data.billingAddress?.fullname;
+                state.address = action.payload?.data.billingAddress?.address;
+                state.phone = action.payload?.data.billingAddress?.phone;
+                state.email= action.payload?.data.billingAddress.email;
+                state.receiverFullName = action.payload?.data.shippingAddress.fullname;
+                state.receiverAddress = action.payload?.data.shippingAddress.address;
+                state.receiverPhone = action.payload?.data.shippingAddress.phone;
+                state.receiverProvince = action.payload?.data.shippingAddress.proviceId;
+                state.receiverDistrict = action.payload?.data.shippingAddress.districtId;
+                state.receiverWard = action.payload?.data.shippingAddress.wardId;
             })
     }
 })

@@ -13,15 +13,17 @@ import { AppDispatch } from '../../app/store';
 import { btnAnimationBG } from '../../common/constant/Constant';
 import CartItem from '../../shared/components/CartItem/CartItem';
 import Skeleton from 'react-loading-skeleton';
-import { setActiveElem } from '../../features/products/productSlice';
+import { decrementQuantityProduct, incrementQuantityProduct, setActiveElem } from '../../features/products/productSlice';
+import { addToCart } from '../../features/cart/cartSlice';
 
 
 const DetailProduct = () => {
-    const {listProducts, detailProducts, loadingDetailData, activeElem} = useProductStore();
+    const {listProducts, detailProducts, loadingDetailData, activeElem, quantityProduct} = useProductStore();
     const dispatch = useDispatch<AppDispatch>();
     const {idProduct,nameProduct} = useParams();
     const navigate = useNavigate();
 
+    // Shuffled de hien thi related product
     const shuffledProducts = useMemo(() => {
         return listProducts ? [...listProducts].sort(() => Math.random() - 0.5).slice(0, 4) : [];
     }, [idProduct, listProducts]); 
@@ -51,7 +53,6 @@ const DetailProduct = () => {
             dispatch(fetchDetailProduct(Number(idProduct)));
         }
     }, [dispatch, 1]);
-
 
     return (
         <>
@@ -201,11 +202,23 @@ const DetailProduct = () => {
 
                                     <div className="button-cart d-flex align-items-center">
                                         <form action="">
-                                            <button>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    dispatch(incrementQuantityProduct());
+                                                }}
+                                            >
                                                 +
                                             </button>
-                                            <input type="number" value={0} readOnly />
-                                            <button>
+                                            <input type="number" value={quantityProduct} readOnly />
+                                            <button
+                                                className={`${quantityProduct === 1 && "disabledBtn"}`}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    if (quantityProduct === 1) return;
+                                                    dispatch(decrementQuantityProduct());
+                                                }}
+                                            >
                                                 -
                                             </button>
                                         </form>
@@ -214,6 +227,17 @@ const DetailProduct = () => {
                                             initial="hidden"
                                             whileHover="show"
                                             variants={btnAnimationBG}
+                                            onClick={() => {
+                                                dispatch(addToCart(
+                                                    {
+                                                        id: detailProducts[0].id,
+                                                        name: detailProducts[0].name,
+                                                        price: detailProducts[0].price,
+                                                        quantity: quantityProduct,
+                                                        image: detailProducts[0].image
+                                                    }
+                                                ))
+                                            }}
                                         >
                                             <span>Add To Cart</span>
                                         </motion.div>
