@@ -99,9 +99,8 @@ const checkoutSlice = createSlice({
                 state.loadingDataLocation = true
             })
             .addCase(fetchListDistrict.fulfilled, (state,action) => {
-                const {data} = action.payload;
                 state.loadingDataLocation = false;
-                state.dataDistrict = data.data
+                state.dataDistrict = action.payload?.data.data
             })
             .addCase(fetchListDistrict.rejected, (state) => {
                 state.loadingDataLocation = true
@@ -112,8 +111,7 @@ const checkoutSlice = createSlice({
             })
             .addCase(fetchListWard.fulfilled, (state,action) => {
                 state.loadingDataLocation = false;
-                const {data} = action.payload;
-                state.dataWard = data.data
+                state.dataWard = action.payload?.data.data
                 
             })
             .addCase(fetchListWard.rejected, (state) => {

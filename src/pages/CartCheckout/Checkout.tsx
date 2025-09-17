@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, NavItem, Row } from "react-bootstrap";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { yupFields } from "../../common/utils/Utils";
 import { useDispatch } from "react-redux";
@@ -324,7 +324,7 @@ const Checkout = () => {
                                                 <select name="province" 
                                                     onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                         dispatch(toggleChangeValue({key: 'receiverProvince', value: e.target.value}))
-                                                        dispatch(fetchListDistrict({provinceId: Number(e.target.value), form: "form2" }));
+                                                        dispatch(fetchListDistrict(e.target.value));
                                                     }}
                                                     value={receiverProvince || province}
                                                 >
@@ -355,7 +355,7 @@ const Checkout = () => {
                                                 <select name="province" 
                                                     onChange={(e:React.ChangeEvent<HTMLSelectElement>) => {
                                                         dispatch(toggleChangeValue({key: 'receiverDistrict', value: e.target.value}))
-                                                        dispatch(fetchListWard({districtId: Number(e.target.value), form: "form2" }));
+                                                        dispatch(fetchListWard(e.target.value));
                                                     }}
                                                     value={receiverDistrict || district}
                                                 >
