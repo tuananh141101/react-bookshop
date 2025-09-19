@@ -29,14 +29,14 @@ const cartSlice = createSlice({
             } else {
                 state.cart.push(action.payload);
             }
-            toastUtils.success(`Add book:${action.payload.name} to cart`);
+            toastUtils.success(`Add book: ${action.payload.name} to cart`);
         },
         removeCart: (state,action:PayloadAction<typeProductInCart>) => {
             state.cart = state.cart.filter((item) => item.id !== action.payload.id);
-            toastUtils.success(`Renove book:${action.payload.name}`);
+            toastUtils.success(`Remove book: ${action.payload.name}`);
 
         },
-        removeAllCart: (state) => {state.cart = [] },
+        removeAllCart: (state) => {state.cart = []},
         increaseItemQuantity: (state, action:PayloadAction<typeProductInCart>) => {
             state.cart = state.cart.map((item) => {
                 if (item.id === action.payload.id) {

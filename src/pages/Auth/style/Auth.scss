@@ -75,6 +75,7 @@
                     }
                     .item-form-pass {
                         position: relative;
+                        margin-bottom: 8px;
                         .icon-eye {
                             position: absolute;
                             left: 94%;
@@ -92,6 +93,12 @@
                             cursor: pointer;
                             svg {width: 18px;height: 18px;}
                         }
+                    }
+                    .forgetPassword {
+                        text-align: right;
+                        font-size: $fontSize-Light;
+                        cursor: pointer;
+                        &:hover {text-decoration: underline;}
                     }
                 }
             }

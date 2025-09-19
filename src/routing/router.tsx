@@ -13,6 +13,8 @@ import Cart from "../pages/CartCheckout/Cart";
 import Checkout from "../pages/CartCheckout/Checkout";
 import Auth from "../pages/Auth/Auth";
 import Settings from "../pages/Settings/Settings";
+import ForgetPass from "../pages/Auth/component/forget-pass";
+import ForgetpassLink from "../pages/Auth/component/forget-pass-link";
 
 
 const router = () => {
@@ -37,6 +39,10 @@ const router = () => {
 
                         <Route path="login" element={<Auth/>}/>
                         <Route path="register" element={<Auth/>}/>
+
+                        <Route path="forget-password" element={<ForgetPass/>}/>
+                        <Route path="forget-password/sent" element={<ForgetPass/>}/>
+                        <Route path="forget-password/sent/:token" element={<ForgetpassLink/>}/>
 
                         <Route path="settings" element={<Settings/>}/>
                     </Route>

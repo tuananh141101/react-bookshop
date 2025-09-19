@@ -14,6 +14,7 @@ interface AuthState {
     loadingDataProvince: boolean,
     loadingChangeAddress: boolean,
     newPass: string,
+    confirmNewPass: string,
     provinceId: string,
     districtId: string,
     wardId: string,
@@ -36,7 +37,7 @@ interface AuthState {
     },
     listProvice: unknown[]
     listDistrict: unknown[],
-    listWard: unknown[]
+    listWard: unknown[],
 }
 
 const initialState: AuthState = {
@@ -49,6 +50,7 @@ const initialState: AuthState = {
     loadingDataProvince: false,
     loadingChangeAddress: false,
     newPass: "",
+    confirmNewPass: "",
     provinceId: "",
     districtId: "",
     wardId: "",
