@@ -157,7 +157,7 @@ export const fetchChangeDataUser = createAsyncThunk<
 })
 export const fetchForgetEmail = createAsyncThunk("user/forgetPassWrod", async(email:string) => {
     try {
-        const res = await axios.post(`http://localhost:3000/forgot-password`, {
+        const res = await axios.post(`https://websitebook-api.vercel.app/forgot-password`, {
             email: email
         })
         return res
