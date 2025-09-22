@@ -41,8 +41,8 @@ const router = () => {
                         <Route path="register" element={<Auth/>}/>
 
                         <Route path="forget-password" element={<ForgetPass/>}/>
-                        <Route path="forget-password/sent" element={<ForgetPass/>}/>
-                        <Route path="forget-password/sent/:token" element={<ForgetpassLink/>}/>
+                        <Route path="forget-password/mail" element={<ForgetPass/>}/>
+                        <Route path="forget-password/sent" element={<ForgetpassLink/>}/>
 
                         <Route path="settings" element={<Settings/>}/>
                     </Route>

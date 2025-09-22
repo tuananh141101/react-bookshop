@@ -7,11 +7,15 @@ import { yupFields } from "../../../common/utils/Utils";
 import { useNavigate } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import "../style/ForgetPass.scss";
+import { fetchForgetEmail } from "../../../features/auth/authApi";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../app/store";
 
 const ForgetPass = () => {
     const isForgetPassForm = location.pathname === "/forget-password";
-    const isForgetPassSent =  location.pathname === "/forget-password/sent";
+    const isForgetPassSent =  location.pathname === "/forget-password/mail";
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>()
     const {email} = useAuthStore();
 
     return (
@@ -41,6 +45,7 @@ const ForgetPass = () => {
                                                 }
                                                 onSubmit={(value) => {
                                                     console.log("value submit",value);
+                                                    dispatch(fetchForgetEmail(value.field_email))
                                                 }}
                                             >
                                                 <Form>

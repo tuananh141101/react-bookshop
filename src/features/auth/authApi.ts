@@ -155,3 +155,13 @@ export const fetchChangeDataUser = createAsyncThunk<
         throw error
     }
 })
+export const fetchForgetEmail = createAsyncThunk("user/forgetPassWrod", async(email:string) => {
+    try {
+        const res = await axios.post(`http://localhost:3000/forgot-password`, {
+            email: email
+        })
+        return res
+    } catch (error) {
+        console.error("Error call forget email", error)
+    }
+})
