@@ -1,16 +1,29 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
-import React from "react"
+import React, { useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
 import { RiLogoutBoxLine } from "react-icons/ri"
 import * as Yup from 'yup';
 import { useAuthStore } from "../../../common/hooks/useCustomHooks"
 import "../style/ForgetPass.scss"
 import { yupFields } from "../../../common/utils/Utils";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../app/store";
+import { fetchVerifyResetToken } from "../../../features/auth/authApi";
 
 const ForgetpassLink = () => {
     const {newPass,confirmNewPass} = useAuthStore();
     const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch<AppDispatch>();
+    const { loadingResetPass } = useAuthStore();
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const tokenParams = searchParams.get("token") ?? "";
+
+        dispatch(fetchVerifyResetToken(tokenParams))
+    },[location.search, dispatch])
 
     return (
         <>
@@ -71,7 +84,9 @@ const ForgetpassLink = () => {
                                                         )}
                                                     />
                                                 </div>
-                                                <button className="btnSubmit" type="submit">Reset password</button>
+                                                <button className="btnSubmit" type="submit" disabled={loadingResetPass}>
+                                                    {loadingResetPass ? "Loading..." : "Reset password"}
+                                                </button>
                                                 <div className="backToLogin d-flex align-items-center justify-content-center" onClick={() => navigate("/login")}>
                                                     <RiLogoutBoxLine />
                                                     <p className="mb-0">Back to login</p>

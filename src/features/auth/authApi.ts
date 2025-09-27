@@ -2,8 +2,8 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-// const API_URL = "http://localhost:3000"
-const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
+const API_URL = "http://localhost:3000"
+// const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 const API_URL_LOCATION = "https://open.oapi.vn/location";
 
 export const fetchListProvinceData = createAsyncThunk("location/fetchListProvinces", async () => {
@@ -163,5 +163,14 @@ export const fetchForgetEmail = createAsyncThunk("user/forgetPassWrod", async(em
         return res
     } catch (error) {
         console.error("Error call forget email", error)
+    }
+})
+export const fetchVerifyResetToken = createAsyncThunk("auth/verify-reset-token", async(token:string) => {
+    try {
+        const res = await axios.get(`${API_URL}/verify-reset-token/${token}`)
+        console.log("check res verify", res)
+        return res.data
+    } catch (error) {
+        console.error("Errro call verify reset token", error)
     }
 })

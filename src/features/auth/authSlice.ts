@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchChangeAddress, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister } from "./authApi";
+import { fetchChangeAddress, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister, fetchVerifyResetToken } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
@@ -13,6 +13,7 @@ interface AuthState {
     loadingGetData: boolean,
     loadingDataProvince: boolean,
     loadingChangeAddress: boolean,
+    loadingResetPass: boolean,
     newPass: string,
     confirmNewPass: string,
     provinceId: string,
@@ -49,6 +50,7 @@ const initialState: AuthState = {
     loadingGetData: false,
     loadingDataProvince: false,
     loadingChangeAddress: false,
+    loadingResetPass: false,
     newPass: "",
     confirmNewPass: "",
     provinceId: "",
@@ -184,6 +186,14 @@ const authSLice = createSlice({
             .addCase(fetchListWard.rejected, (state) => {
                 state.loadingGetData = true;
             })
+        builder
+            .addCase(fetchVerifyResetToken.pending, (state) => {state.loadingResetPass = true})
+            .addCase(fetchVerifyResetToken.fulfilled, (state,action) => {
+                state.loadingResetPass = false;
+                
+            })
+            .addCase(fetchVerifyResetToken.rejected, (state) => {state.loadingResetPass = true})
+
     }
 })
 
