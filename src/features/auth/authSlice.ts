@@ -1,3 +1,4 @@
+import { Messages } from './../../common/constant/Constant';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
 import { fetchChangeAddress, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister, fetchVerifyResetToken } from "./authApi";
@@ -14,6 +15,8 @@ interface AuthState {
     loadingDataProvince: boolean,
     loadingChangeAddress: boolean,
     loadingResetPass: boolean,
+    isResetToken: "Token expired" | "Invalid token" | "Valid token" | null,
+    loadingUIForgetLink: boolean,
     newPass: string,
     confirmNewPass: string,
     provinceId: string,
@@ -51,6 +54,8 @@ const initialState: AuthState = {
     loadingDataProvince: false,
     loadingChangeAddress: false,
     loadingResetPass: false,
+    loadingUIForgetLink: false,
+    isResetToken: null,
     newPass: "",
     confirmNewPass: "",
     provinceId: "",
@@ -187,10 +192,19 @@ const authSLice = createSlice({
                 state.loadingGetData = true;
             })
         builder
-            .addCase(fetchVerifyResetToken.pending, (state) => {state.loadingResetPass = true})
+            .addCase(fetchVerifyResetToken.pending, (state) => {
+                state.loadingResetPass = true
+            })
             .addCase(fetchVerifyResetToken.fulfilled, (state,action) => {
                 state.loadingResetPass = false;
-                
+                console.log("check action", action.payload)
+                if (action.payload.message === "Token expired") {
+                    state.isResetToken = "Token expired"
+                } else if (action.payload.message === "Invalid token") {
+                    state.isResetToken = "Invalid token"
+                } else if (action.payload.valid === true) {
+                    state.isResetToken = "Valid token"
+                }
             })
             .addCase(fetchVerifyResetToken.rejected, (state) => {state.loadingResetPass = true})
 

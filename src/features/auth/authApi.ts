@@ -170,7 +170,11 @@ export const fetchVerifyResetToken = createAsyncThunk("auth/verify-reset-token",
         const res = await axios.get(`${API_URL}/verify-reset-token/${token}`)
         console.log("check res verify", res)
         return res.data
-    } catch (error) {
-        console.error("Errro call verify reset token", error)
+    } catch (error:any) {
+        if (error.response) {
+            return error.response.data  // vẫn trả về data của server
+        }
+        console.error("Unexpected error", error)
+        throw error
     }
-})
+});
