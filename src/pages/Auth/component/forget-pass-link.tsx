@@ -6,18 +6,23 @@ import * as Yup from 'yup';
 import { useAuthStore } from "../../../common/hooks/useCustomHooks"
 import "../style/ForgetPass.scss"
 import { yupFields } from "../../../common/utils/Utils";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
-import { fetchVerifyResetToken } from "../../../features/auth/authApi";
+import { fetchResetPassWord, fetchVerifyResetToken } from "../../../features/auth/authApi";
 import Skeleton from "react-loading-skeleton";
+import { toastUtils } from "../../../common/utils/Toastutils";
 
 const ForgetpassLink = () => {
     const {newPass,confirmNewPass} = useAuthStore();
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch<AppDispatch>();
-    const { loadingResetPass, isResetToken } = useAuthStore();
+    const { isResetToken, loadingResetPass } = useAuthStore();
+    const searchParams = new URLSearchParams(location.search);
+    const tokenParam = searchParams.get("token");
+    console.log("loadingResetPass", loadingResetPass)
+
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
@@ -63,12 +68,26 @@ const ForgetpassLink = () => {
                                                 }}
                                                 validationSchema={
                                                     Yup.object({
-                                                        field_newPass: yupFields.password,
-                                                        field_confirmNewPass: yupFields.confirmPassword
+                                                        field_newPass: Yup.string()
+                                                            .min(5, 'Password must be at least 5 characters')
+                                                            .required('Password is required'),
+                                                        field_confirmNewPass: Yup.string()
+                                                            .oneOf([Yup.ref('field_newPass')], 'Passwords must match')
+                                                            .required('Confirm Password is required'),
                                                     })
                                                 }
                                                 onSubmit={(value) => {
-                                                    console.log("check value", value)
+                                                    dispatch(fetchResetPassWord({
+                                                        newPassword: value.field_confirmNewPass,
+                                                        token: tokenParam ?? ""
+                                                    }))
+                                                    .unwrap()
+                                                    .then((res:any) => {
+                                                        console.log("check res", res)
+                                                        // if (res.valid === true) {}
+                                                        toastUtils.success("Password reset successfully")
+                                                    })
+                                                    .catch((err:any) => {console.error("Err", err)})
                                                 }}
                                             >
                                                 <Form>

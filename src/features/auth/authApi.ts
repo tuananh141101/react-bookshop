@@ -182,3 +182,19 @@ export const fetchVerifyResetToken = createAsyncThunk("auth/verify-reset-token",
         throw error
     }
 });
+export const fetchResetPassWord = createAsyncThunk("auth/reset-password", async(
+    payload: { newPassword: string; token: string }
+) => {
+    try {
+        const res = await axios.post(`${API_URL}/reset-password`, {
+            token: payload.token,
+            newPassword: payload.newPassword
+        })
+        return res.data
+    } catch (error:any) {
+        if (error.response) {
+            return error.response.data
+        }
+        console.log("Unexpected error", error.response)
+    }
+})

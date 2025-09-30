@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchChangeAddress, fetchForgetEmail, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister, fetchVerifyResetToken } from "./authApi";
+import { fetchChangeAddress, fetchForgetEmail, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister, fetchResetPassWord, fetchVerifyResetToken } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
@@ -13,10 +13,11 @@ interface AuthState {
     loadingGetData: boolean,
     loadingDataProvince: boolean,
     loadingChangeAddress: boolean,
-    loadingResetPass: boolean,
+    loadingVerifyResetTk: boolean,
     loadingSentResetPassLink: boolean,
     isResetToken: "Token expired" | "Invalid token" | "Valid token" | null | "",
     loadingUIForgetLink: boolean,
+    loadingResetPass: boolean,
     newPass: string,
     confirmNewPass: string,
     provinceId: string,
@@ -53,10 +54,11 @@ const initialState: AuthState = {
     loadingGetData: false,
     loadingDataProvince: false,
     loadingChangeAddress: false,
-    loadingResetPass: false,
+    loadingVerifyResetTk: false,
     loadingSentResetPassLink: false,
     loadingUIForgetLink: false,
-    isResetToken: null,
+    loadingResetPass: false,
+    isResetToken: "Valid token",
     newPass: "",
     confirmNewPass: "",
     provinceId: "",
@@ -194,10 +196,10 @@ const authSLice = createSlice({
             })
         builder
             .addCase(fetchVerifyResetToken.pending, (state) => {
-                state.loadingResetPass = true
+                state.loadingVerifyResetTk = true
             })
             .addCase(fetchVerifyResetToken.fulfilled, (state,action) => {
-                state.loadingResetPass = false;
+                state.loadingVerifyResetTk = false;
                 if (action.payload.message === "Token expired") {
                     state.isResetToken = "Token expired"
                 } else if (action.payload.message === "Invalid token") {
@@ -208,13 +210,17 @@ const authSLice = createSlice({
                     state.isResetToken = "";
                 } 
             })
-            .addCase(fetchVerifyResetToken.rejected, (state) => {state.loadingResetPass = false})
+            .addCase(fetchVerifyResetToken.rejected, (state) => {state.loadingVerifyResetTk = false})
         builder 
             .addCase(fetchForgetEmail.pending, (state) => {state.loadingSentResetPassLink = true})
-            .addCase(fetchForgetEmail.fulfilled, (state,action) => {
+            .addCase(fetchForgetEmail.fulfilled, (state) => {
                 state.loadingSentResetPassLink = false
             })
             .addCase(fetchForgetEmail.rejected, (state) => {state.loadingSentResetPassLink = false})
+        builder
+            .addCase(fetchResetPassWord.pending, (state) => {state.loadingResetPass = true})
+            .addCase(fetchResetPassWord.fulfilled, (state) => {state.loadingResetPass = false})
+            .addCase(fetchResetPassWord.rejected, (state) => {state.loadingResetPass = false})
     }
 })
 
