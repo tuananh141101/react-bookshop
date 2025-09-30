@@ -49,7 +49,7 @@ const ForgetPass = () => {
                                                 }
                                                 onSubmit={(value) => {
                                                     dispatch(toggleChangeValue({
-                                                        key: email,
+                                                        key: "email",
                                                         value: value.field_email
                                                     }))
                                                     dispatch(fetchForgetEmail(value.field_email))
@@ -66,7 +66,7 @@ const ForgetPass = () => {
                                                         .catch((err: any) => {
                                                             console.error("err", err)
                                                         })
-z                                                }}
+                                                }}
                                             >
                                                 <Form>
                                                     <div className="item-form d-flex align-items-center flex-column">

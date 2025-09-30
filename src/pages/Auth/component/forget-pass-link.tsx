@@ -5,8 +5,7 @@ import { RiLogoutBoxLine } from "react-icons/ri"
 import * as Yup from 'yup';
 import { useAuthStore } from "../../../common/hooks/useCustomHooks"
 import "../style/ForgetPass.scss"
-import { yupFields } from "../../../common/utils/Utils";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
 import { fetchResetPassWord, fetchVerifyResetToken } from "../../../features/auth/authApi";
