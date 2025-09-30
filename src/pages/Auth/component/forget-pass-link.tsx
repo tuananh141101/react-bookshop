@@ -41,7 +41,7 @@ const ForgetpassLink = () => {
                                         <Skeleton className="loading-skeleton"/>
                                     </div>
                                 </div>
-                            ) : isResetToken === "Invalid token" || isResetToken === "Token expired" ? (
+                            ) : isResetToken === "Invalid token" || isResetToken === "Token expired" || isResetToken === "" ? (
                                 <div className="resetLinkInvalid d-flex flex-column align-items-center">
                                     <p>This link is invalid or has expired.</p>
                                     <button onClick={() => navigate("/forget-password")}>Request new password link</button>

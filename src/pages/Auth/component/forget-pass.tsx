@@ -4,19 +4,23 @@ import { Col, Container, Row } from "react-bootstrap"
 import { useAuthStore } from "../../../common/hooks/useCustomHooks";
 import * as Yup from 'yup';
 import { yupFields } from "../../../common/utils/Utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import "../style/ForgetPass.scss";
 import { fetchForgetEmail } from "../../../features/auth/authApi";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../app/store";
+import { toastUtils } from "../../../common/utils/Toastutils";
+import { toggleChangeValue } from "../../../features/checkout/checkoutSlice";
 
 const ForgetPass = () => {
     const isForgetPassForm = location.pathname === "/forget-password";
-    const isForgetPassSent =  location.pathname === "/forget-password/mail";
+    const isForgetPassSent =  location.pathname === "/forget-password/check-mail";
+    const [searchParams] = useSearchParams();
+    const mailParam = searchParams.get("mail");
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>()
-    const {email} = useAuthStore();
+    const {email, loadingSentResetPassLink} = useAuthStore();
 
     return (
         <>
@@ -44,9 +48,25 @@ const ForgetPass = () => {
                                                     })
                                                 }
                                                 onSubmit={(value) => {
-                                                    console.log("value submit",value);
+                                                    dispatch(toggleChangeValue({
+                                                        key: email,
+                                                        value: value.field_email
+                                                    }))
                                                     dispatch(fetchForgetEmail(value.field_email))
-                                                }}
+                                                        .unwrap()
+                                                        .then((res) => {
+                                                            if (res.valid === true) {
+                                                                navigate({
+                                                                    pathname: "/forget-password/check-mail",
+                                                                    search: `?mail=${value.field_email}`
+                                                                })
+                                                            }
+                                                            toastUtils.success("If the email exist, a reset link has been sent")
+                                                        })
+                                                        .catch((err: any) => {
+                                                            console.error("err", err)
+                                                        })
+z                                                }}
                                             >
                                                 <Form>
                                                     <div className="item-form d-flex align-items-center flex-column">
@@ -64,7 +84,9 @@ const ForgetPass = () => {
                                                             )}
                                                         />
                                                     </div>
-                                                    <button className="btnSubmitEmail" type="submit">Reset Password</button>
+                                                    <button className="btnSubmitEmail" type="submit" disabled={loadingSentResetPassLink}>
+                                                        {loadingSentResetPassLink ? "Loading..." : "Reset Password"}
+                                                    </button>
                                                     <div className="backToLogin d-flex align-items-center justify-content-center" onClick={() => navigate("/login")}>
                                                         <RiLogoutBoxLine />
                                                         <p className="mb-0">Back to login</p>
@@ -84,7 +106,7 @@ const ForgetPass = () => {
                                         <p className="mb-0 heading-description">
                                             We sent a password reset link to
                                             <br/> 
-                                            "Your email"
+                                            {mailParam}
                                         </p>
                                     </div>
 
@@ -93,11 +115,28 @@ const ForgetPass = () => {
                                             onClick={() => window.open("https://mail.google.com", "_blank", "noopener")}
                                         >Open email app</button>
                                         <div className="resentLink d-flex align-items-center justify-content-center">
-                                            <p className="mb-0">Did't receiver the email?</p><span>Click to resent</span>
+                                            <p className="mb-0">Did't receiver the email?</p><span
+                                                onClick={() => {
+                                                    if (mailParam) {
+                                                        dispatch(fetchForgetEmail(mailParam))
+                                                        .unwrap()
+                                                        .then((res) => {
+                                                            if (res.valid === true) toastUtils.success("If the email exist, a reset link has been sent")
+                                                        })
+                                                        .catch((err: any) => {
+                                                            console.error("err", err)
+                                                        })
+                                                    }
+                                                }}
+                                            >Click to resent</span>
                                         </div>
                                         <div className="backToLogin d-flex align-items-center justify-content-center">
                                             <RiLogoutBoxLine />
-                                            <p className="mb-0">Back to login</p>
+                                            <p className="mb-0"
+                                                onClick={() => {
+                                                    navigate("/forget-password");
+                                                }}
+                                            >Back</p>
                                         </div>
                                     </div>
                                 </div>

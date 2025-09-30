@@ -2,8 +2,8 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 
-const API_URL = "http://localhost:3000"
-// const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
+// const API_URL = "http://localhost:3000"
+const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 const API_URL_LOCATION = "https://open.oapi.vn/location";
 
 export const fetchListProvinceData = createAsyncThunk("location/fetchListProvinces", async () => {
@@ -157,24 +157,28 @@ export const fetchChangeDataUser = createAsyncThunk<
 })
 export const fetchForgetEmail = createAsyncThunk("user/forgetPassWrod", async(email:string) => {
     try {
-        const res = await axios.post(`https://websitebook-api.vercel.app/forgot-password`, {
+        const res = await axios.post(`${API_URL}/forgot-password`, {
             email: email
         })
-        return res
-    } catch (error) {
+        return res.data
+    } catch (error:any) {
         console.error("Error call forget email", error)
+        if (error.response) {
+            return error.response.data
+        }
+        console.error("Unexpected error", error.response)
+        throw error
     }
 })
 export const fetchVerifyResetToken = createAsyncThunk("auth/verify-reset-token", async(token:string) => {
     try {
         const res = await axios.get(`${API_URL}/verify-reset-token/${token}`)
-        console.log("check res verify", res)
         return res.data
     } catch (error:any) {
         if (error.response) {
             return error.response.data  // vẫn trả về data của server
         }
-        console.error("Unexpected error", error)
+        console.error("Unexpected error", error.response)
         throw error
     }
 });
