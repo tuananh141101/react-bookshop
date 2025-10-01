@@ -72,7 +72,7 @@ export const yupFields = {
         .min(5, 'Password must be at least 5 characters')
         .required('Password is required'),
     confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), undefined ], 'Passwords must match')
+        .oneOf([Yup.ref('password')], 'Passwords must match')
         .required('Confirm Password is required'),
     email: Yup.string()
         .email("Invalid email format")

@@ -91,6 +91,9 @@ const Auth = () => {
                                                 <input type="checkbox" name="" id="checkSaveInfo" />
                                                 <label htmlFor="checkSaveInfo">Remember me</label>
                                             </div> */}
+                                            <div className="forgetPassword"
+                                                onClick={() => navigate("/forget-password")}
+                                            >Forget Password?</div>
                                             <button className="btnSubmit" 
                                                 type="submit"
                                                 disabled={loadingAuth}
@@ -166,8 +169,7 @@ const Auth = () => {
                                     </Formik>
                                 </div>
                             </div>
-                        </Col>
-                        }
+                        </Col> }
                     </Row>
                 </Container>
             </section>

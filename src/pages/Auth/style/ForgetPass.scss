@@ -1,0 +1,196 @@
+@use "/public/assets/styles/common" as *;
+
+.forgetPassWord {
+    margin: 78px 0;
+    .container {
+        .row {
+            .forgetPass-form {
+                width: 426px;
+                .heading {
+                    width: 100%;
+                    margin-bottom: 38px;
+                    .heading-title {
+                        font-size: $fontSize-X_Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                        text-align: center;
+                        margin-bottom:12px;
+                    }
+                }
+                .form {
+                    form {width: 100%;}
+                    width: 100%!important;
+                    .item-form {
+                        width: 100%;
+                        margin-bottom: 20px;
+                        span,input,label {width: 100%;}
+                        span {
+                            color: $Color-5;
+                            font-size: $fontSize-Light;
+                        }
+                    }
+                    button {
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        margin-top: 12px;
+                        height: 41.25px;
+                        line-height: 41.25px;
+                        border-radius: 3px;
+                        background: rgba(25, 17, 11, 0.9);
+                        color: white;
+                        &:hover {background: rgba(25, 17, 11, 1);}
+                        margin-bottom: 12px;
+                    }
+                    .backToLogin {
+                        text-align: center;
+                        gap: 4px;
+                        cursor: pointer;
+                        svg {width: 20px;height: 20px;padding-bottom: 2px;}
+                        p {font-size: $fontSize-Light;}
+                    }
+                }
+            }
+            .forgetPass-sent {
+                width: 426px;
+                .heading {
+                    width: 100%;
+                    margin-bottom: 28px;
+                    .heading-title {
+                        font-size: $fontSize-X_Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                        text-align: center;
+                        margin-bottom:12px;
+                    }
+                    .heading-description {text-align: center;}
+                }
+
+                .form {
+                    width: 100%;
+                    button {
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        margin-top: 12px;
+                        height: 41.25px;
+                        line-height: 41.25px;
+                        border-radius: 3px;
+                        background: rgba(25, 17, 11, 0.9);
+                        color: white;
+                        &:hover {background: rgba(25, 17, 11, 1);}
+                        margin-bottom: 12px;
+                        margin-bottom: 28px;
+                    }
+                    .backToLogin {
+                        text-align: center;
+                        font-size: $fontSize-Light;
+                        gap: 4px;
+                        cursor: pointer;
+                        p {font-size: $fontSize-Light;}
+                        svg {width: 20px;height: 20px;padding-bottom: 2px;}
+                    }
+                    .resentLink {
+                        margin-bottom: 24px;
+                        p,
+                        span {font-size: $fontSize-Light;}
+                        span {text-decoration: underline; cursor: pointer;}
+                    }
+                }
+            }
+        }
+    }
+}
+
+.forgetPassWordLink {
+    margin: 78px 0;
+    .container {
+        .row {
+            .forgetPassLink-form {
+                width: 426px;
+                .heading {
+                    width: 100%;
+                    margin-bottom: 38px;
+                    .heading-title {
+                        font-size: $fontSize-X_Large;
+                        font-family: "Victormono";
+                        font-weight: bold;
+                        text-align: center;
+                        margin-bottom:12px;
+                    }
+                }
+                .form {
+                    form {width: 100%;}
+                    width: 100%!important;
+                    .item-form {
+                        width: 100%;
+                        margin-bottom: 20px;
+                        span,input,label {width: 100%;}
+                        span {
+                            color: $Color-5;
+                            font-size: $fontSize-Light;
+                        }
+                    }
+                    button {
+                        width: 100%;
+                        border: none;
+                        outline: none;
+                        margin-top: 12px;
+                        height: 41.25px;
+                        line-height: 41.25px;
+                        border-radius: 3px;
+                        background: rgba(25, 17, 11, 0.9);
+                        color: white;
+                        &:hover {background: rgba(25, 17, 11, 1);}
+                        margin-bottom: 12px;
+                    }
+                    .backToLogin {
+                        text-align: center;
+                        gap: 4px;
+                        cursor: pointer;
+                        svg {width: 20px;height: 20px;padding-bottom: 2px;}
+                        p {font-size: $fontSize-Light;}
+                    }
+                }
+            }
+            .resetLinkInvalid {
+                button {
+                     width: 100%;
+                    border: none;
+                    outline: none;
+                    margin-top: 12px;
+                    height: 41.25px;
+                    line-height: 41.25px;
+                    border-radius: 3px;
+                    background: rgba(25, 17, 11, 0.9);
+                    color: white;
+                    &:hover {background: rgba(25, 17, 11, 1);}
+                    margin-bottom: 12px;
+                }
+            }
+            .forgetPassLink-form-loading {
+                width: 426px;
+                .heading-loading {
+                    width: 100%;
+                    margin-bottom: 38px;
+                    .heading-title {
+                        margin-bottom: 12px;
+                        height: 28px;
+                    }
+                }
+                .form-loading {
+                    width: 100%;
+                    height: 270.72px;
+                    span {
+                        width: 100%;
+                        height: 100%;
+                    }
+                    .loading-skeleton {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}

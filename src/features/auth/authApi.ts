@@ -155,3 +155,46 @@ export const fetchChangeDataUser = createAsyncThunk<
         throw error
     }
 })
+export const fetchForgetEmail = createAsyncThunk("user/forgetPassWrod", async(email:string) => {
+    try {
+        const res = await axios.post(`${API_URL}/forgot-password`, {
+            email: email
+        })
+        return res.data
+    } catch (error:any) {
+        console.error("Error call forget email", error)
+        if (error.response) {
+            return error.response.data
+        }
+        console.error("Unexpected error", error.response)
+        throw error
+    }
+})
+export const fetchVerifyResetToken = createAsyncThunk("auth/verify-reset-token", async(token:string) => {
+    try {
+        const res = await axios.get(`${API_URL}/verify-reset-token/${token}`)
+        return res.data
+    } catch (error:any) {
+        if (error.response) {
+            return error.response.data  // vẫn trả về data của server
+        }
+        console.error("Unexpected error", error.response)
+        throw error
+    }
+});
+export const fetchResetPassWord = createAsyncThunk("auth/reset-password", async(
+    payload: { newPassword: string; token: string }
+) => {
+    try {
+        const res = await axios.post(`${API_URL}/reset-password`, {
+            token: payload.token,
+            newPassword: payload.newPassword
+        })
+        return res.data
+    } catch (error:any) {
+        if (error.response) {
+            return error.response.data
+        }
+        console.log("Unexpected error", error.response)
+    }
+})
