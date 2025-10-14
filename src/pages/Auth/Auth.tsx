@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap"
 import { yupFields } from "../../common/utils/Utils";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import "./style/Auth.scss";
 import { useAuthStore } from "../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { fetchLogin, fetchRegister } from "../../features/auth/authApi";
+import { fetchLogin, fetchRegister, fetchSession } from "../../features/auth/authApi";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import StorageService from "../../common/utils/storageService";
 
 
 const Auth = () => {
     const isLogin = location.pathname === "/login";
     const isRegister = location.pathname === "/register";
+    const locationURL = useLocation();
+    const searchParams = new URLSearchParams(locationURL.search);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { email,username,password,loadingAuth } = useAuthStore();
@@ -28,7 +31,30 @@ const Auth = () => {
         field_registerEmail: yupFields.email,
         field_registerUserName: yupFields.name("Username"),
         field_registerPassword: yupFields.password,
-    })
+    });
+    const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
+    const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : null;
+    const now = new Date();
+    const expires_at_local = getLocalSession ? (new Date(now.getTime() + getLocalSession.expires_at * 1000)).getTime() - now.getTime() : null;
+    console.log("check expires_at_local --- ", expires_at_local);
+    console.log("check date time now --- ", now)
+
+    
+    useEffect(() => {
+        if (window.location.hash) {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const accessTk = hashParams.get("access_token");
+            const refreshTk = hashParams.get("refresh_token");
+            if (accessTk && refreshTk) {
+                dispatch(fetchSession({
+                    access_token: accessTk,
+                    refresh_token: refreshTk,
+                }));
+                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+            }
+        }
+    },[]);
+
     
     return (
         <>
@@ -121,8 +147,8 @@ const Auth = () => {
                                             dispatch(fetchRegister({
                                                 email: value.field_registerEmail,
                                                 password: value.field_registerPassword,
-                                                username: value.field_registerUserName,
-                                                role: "user"
+                                                fullName: value.field_registerUserName,
+                                                // role: "user"
                                             }))
                                         }}
                                         initialValues={{

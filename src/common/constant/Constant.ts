@@ -1,5 +1,6 @@
 export default class Constants {
-    public static TOKEN_EXPIRE_DAYS: number =  7;
+    public static TOKEN_EXPIRE_DAYS: number =  1;
+    public static RF_TOKEN_EXPIRE_DAYS: number = 7;
     public static TOKEN_NAME: string = "bookshop-eco-token";
     public static REFRESH_TOKEN: string = "bookshop-eco-token";
 }

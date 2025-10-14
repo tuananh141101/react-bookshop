@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.75.0",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "formik": "^2.4.6",

@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice,Draft,PayloadAction } from "@reduxjs/toolkit";
-import { fetchChangeAddress, fetchForgetEmail, fetchGetDataUser, fetchListDistrictData, fetchListProvinceData, fetchListWard, fetchLogin, fetchRegister, fetchResetPassWord, fetchVerifyResetToken } from "./authApi";
+import { 
+    fetchChangeAddress, fetchForgetEmail, 
+    fetchGetDataUser, fetchListDistrictData, 
+    fetchListProvinceData, fetchListWard, 
+    fetchLogin, fetchRegister, 
+    fetchResetPassWord,fetchSession,fetchVerifyResetToken 
+} from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
 
@@ -18,6 +24,7 @@ interface AuthState {
     isResetToken: "Token expired" | "Invalid token" | "Valid token" | null | "",
     loadingUIForgetLink: boolean,
     loadingResetPass: boolean,
+    loadingSetSession: boolean,
     newPass: string,
     confirmNewPass: string,
     provinceId: string,
@@ -58,6 +65,7 @@ const initialState: AuthState = {
     loadingSentResetPassLink: false,
     loadingUIForgetLink: false,
     loadingResetPass: false,
+    loadingSetSession: false,
     isResetToken: "Valid token",
     newPass: "",
     confirmNewPass: "",
@@ -133,7 +141,7 @@ const authSLice = createSlice({
             })
             .addCase(fetchRegister.fulfilled, (state) => {
                 state.loadingAuth = false;
-                toastUtils.success(`Login success`);
+                toastUtils.success(`Confirmation link has been sent to your email`);
             })
             .addCase(fetchRegister.rejected, (state,action) => {
                 state.loadingAuth = false;
@@ -221,6 +229,16 @@ const authSLice = createSlice({
             .addCase(fetchResetPassWord.pending, (state) => {state.loadingResetPass = true})
             .addCase(fetchResetPassWord.fulfilled, (state) => {state.loadingResetPass = false})
             .addCase(fetchResetPassWord.rejected, (state) => {state.loadingResetPass = false})
+        builder
+            .addCase(fetchSession.pending, (state) => {state.loadingSetSession = true})
+            .addCase(fetchSession.fulfilled, (state,action) => {
+                state.loadingSetSession = false;
+                const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
+                const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : null;
+
+                
+            })
+            .addCase(fetchSession.rejected, (state) => {state.loadingSetSession = true})
     }
 })
 

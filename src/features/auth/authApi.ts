@@ -1,10 +1,15 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
+  import { createClient } from '@supabase/supabase-js';
 
-// const API_URL = "http://localhost:3000"
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 const API_URL_LOCATION = "https://open.oapi.vn/location";
+
+const supabase = createClient(
+  import.meta.env.VITE_SUPABASE_URL,
+  import.meta.env.VITE_SUPABASE_ANON
+);
 
 export const fetchListProvinceData = createAsyncThunk("location/fetchListProvinces", async () => {
     const res = await axios.get(`${API_URL_LOCATION}/provinces?page=0&size=100`);
@@ -52,13 +57,13 @@ export const fetchRegister = createAsyncThunk("auth/register" , async (
     body: {
         email: string;
         password: string;
-        username: string;
-        role: "user"
+        fullName: string;
+        // role: "user"
     },
     {rejectWithValue}
 ) => {
     try {
-        const res = await axios.post(`${API_URL}/register`, body);
+        const res = await axios.post(`${API_URL}/auth/signup`, body);
         return {
             data: res.data,
             status: res.status,
@@ -196,5 +201,23 @@ export const fetchResetPassWord = createAsyncThunk("auth/reset-password", async(
             return error.response.data
         }
         console.log("Unexpected error", error.response)
+    }
+});
+
+export const fetchSession = createAsyncThunk("auth/set-session", async(
+    payload: {access_token: string; refresh_token: string}
+) => {
+    try {
+        const { access_token, refresh_token } = payload;
+        const { data, error } = await supabase.auth.setSession({
+            access_token,
+            refresh_token 
+        });
+        console.log("check data", data);
+    } catch(error:any) {
+        if (error.message) {
+            return error.response?.data;
+        }
+        console.log("Unexected error", error.message);
     }
 })
