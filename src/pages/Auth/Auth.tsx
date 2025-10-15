@@ -35,13 +35,13 @@ const Auth = () => {
     const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
     const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : null;
     const now = new Date();
-    const expires_at_local = getLocalSession ? (new Date(now.getTime() + getLocalSession.expires_at * 1000)).getTime() - now.getTime() : null;
-    console.log("check expires_at_local --- ", expires_at_local);
-    console.log("check date time now --- ", now)
+    // const expires_at_local = getLocalSession ? (new Date(now.getTime() + getLocalSession.expires_at * 1000)).getTime() - now.getTime() : null;
 
+    
     
     useEffect(() => {
         if (window.location.hash) {
+            console.log("run in hash")
             const hashParams = new URLSearchParams(window.location.hash.substring(1));
             const accessTk = hashParams.get("access_token");
             const refreshTk = hashParams.get("refresh_token");
