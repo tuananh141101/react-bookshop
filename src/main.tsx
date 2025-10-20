@@ -13,10 +13,10 @@ import { ToastContainer } from "react-toastify";
 import React from "react";
 
 createRoot(document.getElementById("root")!).render(
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <App />
-                <ToastContainer/>
-            </PersistGate>
-        </Provider>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <App />
+            <ToastContainer/>
+        </PersistGate>
+    </Provider>
 );

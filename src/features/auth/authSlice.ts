@@ -9,6 +9,7 @@ import {
 } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
+import Cookies from "js-cookie";
 
 interface AuthState {
     id: string | null,
@@ -233,10 +234,6 @@ const authSLice = createSlice({
             .addCase(fetchSession.pending, (state) => {state.loadingSetSession = true})
             .addCase(fetchSession.fulfilled, (state,action) => {
                 state.loadingSetSession = false;
-                const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
-                const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : null;
-
-                
             })
             .addCase(fetchSession.rejected, (state) => {state.loadingSetSession = true})
     }

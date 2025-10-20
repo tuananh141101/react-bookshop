@@ -12,8 +12,9 @@ import { AppDispatch } from "../../app/store";
 import { fetchLogin, fetchRegister, fetchSession } from "../../features/auth/authApi";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import StorageService from "../../common/utils/storageService";
-
+// import StorageService from "../../common/utils/storageService";
+import Cookies from "js-cookie";
+import Constants from "../../common/constant/Constant";
 
 const Auth = () => {
     const isLogin = location.pathname === "/login";
@@ -32,16 +33,9 @@ const Auth = () => {
         field_registerUserName: yupFields.name("Username"),
         field_registerPassword: yupFields.password,
     });
-    const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
-    const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : null;
-    const now = new Date();
-    // const expires_at_local = getLocalSession ? (new Date(now.getTime() + getLocalSession.expires_at * 1000)).getTime() - now.getTime() : null;
-
-    
     
     useEffect(() => {
         if (window.location.hash) {
-            console.log("run in hash")
             const hashParams = new URLSearchParams(window.location.hash.substring(1));
             const accessTk = hashParams.get("access_token");
             const refreshTk = hashParams.get("refresh_token");
@@ -49,13 +43,26 @@ const Auth = () => {
                 dispatch(fetchSession({
                     access_token: accessTk,
                     refresh_token: refreshTk,
-                }));
+                })).then((res:any) => {
+                    const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
+                    const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
+                    // Cookies.set(`${Constants.TOKEN_NAME}`, res?.meta.arg?.access_token, {
+                    //     expires: new Date(getLocalSession.expires_at * 1000)
+                    // });
+                    const expiresIn30Sec = new Date(Date.now() + 30 * 1000);
+                    Cookies.set(`${Constants.TOKEN_NAME}`, res?.meta.arg?.access_token, {
+                        expires: expiresIn30Sec,
+                    });
+                    Cookies.set(`${Constants.TOKEN_NAME}-expires`, expiresIn30Sec.toISOString());
+                    Cookies.set(`${Constants.REFRESH_TOKEN}`, res?.meta.arg?.refresh_token, {
+                        expires: 30
+                    });
+                }).catch((error:any) => console.error("Error set session", error))
                 window.history.replaceState(null, '', window.location.pathname + window.location.search);
-            }
+            };
         }
     },[]);
 
-    
     return (
         <>
             <section className="auth">

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
-  import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
 const API_URL = import.meta.env.VITE_API_URL || "https://websitebook-api.vercel.app";
 const API_URL_LOCATION = "https://open.oapi.vn/location";
@@ -209,7 +209,7 @@ export const fetchSession = createAsyncThunk("auth/set-session", async(
 ) => {
     try {
         const { access_token, refresh_token } = payload;
-        const { data, error } = await supabase.auth.setSession({
+        const { data } = await supabase.auth.setSession({
             access_token,
             refresh_token 
         });
@@ -221,3 +221,5 @@ export const fetchSession = createAsyncThunk("auth/set-session", async(
         console.log("Unexected error", error.message);
     }
 })
+
+export const fetchRefreshSession = createAsyncThunk("auth/refresh-session", async() => {})
