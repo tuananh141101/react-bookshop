@@ -3,7 +3,7 @@ import { Col, Container, Row } from "react-bootstrap"
 import { yupFields } from "../../common/utils/Utils";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import "./style/Auth.scss";
 import { useAuthStore } from "../../common/hooks/useCustomHooks";

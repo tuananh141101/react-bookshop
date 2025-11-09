@@ -16,7 +16,7 @@ function App() {
         if (!accTk) Cookies.remove(`${Constants.TOKEN_NAME}-expires`) 
         const authCheck = async () => {
             try {
-                const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
+                // const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
                 // const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
                 const accessToken = StorageService.getTokenByName(`${Constants.TOKEN_NAME}`);
                 const convertDate: Date | null = accTkTime ? new Date(accTkTime) : null;
