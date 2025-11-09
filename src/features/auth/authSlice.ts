@@ -9,7 +9,7 @@ import {
 } from "./authApi";
 import { toastUtils } from "../../common/utils/Toastutils";
 import StorageService from "../../common/utils/storageService";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 interface AuthState {
     id: string | null,
@@ -232,7 +232,7 @@ const authSLice = createSlice({
             .addCase(fetchResetPassWord.rejected, (state) => {state.loadingResetPass = false})
         builder
             .addCase(fetchSession.pending, (state) => {state.loadingSetSession = true})
-            .addCase(fetchSession.fulfilled, (state,action) => {
+            .addCase(fetchSession.fulfilled, (state) => {
                 state.loadingSetSession = false;
             })
             .addCase(fetchSession.rejected, (state) => {state.loadingSetSession = true})

@@ -17,7 +17,7 @@ function App() {
         const authCheck = async () => {
             try {
                 const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
-                const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
+                // const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
                 const accessToken = StorageService.getTokenByName(`${Constants.TOKEN_NAME}`);
                 const convertDate: Date | null = accTkTime ? new Date(accTkTime) : null;
                 const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_ANON);

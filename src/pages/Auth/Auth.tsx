@@ -19,8 +19,8 @@ import Constants from "../../common/constant/Constant";
 const Auth = () => {
     const isLogin = location.pathname === "/login";
     const isRegister = location.pathname === "/register";
-    const locationURL = useLocation();
-    const searchParams = new URLSearchParams(locationURL.search);
+    // const locationURL = useLocation();
+    // const searchParams = new URLSearchParams(locationURL.search);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { email,username,password,loadingAuth } = useAuthStore();
@@ -44,8 +44,8 @@ const Auth = () => {
                     access_token: accessTk,
                     refresh_token: refreshTk,
                 })).then((res:any) => {
-                    const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
-                    const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
+                    // const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
+                    // const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
                     // Cookies.set(`${Constants.TOKEN_NAME}`, res?.meta.arg?.access_token, {
                     //     expires: new Date(getLocalSession.expires_at * 1000)
                     // });
