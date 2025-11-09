@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap"
 import { yupFields } from "../../common/utils/Utils";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import "./style/Auth.scss";
 import { useAuthStore } from "../../common/hooks/useCustomHooks";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../app/store";
-import { fetchLogin, fetchRegister } from "../../features/auth/authApi";
+import { fetchLogin, fetchRegister, fetchSession } from "../../features/auth/authApi";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-
+// import StorageService from "../../common/utils/storageService";
+import Cookies from "js-cookie";
+import Constants from "../../common/constant/Constant";
 
 const Auth = () => {
     const isLogin = location.pathname === "/login";
     const isRegister = location.pathname === "/register";
+    const locationURL = useLocation();
+    const searchParams = new URLSearchParams(locationURL.search);
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const { email,username,password,loadingAuth } = useAuthStore();
@@ -28,8 +32,37 @@ const Auth = () => {
         field_registerEmail: yupFields.email,
         field_registerUserName: yupFields.name("Username"),
         field_registerPassword: yupFields.password,
-    })
+    });
     
+    useEffect(() => {
+        if (window.location.hash) {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            const accessTk = hashParams.get("access_token");
+            const refreshTk = hashParams.get("refresh_token");
+            if (accessTk && refreshTk) {
+                dispatch(fetchSession({
+                    access_token: accessTk,
+                    refresh_token: refreshTk,
+                })).then((res:any) => {
+                    const localSessionStr = localStorage.getItem("sb-nzztfzrjheuyfaaltrst-auth-token");
+                    const getLocalSession = localSessionStr ? JSON.parse(localSessionStr) : "";    
+                    // Cookies.set(`${Constants.TOKEN_NAME}`, res?.meta.arg?.access_token, {
+                    //     expires: new Date(getLocalSession.expires_at * 1000)
+                    // });
+                    const expiresIn30Sec = new Date(Date.now() + 30 * 1000);
+                    Cookies.set(`${Constants.TOKEN_NAME}`, res?.meta.arg?.access_token, {
+                        expires: expiresIn30Sec,
+                    });
+                    Cookies.set(`${Constants.TOKEN_NAME}-expires`, expiresIn30Sec.toISOString());
+                    Cookies.set(`${Constants.REFRESH_TOKEN}`, res?.meta.arg?.refresh_token, {
+                        expires: 30
+                    });
+                }).catch((error:any) => console.error("Error set session", error))
+                window.history.replaceState(null, '', window.location.pathname + window.location.search);
+            };
+        }
+    },[]);
+
     return (
         <>
             <section className="auth">
@@ -121,8 +154,8 @@ const Auth = () => {
                                             dispatch(fetchRegister({
                                                 email: value.field_registerEmail,
                                                 password: value.field_registerPassword,
-                                                username: value.field_registerUserName,
-                                                role: "user"
+                                                fullName: value.field_registerUserName,
+                                                // role: "user"
                                             }))
                                         }}
                                         initialValues={{
